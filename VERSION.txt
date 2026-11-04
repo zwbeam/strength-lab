@@ -1,2 +1,1 @@
-Strength Lab V24 — verified package
-Includes authoritative headers, log card layout, and network-first service worker.
+Strength Lab V25 — technique-gated progression, six-rotation waves, deloads, conservative recovery.

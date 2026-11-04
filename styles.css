@@ -339,3 +339,6 @@ body[data-page="history"] header.top{background-image:url('./header-traininglog-
 body[data-page="settings"] header.top{background-image:url('./header-settings-v23.webp')!important}
 body[data-page] header.top .offline{position:absolute!important;right:9px!important;bottom:6px!important;z-index:2!important;background:#09090bd0!important;padding:3px 7px!important;font-size:10px!important;border-radius:7px!important}
 @media(max-width:470px){body[data-page] header.top{aspect-ratio:3/1!important;min-height:0!important;padding:0!important}}
+
+.technique-check{display:flex!important;align-items:flex-start;gap:10px;margin:12px 0;padding:12px;border:1px solid #8d5773;border-radius:12px;line-height:1.45}
+.technique-check input{width:18px!important;height:18px!important;flex:0 0 18px;margin-top:2px}
