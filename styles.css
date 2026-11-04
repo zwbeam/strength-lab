@@ -112,3 +112,44 @@ main{background:transparent}
 .letter{border-left-color:#ffe600}
 @media(max-width:400px){.top{padding-left:12px;padding-right:12px}.brandmark{width:58px;height:58px}.top h1{font-size:clamp(20px,5.5vw,26px)}.offline{font-size:9px;padding:4px 6px}.top small{font-size:9px}}
 @media(prefers-reduced-motion:reduce){.brandmark,.top h1{transform:none}}
+
+/* V12: high-impact spray-paint and stencil aesthetic; no changes to workout controls */
+:root{--neon-pink:#ff009e;--neon-cyan:#00efe4;--neon-yellow:#ffea00}
+.top{min-height:160px;padding:26px 16px 29px!important;background:#09080f!important;border-bottom:0!important;box-shadow:0 5px 0 #f5009e}
+.top:before{opacity:1!important;background:
+radial-gradient(ellipse at 11% 18%,#ff009e 0 13%,transparent 14%),
+radial-gradient(ellipse at 92% 0%,#ff009e 0 7%,transparent 8%),
+radial-gradient(ellipse at 77% 5%,#00e8e0 0 12%,transparent 13%),
+radial-gradient(ellipse at 35% 0%,#ffe500 0 10%,transparent 11%),
+repeating-linear-gradient(104deg,transparent 0 12px,#0000 12px 20px,#ff009e2b 21px 25px,transparent 26px 46px),
+linear-gradient(92deg,#f700a6 0%,#ff7800 14%,#f7e600 29%,#00e5a8 48%,#00d1f4 65%,#8705b6 81%,#f700a6 100%)!important;
+clip-path:polygon(0 0,100% 0,100% 86%,98% 86%,97% 99%,95% 86%,92% 86%,90% 100%,88% 86%,82% 86%,81% 96%,78% 86%,74% 86%,73% 100%,70% 86%,63% 86%,62% 98%,60% 86%,54% 86%,53% 99%,50% 86%,43% 86%,42% 100%,39% 86%,31% 86%,30% 99%,27% 86%,19% 86%,18% 98%,15% 86%,9% 86%,8% 100%,5% 86%,0 86%)}
+.top:after{background:#08080d!important;clip-path:polygon(0 0,100% 0,100% 16%,95% 12%,90% 70%,86% 15%,80% 20%,76% 100%,72% 12%,64% 30%,60% 95%,56% 15%,47% 20%,44% 85%,40% 12%,34% 20%,31% 95%,26% 15%,20% 20%,17% 85%,12% 10%,6% 20%,3% 90%,0 20%)}
+.brandmark{width:118px!important;height:118px!important;flex-shrink:0;background:#09090d;border:3px solid #0a0911!important;border-radius:10px!important;box-shadow:5px 6px 0 #000,9px 10px 0 #ff009e!important;transform:rotate(-5deg)}
+.brandmark img{width:100%;height:100%;object-fit:cover}
+.top h1{font-family:Impact,'Arial Black',sans-serif!important;font-size:clamp(32px,8vw,58px)!important;font-style:italic;font-weight:1000;line-height:.91!important;letter-spacing:-.025em!important;text-transform:uppercase;transform:rotate(-3deg) skew(-5deg);text-shadow:3px 3px 0 #08080e,5px 5px 0 #ff009e,-2px -2px 0 #08080e!important}
+.top small{background:#09090ecc;display:inline-block;padding:5px 7px;font-weight:900;font-style:italic;transform:rotate(-2deg);font-size:10px!important;line-height:1.2}
+.offline{align-self:flex-start;background:#09090d!important;color:#ffe500!important;white-space:nowrap}
+.tabs{border-bottom:3px solid #fff;background:#0b0b11!important;gap:2px}
+.tab{font-family:Impact,'Arial Narrow',system-ui,sans-serif;text-transform:uppercase;letter-spacing:.045em;font-size:clamp(11px,3vw,16px);font-style:italic;font-weight:900}
+.tab.selected{background:#ffea00!important;color:#0a0911!important;border-bottom:0!important;transform:skew(-6deg);box-shadow:3px 3px 0 #ff009e}
+.hero{border:2px solid #3b3944;border-left:9px solid #00e7e1!important;border-top:0!important;background:linear-gradient(120deg,#1c1d24,#101016)!important}
+.hero h2{font-style:italic;text-transform:uppercase;letter-spacing:-.015em}
+.eyebrow{color:#ffea00!important;font-weight:900;letter-spacing:.15em}
+.card{border-radius:8px;border-color:#34323d}
+.card h2,.card h3{font-family:Impact,'Arial Black',sans-serif;letter-spacing:.04em;text-transform:uppercase;font-style:italic}
+.segmented button,.hub-tabs button,.filter-row button{font-weight:900;text-transform:uppercase}
+.segmented .selected,.hub-tabs .selected,.filter-row .selected{background:#ffea00!important;color:#09090d!important;box-shadow:3px 3px 0 #ff009e}
+.day{border-left:5px solid #00e9e1}
+.day:nth-child(2){border-left-color:#ffe500}
+.day:nth-child(3){border-left-color:#ff009e}
+.day:nth-child(4){border-left-color:#fff}
+.day:nth-child(5){border-left-color:#00e9e1}
+.day.selected{background:#ffe500!important;color:#0b0a10!important}
+.button{background:#ff009e!important;border-color:#ff009e!important;color:#fff!important;font-weight:900;text-transform:uppercase;letter-spacing:.025em}
+.button.secondary,.button.outline{background:#16161e!important;color:#00efe4!important;border-color:#00efe4!important}
+.exercise{border-radius:6px}
+.exercise h3{font-weight:900}
+.letter{background:linear-gradient(90deg,#ff009e,#11131b 15%)!important;color:#fff}
+.clock-dock{border-top:4px solid #ffea00!important}
+@media(max-width:470px){.top{min-height:126px;padding:18px 10px 23px!important}.brand{gap:7px!important}.brandmark{width:77px!important;height:77px!important}.top h1{font-size:clamp(23px,7vw,35px)!important}.offline{font-size:8px!important;padding:4px!important}.top small{font-size:8px!important}.tab{padding-left:5px!important;padding-right:5px!important}}
