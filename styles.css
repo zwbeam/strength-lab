@@ -17,3 +17,5 @@ body.has-clock{padding-bottom:calc(95px + env(safe-area-inset-bottom))} .clock-d
 
 /* V7: one clean editable prescription strip */
 .editable-rx{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin:12px 0 5px}.editable-rx label{display:flex;flex-direction:column;gap:3px;background:#e6f2e8;border:1px solid #c9e2d0;border-radius:11px;padding:8px 5px;font-size:12px;font-weight:750;min-width:0}.editable-rx label small{font-size:9px;color:#607d68;min-height:12px}.editable-rx input,.editable-rx select{width:100%;min-width:0;background:#fff;border:1px solid #b8d2c0;border-radius:7px;padding:8px 3px;font-size:17px;font-weight:750;color:#1d5f43;text-align:center}.steps{padding-left:22px;font-size:13px;line-height:1.6}.steps li{margin:8px 0}.capacity{margin-top:6px;margin-bottom:10px;font-size:14px;font-weight:750}@media(max-width:390px){.editable-rx{gap:4px}.editable-rx label{padding:6px 3px}.editable-rx input,.editable-rx select{font-size:15px}}
+
+.editable-rx .no-weight{background:#f5f7f5;border:1px solid #d6ded7;border-radius:7px;text-align:center;padding:8px 3px;font-size:17px;color:#607d68;font-weight:750}
