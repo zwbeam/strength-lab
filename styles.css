@@ -326,3 +326,16 @@ body[data-page="history"] .log-inner .exercise-summary p{margin:5px 0}
 body[data-page="history"] .log-inner .button{margin-top:12px}
 body[data-page="history"] .log-empty{padding:20px;border:1px dashed #655263;border-radius:14px;color:#d6c9d2;line-height:1.5}
 @media(max-width:470px){body[data-page="history"] .training-log-card{padding:15px!important}body[data-page="history"] .log-session>summary{padding:15px!important}body[data-page="history"] .log-inner{padding:0 15px 17px!important}}
+
+/* V24 authoritative image placement. Keep this LAST to override legacy themes. */
+html{background:#0d0e11!important}
+body{background:#0d0e11 url('./background-v23.webp') right bottom / 100% auto no-repeat!important;min-height:100vh!important}
+#app{background:rgba(8,8,11,.20)!important;min-height:100vh!important}
+body[data-page] header.top{display:block!important;position:relative!important;box-sizing:border-box!important;width:100%!important;aspect-ratio:3/1!important;height:auto!important;min-height:0!important;padding:0!important;margin:0!important;background-color:#08090d!important;background-repeat:no-repeat!important;background-size:100% 100%!important;background-position:center!important;overflow:hidden!important;border:0!important}
+body[data-page] header.top::before,body[data-page] header.top::after,body[data-page] header.top .brand{display:none!important}
+body[data-page="plan"] header.top{background-image:url('./header-strengthlab-v23.webp')!important}
+body[data-page="train"] header.top,body[data-page="hub"] header.top{background-image:url('./header-traininghub-v23.webp')!important}
+body[data-page="history"] header.top{background-image:url('./header-traininglog-v23.webp')!important}
+body[data-page="settings"] header.top{background-image:url('./header-settings-v23.webp')!important}
+body[data-page] header.top .offline{position:absolute!important;right:9px!important;bottom:6px!important;z-index:2!important;background:#09090bd0!important;padding:3px 7px!important;font-size:10px!important;border-radius:7px!important}
+@media(max-width:470px){body[data-page] header.top{aspect-ratio:3/1!important;min-height:0!important;padding:0!important}}

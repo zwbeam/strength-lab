@@ -1,0 +1,2 @@
+Strength Lab V24 — verified package
+Includes authoritative headers, log card layout, and network-first service worker.
