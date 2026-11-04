@@ -153,3 +153,41 @@ clip-path:polygon(0 0,100% 0,100% 86%,98% 86%,97% 99%,95% 86%,92% 86%,90% 100%,8
 .letter{background:linear-gradient(90deg,#ff009e,#11131b 15%)!important;color:#fff}
 .clock-dock{border-top:4px solid #ffea00!important}
 @media(max-width:470px){.top{min-height:126px;padding:18px 10px 23px!important}.brand{gap:7px!important}.brandmark{width:77px!important;height:77px!important}.top h1{font-size:clamp(23px,7vw,35px)!important}.offline{font-size:8px!important;padding:4px!important}.top small{font-size:8px!important}.tab{padding-left:5px!important;padding-right:5px!important}}
+
+/* V13 — concept-art fidelity: full bleed rainbow spray paint, dynamic brush title,
+   outline cue panels, and artwork-only skull icon */
+html{background:#08080e}
+body{background:#090910 url("./spray.svg") center top/800px 1700px repeat-y!important;color:#f7f7f8;min-height:100vh}
+#app{background:linear-gradient(90deg,#0b0a10ec,#0b0a10f6 10%,#0b0a10f8 90%,#0b0a10ed);min-height:100vh;box-shadow:-15px 0 45px #0008,15px 0 45px #0008}
+.top{background:linear-gradient(180deg,#0a090e15,#09090ef5 97%)!important;min-height:150px}
+.top:before{background:linear-gradient(90deg,#ff009e 0%,#ff8800 13%,#ffe500 27%,#00d99b 45%,#00d9eb 62%,#7d00dc 80%,#ff009e 100%)!important;clip-path:polygon(0 0,100% 0,100% 62%,97% 62%,97% 88%,94% 62%,90% 62%,90% 100%,86% 62%,83% 62%,83% 81%,78% 62%,74% 62%,74% 92%,70% 62%,66% 62%,66% 100%,61% 62%,57% 62%,57% 80%,52% 62%,48% 62%,48% 100%,44% 62%,39% 62%,39% 85%,34% 62%,30% 62%,30% 100%,26% 62%,21% 62%,21% 85%,16% 62%,12% 62%,12% 98%,7% 62%,3% 62%,3% 88%,0 62%)!important;opacity:1!important}
+.top:after{display:none}
+.brandmark{width:112px!important;height:112px!important;border:0!important;border-radius:0!important;box-shadow:none!important;background:transparent!important;transform:none!important;overflow:hidden}
+.brandmark img{object-fit:contain;display:block}
+.top h1{font-family:Impact,'Arial Black','Franklin Gothic Heavy',sans-serif!important;font-size:clamp(35px,8.5vw,56px)!important;line-height:.88!important;letter-spacing:-.045em!important;font-style:italic;transform:rotate(-5deg) skew(-8deg)!important;text-transform:uppercase;text-shadow:2px 2px 0 #0a0910,4px 4px 0 #0a0910,-1px -1px 0 #0a0910!important;margin:0 0 10px}
+.pink-stroke{display:block;height:9px;width:min(195px,95%);background:#ff009e;transform:rotate(-4deg) skew(-24deg);clip-path:polygon(0 35%,96% 0,100% 56%,81% 78%,10% 100%,0 65%);box-shadow:0 3px 0 #ff009e}
+#page-tagline{font-family:Impact,'Arial Narrow',sans-serif;font-size:12px!important;font-style:italic;text-transform:uppercase;letter-spacing:.07em;color:white;background:#090910a8;display:inline-block;padding:5px}
+.tabs{border-bottom:1px solid #54505a!important}
+.tab.selected{background:#ffea00!important;color:#0b0b10!important;box-shadow:inset 0 -4px #ff009e,3px 0 0 #0b0b10!important}
+main{background:transparent!important;padding-bottom:90px}
+.hero{border:1px solid #34343d!important;border-left:7px solid #00e5dc!important;background:linear-gradient(135deg,#1b1c23,#101017)!important}
+.hero h2,.card h2,.card h3{font-family:Impact,'Arial Black',sans-serif!important;font-weight:900!important;font-style:italic;text-transform:uppercase}
+.card{background:linear-gradient(145deg,#181921,#101116)!important;border:1px solid #42424d!important;border-radius:10px!important}
+.card:has(.setup-cue),.card:has(.movement-cue),.tech-guide,.setup-cue,.movement-cue,.note{border:1px solid #00e5dc!important;border-radius:10px!important}
+.setup-cue,.movement-cue{padding:12px!important;margin-top:8px}
+.setup-cue{border-color:#ff009e!important}
+.movement-cue{border-color:#00e5dc!important}
+.exercise{background:#111219!important;border:1px solid #3c3c46!important;border-left:5px solid #00e5dc!important;border-radius:9px!important}
+.exercise:nth-child(3n){border-left-color:#ff009e!important}
+.exercise:nth-child(3n + 1){border-left-color:#ffe500!important}
+.routine{border:1px solid #ff009e!important;border-radius:10px!important}
+.hub-tabs button.selected{background:#ffea00!important;color:#0b0b10!important}
+.metric{border:1px solid #00e5dc!important}
+.clock-dock{border-top:4px solid #ffe500!important}
+@media(max-width:470px){
+.top{min-height:126px!important;padding:18px 10px 19px!important}
+.brandmark{width:90px!important;height:90px!important}
+.top h1{font-size:clamp(29px,7.6vw,42px)!important}
+.pink-stroke{height:7px;width:140px}
+#page-tagline{font-size:9px!important}
+}
