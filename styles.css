@@ -342,3 +342,18 @@ body[data-page] header.top .offline{position:absolute!important;right:9px!import
 
 .technique-check{display:flex!important;align-items:flex-start;gap:10px;margin:12px 0;padding:12px;border:1px solid #8d5773;border-radius:12px;line-height:1.45}
 .technique-check input{width:18px!important;height:18px!important;flex:0 0 18px;margin-top:2px}
+
+/* V26 full Foundation prescription previews */
+.plan-session{border:1px solid #48404b;border-radius:12px;margin:12px 0;padding:12px;background:rgba(9,9,13,.45)}
+.plan-session summary{display:flex;align-items:center;justify-content:space-between;gap:10px;cursor:pointer;list-style:revert}
+.plan-session summary span{white-space:nowrap;font-size:.82rem;opacity:.75}
+.plan-exercises{list-style:none;padding:0;margin:10px 0 2px}
+.plan-exercise{display:flex;flex-wrap:wrap;gap:4px 12px;align-items:baseline;padding:11px 0;border-top:1px solid #403b45}
+.plan-ex-name{flex:1 1 100%;font-weight:650}
+.plan-exercise strong{color:#fff}
+.plan-exercise span:not(.plan-ex-name){opacity:.85}
+.plan-exercise small{flex:1 1 100%;opacity:.7;line-height:1.5}
+.prescription-line{padding:9px 11px;border-left:3px solid #d24d91;background:rgba(20,16,25,.75);border-radius:5px}
+
+/* V27 notebook and baseline feedback */
+.rx-four,.progress-metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:12px 0}.rx-four>div,.progress-metrics>div{background:#202025;border:1px solid #48404b;border-radius:10px;padding:10px 6px;display:flex;flex-direction:column;gap:5px;text-align:center;min-width:0}.rx-four small,.progress-metrics small{font-size:11px;color:#c9bfc9}.rx-four strong,.progress-metrics strong{font-size:14px;overflow-wrap:anywhere}.progress-metrics{grid-template-columns:repeat(3,minmax(0,1fr))}.rx-explain{display:block;margin-top:6px;font-weight:normal;line-height:1.55}.feedback-fields{display:grid;gap:12px;margin:16px 0}.feedback-fields label{display:grid;gap:6px}.feedback-fields select,.feedback-fields textarea{width:100%;min-width:0}.notebook-scroll{overflow-x:auto}.notebook-table{width:100%;border-collapse:collapse;font-size:13px;min-width:500px}.notebook-table th,.notebook-table td{padding:10px 8px;text-align:left;border-bottom:1px solid #48404b;vertical-align:top}.notebook-table th{color:#e6a7d3}.notebook-note{font-style:italic;color:#c8bdc6}.exercise>.tech-guide{margin:10px 0 14px}.feedback-fields .technique-check{display:flex;align-items:center;gap:10px}

@@ -17,3 +17,6 @@ Upload the contents of this directory to the root of zwbeam/strength-lab, commit
 - Workouts use conservative programming heuristics, not medically validated readiness scores.
 
 Data key remains strengthlab-data-v1. Clearing Chrome storage can delete training data.
+
+
+V27: Workout for Life 10-minute warm-up and cooldown, baseline-first Foundation prescriptions, movement guides directly under headings, structured difficulty/technique/pain feedback, phase-aware training report, exercise details, dated notebook table, meaningful CSV export and unused asset cleanup.
