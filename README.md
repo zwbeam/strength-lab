@@ -1,1 +1,1 @@
-Strength Lab V9: removes weights for recovery/mobility/flow-only entries; day-specific warm-ups and cool-downs; replacement activity logging. Unzip and upload the contents of this folder to the GitHub Pages repository. Existing local data retained.
+Strength Lab V10 — Training Hub, alphabetical movement library (including warm-up and cool-down), and original neon kettlebell skull/crossed-clubs identity. Upload all files to the root of the GitHub Pages repository. Keep browser storage to preserve training logs.
