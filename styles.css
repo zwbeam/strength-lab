@@ -228,3 +228,16 @@ body[data-page="train"] .top{min-height:165px!important}
 body[data-page="train"] #page-heading{width:53vw;height:68px}
 .top{min-height:130px!important}
 }
+
+/* V15 — three approved standalone artworks only. All application logic unchanged. */
+html,body{background:#08090d url('./background-graffiti.png') center top / 100% auto repeat-y!important}
+#app{background:linear-gradient(90deg,#08090ddd,#08090df0 7%,#08090df0 93%,#08090ddd)!important}
+.brandmark img{content:url('./logo-skull-clubs.png')!important}
+/* Full uncropped banner on Train: its own full artwork, not clipped fragments. */
+body[data-page="train"] .top{width:100%!important;box-sizing:border-box!important;aspect-ratio: 3.2 / 1!important;min-height:0!important;height:auto!important;padding:0!important;position:relative!important;background:#08090d url('./header-strength-lab.png') center center / 100% 100% no-repeat!important;border:0!important;box-shadow:none!important;overflow:visible!important}
+body[data-page="train"] .top:before,body[data-page="train"] .top:after{display:none!important}
+body[data-page="train"] .top .brand{display:none!important}
+body[data-page="train"] .top .offline{position:absolute!important;right:8px;bottom:4px;z-index:2;font-size:9px!important;background:#08090dbb!important;padding:2px 5px!important}
+/* Other tabs retain their dynamic headings and use the new standalone logo. */
+body:not([data-page="train"]) .top{background:#08090dc9!important}
+body:not([data-page="train"]) .brandmark{background:#08090d!important}
