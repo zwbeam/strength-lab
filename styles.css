@@ -191,3 +191,40 @@ main{background:transparent!important;padding-bottom:90px}
 .pink-stroke{height:7px;width:140px}
 #page-tagline{font-size:9px!important}
 }
+
+/* V14 — approved graffiti art integrated into the actual app */
+body{background:#09090f url("./spray-background.webp") center top/ min(100vw,906px) auto repeat-y!important}
+#app{background:linear-gradient(90deg,#08090ed9 0%,#08090ef2 7%,#08090ef8 93%,#08090ed9 100%)!important}
+.top{background:transparent!important;min-height:150px!important;isolation:isolate}
+.top:before{background:linear-gradient(90deg,#ff009e 0%,#ffba00 15%,#ffe500 30%,#00e6b0 49%,#00e6e7 65%,#9d00d9 82%,#ff009e 100%)!important;opacity:.85!important}
+.brandmark{width:110px!important;height:110px!important;overflow:hidden!important;border:0!important;box-shadow:0 0 0 transparent!important;background:#08080e!important;transform:none!important}
+.brandmark img{width:100%;height:100%;object-fit:cover!important;object-position:center}
+#page-heading{font-family:Impact,'Arial Black',sans-serif!important;font-style:italic;font-weight:1000!important;color:#fff!important;letter-spacing:-.055em!important;text-shadow:3px 3px 0 #08080d,5px 5px 0 #ff009e!important}
+.pink-stroke{background:#ff009e!important;height:10px!important;width:100%!important;max-width:225px}
+body[data-page="train"] .top{min-height:215px!important}
+body[data-page="train"] #page-heading{font-size:0!important;display:block;width:min(54vw,310px);height:90px;background:url("./strength-wordmark.webp") center/contain no-repeat;transform:rotate(-3deg)!important;margin-bottom:0!important;text-shadow:none!important}
+body[data-page="train"] #page-tagline{font-size:10px!important}
+main{position:relative;background:transparent!important}
+main:before{content:"";pointer-events:none;position:absolute;inset:0;z-index:-1;background:
+radial-gradient(circle at 2% 12%,#ff009e9c 0 3px,transparent 4px),
+radial-gradient(circle at 96% 20%,#00e7e0aa 0 5px,transparent 6px),
+radial-gradient(circle at 4% 65%,#ffe50088 0 3px,transparent 4px),
+radial-gradient(circle at 97% 78%,#ff009eaa 0 4px,transparent 5px);
+background-size:220px 440px}
+.exercise{border:2px solid #00e7e0!important;border-left:2px solid #00e7e0!important;border-radius:13px!important;box-shadow:0 0 0 1px #00e7e033,0 0 12px #00e7e01c!important;background:#090b10eF!important}
+.exercise:nth-of-type(3n),.exercise:nth-child(3n){border:2px solid #ff009e!important;box-shadow:0 0 0 1px #ff009e33,0 0 12px #ff009e1c!important}
+.exercise:nth-of-type(3n + 1),.exercise:nth-child(3n + 1){border:2px solid #ffe500!important;box-shadow:0 0 0 1px #ffe50033,0 0 12px #ffe5001c!important}
+.exercise h3{font-family:Impact,'Arial Black',sans-serif;font-style:italic;font-size:20px!important;letter-spacing:.02em}
+.card{border:2px solid #343b42!important;background:#0b0d13ef!important}
+.hero{border:2px solid #00e7e0!important;border-left:2px solid #00e7e0!important;box-shadow:0 0 12px #00e7e026!important}
+.setup-cue,.movement-cue,.tech-guide,.note{border:2px solid #00e7e0!important;background:#0e1518!important}
+.setup-cue{border-color:#ff009e!important}
+.routine{border:2px solid #ffe500!important;background:#101014ed}
+.tab.selected{background:#ff009e!important;color:#fff!important;box-shadow:inset 0 -4px #ffe500!important}
+.button:not(.secondary):not(.outline){background:#ff009e!important;border:2px solid #ff009e!important}
+@media(max-width:470px){
+.brandmark{width:88px!important;height:88px!important}
+body[data-page="train"] .top{min-height:165px!important}
+body[data-page="train"] #page-heading{width:53vw;height:68px}
+.top{min-height:130px!important}
+}
