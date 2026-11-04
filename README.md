@@ -1,1 +1,1 @@
-Strength Lab V10 — Training Hub, alphabetical movement library (including warm-up and cool-down), and original neon kettlebell skull/crossed-clubs identity. Upload all files to the root of the GitHub Pages repository. Keep browser storage to preserve training logs.
+Strength Lab V11 — visual redesign with original neon kettlebell-skull/crossed-heavy-clubs vector logo, updated icons and paint-accented dark interface. Existing V10 training functions and local storage are preserved. Upload ALL files in this folder to the repository root. Open ?v=11 and hard-refresh.\n

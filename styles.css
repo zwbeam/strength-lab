@@ -72,3 +72,43 @@ body{background:#101013;color:#f6f6f7}
 .movement-entry>summary small{color:#11d8d3;font-weight:700;white-space:nowrap}
 .movement-entry .tech-guide{margin:8px 0}
 @media(max-width:380px){.top{padding-left:10px;padding-right:10px}.brandmark{width:48px;height:48px}.top h1{font-size:19px}.offline{font-size:9px}.tab{font-size:11px}}
+
+/* V11 — neon punk identity, original kettlebell skull / crossed clubs */
+:root{--ink:#0a0910;--panel:#181720;--magenta:#ff009e;--aqua:#00e5dc;--yellow:#ffe600}
+body{background:radial-gradient(ellipse 90% 340px at 50% -80px,#3b1638 0%,#0d0c14 75%);color:#f7f6fb}
+.top{position:relative;isolation:isolate;overflow:hidden;background:#100d18;padding-top:calc(18px + env(safe-area-inset-top));padding-bottom:20px;border-bottom:5px solid var(--yellow)}
+.top:before{content:"";position:absolute;inset:0;z-index:-1;background:
+ radial-gradient(circle at 8% 12%,#ff009e 0 5px,transparent 6px),
+ radial-gradient(circle at 18% 83%,#ffe500 0 7px,transparent 8px),
+ radial-gradient(circle at 75% 8%,#00e5dc 0 4px,transparent 5px),
+ linear-gradient(111deg,#fd009a 0 12%,#fd009a00 29%),
+ linear-gradient(157deg,transparent 28%,#ffe500 29% 32%,transparent 34%),
+ linear-gradient(155deg,transparent 56%,#00e5dc 57% 64%,transparent 68%);opacity:.95}
+.top:after{content:"";position:absolute;bottom:0;left:0;width:100%;height:14px;background:repeating-linear-gradient(90deg,#ff009e 0 24px,#0a0910 24px 35px,#00e5dc 35px 59px,#ffe500 59px 67px);clip-path:polygon(0 0,100% 0,100% 38%,97% 100%,94% 42%,89% 76%,80% 25%,74% 100%,68% 30%,60% 86%,53% 32%,47% 95%,40% 38%,31% 86%,23% 24%,16% 100%,9% 40%,3% 90%,0 30%)}
+.brand{gap:12px;min-width:0}
+.brandmark{width:78px;height:78px;border:2px solid #ffe600;border-radius:18px;box-shadow:0 0 0 3px #0b0911,0 0 23px #ff009e88;transform:rotate(-5deg)}
+.brandmark img{width:100%;height:100%;object-fit:contain}
+.top h1{font-family:Impact,'Arial Black',system-ui,sans-serif;font-size:clamp(24px,6vw,39px);letter-spacing:.045em;font-style:italic;line-height:.95;color:#fff;text-shadow:3px 3px #0a0910,-2px -2px #0a0910,5px 6px #ff009e;transform:skew(-4deg)}
+.top small{display:block;margin-top:8px;color:#fff;letter-spacing:.06em;text-transform:uppercase;font-size:10px}
+.offline{background:#090a10dd;border:1px solid #ffe500;color:#ffe500;font-weight:750}
+.tabs{background:#101019;border-bottom:1px solid #3d3a49}
+.tab.selected{color:#ffe600;background:#22192b;border-bottom:4px solid #ff009e}
+main{background:transparent}
+.hero{position:relative;overflow:hidden;background:linear-gradient(120deg,#27192e,#15131d 68%);border:1px solid #423349;border-top:5px solid #00e5dc;box-shadow:inset -8px 0 #ff009e11}
+.hero:after{content:"";position:absolute;right:-18px;top:-36px;width:130px;height:130px;border:14px solid #ff009e16;border-radius:50%;transform:rotate(20deg)}
+.hero h2{font-family:Impact,'Arial Black',system-ui,sans-serif;letter-spacing:.02em;font-size:clamp(25px,6vw,36px);font-weight:900}
+.card{background:linear-gradient(145deg,#1d1b27,#17161e);border:1px solid #393441}
+.card>h2,.card>h3{letter-spacing:.015em}
+.exercise{background:#13151c;border:1px solid #373845;border-left:3px solid #00e5dc}
+.exercise:nth-of-type(3n){border-left-color:#ff009e}
+.exercise:nth-of-type(3n + 1){border-left-color:#ffe600}
+.button{background:#ff009e;color:white;border:1px solid #ff50bc;box-shadow:0 3px 0 #870058}
+.button.secondary{background:#18262b;color:#bafff9;border:1px solid #00e5dc;box-shadow:none}
+.segmented .selected,.day.selected,.hub-tabs .selected{background:#ffe600;color:#0c0b13;border-color:#ffe600}
+.editable-rx label{background:#133c36;border:1px solid #1d7b6f}
+.clock-dock{background:#0a0911;border-top:3px solid #ffe600;box-shadow:0 -8px 26px #0009}
+#timer-display{color:#fff;text-shadow:0 0 13px #00e5dc77}
+.movement-entry>summary small{color:#00e5dc}
+.letter{border-left-color:#ffe600}
+@media(max-width:400px){.top{padding-left:12px;padding-right:12px}.brandmark{width:58px;height:58px}.top h1{font-size:clamp(20px,5.5vw,26px)}.offline{font-size:9px;padding:4px 6px}.top small{font-size:9px}}
+@media(prefers-reduced-motion:reduce){.brandmark,.top h1{transform:none}}
