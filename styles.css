@@ -268,3 +268,30 @@ body[data-page="settings"] .top{background-image:url('./header-settings-v16.webp
 @media(max-width:470px){
  body[data-page] .top{aspect-ratio:761/504!important;min-height:0!important;height:auto!important}
 }
+
+/* V17 visual identity: restrained approved graffiti */
+html,body{background:#101114 url('./art-background.webp') center top/cover fixed!important}
+#app{background:rgba(7,8,11,.38)!important}
+body[data-page] .top{aspect-ratio:816/254!important;min-height:0!important;height:auto!important;background-size:100% 100%!important}
+body[data-page="plan"] .top{background-image:url('./art-plan.webp')!important}
+body[data-page="train"] .top{background-image:url('./art-train.webp')!important}
+body[data-page="history"] .top{background-image:url('./art-history.webp')!important}
+body[data-page="settings"] .top{background-image:url('./art-settings.webp')!important}
+.plan-row{display:flex;gap:10px;align-items:center;justify-content:space-between;padding:13px 0;border-bottom:1px solid #ffffff24}
+.plan-row strong{flex:1}.plan-row span{font-size:12px;color:#c9c6cf;text-align:right}
+.report-entry{padding:12px 0;border-top:1px solid #ffffff29}.report-entry summary{cursor:pointer;font-weight:750}.report-entry summary span{float:right;color:#ff3a91;font-size:11px}
+.sequence-label{display:inline-flex;padding:8px 12px;border:1px solid #ffffff35;border-radius:8px;color:white}.sequence-label.selected{border-color:#ff3a91}
+
+/* V18 adaptive training and journal */
+.rx-rationale{font-size:13px;color:#e8d9e4;background:#17131bdb;border-left:3px solid #ee358c;padding:10px;border-radius:4px}
+.training-detail,.log-session{background:#111217e8;border:1px solid #ffffff30;border-radius:9px;margin:12px 0;padding:12px}
+.training-detail summary,.log-session summary{cursor:pointer;font-weight:700;list-style-position:inside}
+.training-detail label{display:block;font-size:13px;margin-top:12px}.training-detail input,.training-detail select,.training-detail textarea{display:block;width:100%;box-sizing:border-box;margin-top:5px}
+.log-session summary{display:flex;justify-content:space-between;gap:8px}.log-session summary span{font-size:12px;color:#bfb7c4}.log-inner{padding-top:12px}.log-inner .exercise-summary{padding:10px 0;border-top:1px solid #ffffff22}
+
+/* V18 adaptive training and journal */
+.rx-rationale{font-size:13px;color:#e8d9e4;background:#17131bdb;border-left:3px solid #ee358c;padding:10px;border-radius:4px}
+.training-detail,.log-session{background:#111217e8;border:1px solid #ffffff30;border-radius:9px;margin:12px 0;padding:12px}
+.training-detail summary,.log-session summary{cursor:pointer;font-weight:700;list-style-position:inside}
+.training-detail label{display:block;font-size:13px;margin-top:12px}.training-detail input,.training-detail select,.training-detail textarea{display:block;width:100%;box-sizing:border-box;margin-top:5px}
+.log-session summary{display:flex;justify-content:space-between;gap:8px}.log-session summary span{font-size:12px;color:#bfb7c4}.log-inner{padding-top:12px}.log-inner .exercise-summary{padding:10px 0;border-top:1px solid #ffffff22}
