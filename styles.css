@@ -241,3 +241,30 @@ body[data-page="train"] .top .offline{position:absolute!important;right:8px;bott
 /* Other tabs retain their dynamic headings and use the new standalone logo. */
 body:not([data-page="train"]) .top{background:#08090dc9!important}
 body:not([data-page="train"]) .brandmark{background:#08090d!important}
+
+/* V16 — four approved, full-bleed concept-art headers and brighter graffiti background */
+html,body{background:#08090d url('./background-graffiti.png') center top/100% auto repeat-y!important}
+#app{background:linear-gradient(90deg,#08090d65,#08090d78 8%,#08090d78 92%,#08090d65)!important}
+body[data-page] .top{
+  box-sizing:border-box!important;width:100%!important;
+  aspect-ratio:761/504!important;min-height:0!important;height:auto!important;
+  padding:0!important;margin:0!important;
+  background-color:#08090d!important;
+  background-position:center center!important;background-size:100% 100%!important;
+  background-repeat:no-repeat!important;
+  border:0!important;box-shadow:none!important;overflow:hidden!important;
+}
+body[data-page] .top:before,body[data-page] .top:after{display:none!important}
+body[data-page] .top .brand{display:none!important}
+body[data-page] .top .offline{
+ position:absolute!important;right:8px!important;bottom:5px!important;
+ z-index:2!important;background:#08090dc9!important;font-size:9px!important;
+ padding:2px 5px!important;
+}
+body[data-page="train"] .top{background-image:url('./header-train-v16.webp')!important}
+body[data-page="hub"] .top{background-image:url('./header-hub-v16.webp')!important}
+body[data-page="history"] .top{background-image:url('./header-history-v16.webp')!important}
+body[data-page="settings"] .top{background-image:url('./header-settings-v16.webp')!important}
+@media(max-width:470px){
+ body[data-page] .top{aspect-ratio:761/504!important;min-height:0!important;height:auto!important}
+}
