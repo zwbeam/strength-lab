@@ -295,3 +295,34 @@ body[data-page="settings"] .top{background-image:url('./art-settings.webp')!impo
 .training-detail summary,.log-session summary{cursor:pointer;font-weight:700;list-style-position:inside}
 .training-detail label{display:block;font-size:13px;margin-top:12px}.training-detail input,.training-detail select,.training-detail textarea{display:block;width:100%;box-sizing:border-box;margin-top:5px}
 .log-session summary{display:flex;justify-content:space-between;gap:8px}.log-session summary span{font-size:12px;color:#bfb7c4}.log-inner{padding-top:12px}.log-inner .exercise-summary{padding:10px 0;border-top:1px solid #ffffff22}
+
+/* V23: approved individual artwork; no other page redesign */
+html,body{background-color:#0d0e11!important;background-image:url('./background-v23.webp')!important;background-repeat:no-repeat!important;background-position:right bottom!important;background-size:100% auto!important;background-attachment:scroll!important}
+body[data-page] .top{aspect-ratio:3/1!important;min-height:0!important;height:auto!important;background-size:100% 100%!important;background-position:center!important}
+body[data-page="plan"] .top{background-image:url('./header-strengthlab-v23.webp')!important}
+body[data-page="train"] .top,body[data-page="hub"] .top{background-image:url('./header-traininghub-v23.webp')!important}
+body[data-page="history"] .top{background-image:url('./header-traininglog-v23.webp')!important}
+body[data-page="settings"] .top{background-image:url('./header-settings-v23.webp')!important}
+/* Training Log: padded, rounded, responsive session cards */
+body[data-page="history"] .training-log-card{border-radius:20px!important;padding:clamp(16px,4vw,26px)!important;overflow:hidden}
+body[data-page="history"] .log-title-row{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:19px}
+body[data-page="history"] .log-title-row h2{margin:4px 0 6px}
+body[data-page="history"] .log-title-row p.muted{margin:0;max-width:50ch}
+body[data-page="history"] .log-count{border-radius:999px;background:#30232c;border:1px solid #8e426b;color:#ffd9eb;padding:7px 12px;font-size:12px;font-weight:750;white-space:nowrap}
+body[data-page="history"] .log-list{display:grid;gap:12px;min-width:0}
+body[data-page="history"] .log-session{min-width:0;margin:0!important;padding:0!important;border:1px solid #56505a!important;border-radius:16px!important;background:linear-gradient(145deg,#242127,#14151a)!important;overflow:hidden;box-shadow:0 4px 16px #0003}
+body[data-page="history"] .log-session[open]{border-color:#d34b8b!important}
+body[data-page="history"] .log-session>summary{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:14px!important;padding:17px 18px!important;list-style:none!important;cursor:pointer;min-width:0}
+body[data-page="history"] .log-session>summary::-webkit-details-marker{display:none}
+body[data-page="history"] .log-session-main{display:grid;gap:5px;min-width:0;flex:1}
+body[data-page="history"] .log-date{font-size:12px!important;color:#ff83bb!important;letter-spacing:.025em;font-weight:800}
+body[data-page="history"] .log-session-title{font-size:16px;line-height:1.35;color:#fff;overflow-wrap:anywhere}
+body[data-page="history"] .log-session-meta{font-size:12px!important;color:#c9c2cb!important;line-height:1.5}
+body[data-page="history"] .log-expand{display:grid;place-items:center;flex:0 0 30px;height:30px;border:1px solid #665663;border-radius:50%;font-size:21px;color:#ff8ec3;transition:transform .15s}
+body[data-page="history"] .log-session[open] .log-expand{transform:rotate(180deg)}
+body[data-page="history"] .log-inner{padding:0 18px 19px!important;border-top:1px solid #ffffff24}
+body[data-page="history"] .log-inner .exercise-summary{padding:14px 0!important;line-height:1.55;overflow-wrap:anywhere}
+body[data-page="history"] .log-inner .exercise-summary p{margin:5px 0}
+body[data-page="history"] .log-inner .button{margin-top:12px}
+body[data-page="history"] .log-empty{padding:20px;border:1px dashed #655263;border-radius:14px;color:#d6c9d2;line-height:1.5}
+@media(max-width:470px){body[data-page="history"] .training-log-card{padding:15px!important}body[data-page="history"] .log-session>summary{padding:15px!important}body[data-page="history"] .log-inner{padding:0 15px 17px!important}}
