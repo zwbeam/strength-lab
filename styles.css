@@ -358,9 +358,9 @@ body[data-page] header.top .offline{position:absolute!important;right:9px!import
 /* V27 notebook and baseline feedback */
 .rx-four,.progress-metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:12px 0}.rx-four>div,.progress-metrics>div{background:#202025;border:1px solid #48404b;border-radius:10px;padding:10px 6px;display:flex;flex-direction:column;gap:5px;text-align:center;min-width:0}.rx-four small,.progress-metrics small{font-size:11px;color:#c9bfc9}.rx-four strong,.progress-metrics strong{font-size:14px;overflow-wrap:anywhere}.progress-metrics{grid-template-columns:repeat(3,minmax(0,1fr))}.rx-explain{display:block;margin-top:6px;font-weight:normal;line-height:1.55}.feedback-fields{display:grid;gap:12px;margin:16px 0}.feedback-fields label{display:grid;gap:6px}.feedback-fields select,.feedback-fields textarea{width:100%;min-width:0}.notebook-scroll{overflow-x:auto}.notebook-table{width:100%;border-collapse:collapse;font-size:13px;min-width:500px}.notebook-table th,.notebook-table td{padding:10px 8px;text-align:left;border-bottom:1px solid #48404b;vertical-align:top}.notebook-table th{color:#e6a7d3}.notebook-note{font-style:italic;color:#c8bdc6}.exercise>.tech-guide{margin:10px 0 14px}.feedback-fields .technique-check{display:flex;align-items:center;gap:10px}
 
-/* V28: workout banner and fixed motivational background */
+/* V29: abstract pink/white graffiti background */
 html{background:#0b0b0e!important}
-body{background:#0b0b0e url('./background-workout-v28.webp') center bottom / cover fixed no-repeat!important;min-height:100vh!important}
+body{background:#0b0b0e url('./background-graffiti-v29.webp') center bottom / cover fixed no-repeat!important;min-height:100vh!important}
 body[data-page="train"] header.top{background:#08090d url('./header-workout-v28.webp') center center / 100% 100% no-repeat!important}
 body[data-page="train"] header.top .brand{display:none!important}
 body[data-page="train"] header.top:before,body[data-page="train"] header.top:after{display:none!important}
@@ -368,4 +368,4 @@ body[data-page="train"] header.top .offline{position:absolute!important;right:8p
 .editable-rx{margin:10px 0 14px!important}
 .editable-rx label{justify-content:space-between;min-height:68px}
 .editable-rx input,.editable-rx select{margin-top:auto}
-@media(max-width:700px){body{background-attachment:scroll!important;background-size:100% auto!important;background-position:center bottom!important}body:before{content:"";position:fixed;z-index:-1;inset:0;background:#0b0b0e url('./background-workout-v28.webp') center bottom / cover no-repeat;pointer-events:none}}
+@media(max-width:700px){body{background-attachment:scroll!important;background-size:100% auto!important;background-position:center bottom!important}body:before{content:"";position:fixed;z-index:-1;inset:0;background:#0b0b0e url('./background-graffiti-v29.webp') center bottom / cover no-repeat;pointer-events:none}}
