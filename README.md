@@ -1,1 +1,1 @@
-Strength Lab V8: foundational assessment includes clean and optional advanced snatch, no duplicate save action, bodyweight movements excluded from weight recommendations, aligned sets field, single coach-style whistle at interval start. Upload contents of this folder to GitHub Pages. Local data stays in browser storage.
+Strength Lab V9: removes weights for recovery/mobility/flow-only entries; day-specific warm-ups and cool-downs; replacement activity logging. Unzip and upload the contents of this folder to the GitHub Pages repository. Existing local data retained.
