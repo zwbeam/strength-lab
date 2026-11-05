@@ -25,28 +25,88 @@ with sync_playwright() as playwright:
             )
             thread = Thread(target=server.serve_forever, daemon=True)
             thread.start()
-            context = browser.new_context()
+            context = browser.new_context(viewport={'width':390,'height':844})
             try:
                 page = context.new_page()
                 errors = []
                 page.on('pageerror', lambda error: errors.append(str(error)))
                 response = page.goto(f'http://127.0.0.1:{server.server_port}{path}')
                 assert response.status == 200
-                page.wait_for_function('document.querySelector("#view").innerHTML.length > 100')
+                assert page.evaluate('document.documentElement.scrollWidth <= innerWidth')
+                page.wait_for_function('document.querySelector("#app").innerHTML.length > 100')
                 # Deliberately no second online navigation: test a fresh installation.
                 page.evaluate('navigator.serviceWorker.ready.then(() => true)')
                 page.wait_for_function('navigator.serviceWorker.controller !== null')
                 context.set_offline(True)
                 page.reload()
+                page.wait_for_function('document.querySelector("#app").innerHTML.length > 100')
+                page.on('dialog', lambda dialog: dialog.accept())
+                for tab in ['today', 'progress', 'learn', 'settings']:
+                    page.locator(f'[data-tab="{tab}"]').click()
+                    assert len(page.locator('#app').inner_text()) > 50, tab
+                # A body-only phrase must find a source even when its title does not match.
+                page.locator('[data-tab="learn"]').click()
+                page.locator('[data-learn="atlas"]').click()
+                page.wait_for_function('sourceData !== null')
+                page.locator('#source-search').fill('old idea an absolutely savage')
+                page.locator('#search-full').click()
+                page.locator('[data-open-source="0"]').wait_for()
+                page.locator('[data-open-source="0"]').click()
+                assert 'Secret Service snatch test' in page.locator('#transcript-body').inner_text()
+                page.get_by_role('button', name='Close', exact=True).click()
+                page.locator('[data-tab="settings"]').click()
+                for move, weight in [('squat','12'),('press','8'),('row','12')]:
+                    page.locator(f'[data-weight="{move}"]').fill(weight)
+                page.locator('#save-weights').click()
+                page.locator('[data-tab="today"]').click()
+                page.locator('#toggle-pause').click()
+                assert page.locator('#start').count() == 0
+                page.locator('#toggle-pause').click()
+                page.locator('#start').click()
+                page.get_by_role('button', name='Warmup complete · start work').click()
+                page.get_by_role('button', name='Complete next set').click()
+                assert page.locator('[role="progressbar"]').get_attribute('aria-valuenow') == '1'
+                page.reload()
+                assert page.locator('[data-check="0:0"]').inner_text() == '✓'
+                page.get_by_role('button', name='Pause', exact=True).click()
+                page.reload()
+                assert page.get_by_role('button', name='Resume', exact=True).count() == 1
+                for checkbox in page.locator('[data-set$=":bothSides"]').all():
+                    checkbox.check()
+                for button in page.locator('[data-check]').all():
+                    if button.inner_text() != '✓':
+                        button.click()
+                page.get_by_role('button', name='Finish main work · cooldown').click()
+                page.locator('#save-workout').click()
+                assert page.evaluate('state.sessions.length') == 1
+                assert page.evaluate('state.sessions[0].items.every(x=>x.completed)')
+                page.reload()
+                assert page.evaluate('state.sessions.length') == 1
+                assert page.evaluate('draft === null')
+                page.locator('#start').click()
+                page.get_by_role('button', name='Warmup complete · start work').click()
+                page.locator('[data-set="0:0:weight"]').fill('12')
+                page.locator('[data-set="0:0:weight"]').dispatch_event('change')
+                page.locator('[data-check="0:0"]').click()
+                page.locator('[data-pain="0"]').check()
+                page.get_by_role('button', name='Finish main work · cooldown').click()
+                page.locator('#save-workout').click()
+                assert page.evaluate('E.prescription(state,"swing").mode') == 'review'
+                review = page.locator('details').filter(has=page.locator('[data-resolve-pain="swing"]'))
+                review.locator('summary').click()
+                page.locator('[data-resolve-pain="swing"]').click()
+                assert page.evaluate('E.prescription(state,"swing").mode') == 'reentry'
+                page.reload()
+                assert page.evaluate('E.prescription(state,"swing").mode') == 'reentry'
+                # The old interface remains functional, with separate untouched data.
+                legacy = '{"version":1,"sessions":[],"drafts":{}}'
+                page.evaluate('(v)=>localStorage.setItem("strengthlab-data-v31",v)', legacy)
+                page.goto(f'http://127.0.0.1:{server.server_port}{path}legacy/index.html')
                 page.wait_for_function('document.querySelector("#view").innerHTML.length > 100')
-                for name in ['Program', 'Workout', 'Learn', 'Log', 'Atlas', 'Settings']:
-                    page.get_by_role('button', name=name, exact=True).click()
-                    assert len(page.locator('#view').inner_text()) > 50, name
-                page.get_by_role('button', name='Atlas', exact=True).click()
-                page.wait_for_function('libraryReady === true')
+                assert page.evaluate('localStorage.getItem("strengthlab-data-v31")') == legacy
                 assert not errors, errors
                 assert page.evaluate('document.styleSheets[0].cssRules.length > 0')
-                print(f'PASS {path}: first-visit offline reload, six tabs, Atlas data, CSS, no JS errors')
+                print(f'PASS {path}: first offline visit, reader/search, workout persistence, rest pause, bilateral completion, pain review, legacy data; no JS errors')
             finally:
                 context.close()
                 server.shutdown()

@@ -1,5 +1,5 @@
 const fs=require('fs'),vm=require('vm'),assert=require('assert');
-const app=fs.readFileSync(__dirname+'/app.js','utf8');
+const app=fs.readFileSync(__dirname+'/legacy/app.js','utf8');
 function boot(saved){
  const store={...(saved?{'strengthlab-data-v31':JSON.stringify(saved)}:{})};
  const elements={};const node=()=>({textContent:'',innerHTML:'',dataset:{},classList:{toggle(){}},querySelectorAll(){return []},addEventListener(){},value:'',style:{}});
