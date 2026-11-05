@@ -27,6 +27,11 @@ try:
   page.locator('#transcript-dialog').wait_for(state='visible')
   assert 'at least three weights' in page.locator('#transcript-body').inner_text()
   page.get_by_role('button',name='Close',exact=True).click()
+  page.locator('[data-tab="settings"]').click()
+  assert page.locator('[data-program-step="clubInside"]').count()==1
+  assert page.locator('[data-club-start="clubInside"]').count()==0
+  assert page.locator('[data-program-seconds="clubInside"]').count()==0
+  assert page.locator('[data-program-seconds="cast"]').count()==1
   assert not errors,errors
   print('PASS: shared get-up/club prerequisites and progression descriptions open the correct verified teaching transcripts in the actual library')
   browser.close()

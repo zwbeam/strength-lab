@@ -93,3 +93,8 @@ wait for asynchronous transcript loading; it then passed with exact source text.
 No Android packaging or release work was introduced. The runtime remains pure
 browser JavaScript with relative bundled assets, compatible with later Capacitor
 integration. Physical Android and complete advanced curricula remain outstanding.
+
+Final UI consistency review removed two-hand timed-practice controls from
+single-arm continuous-volume settings. The engine already ignored those controls;
+the form now exposes only the correct progression choices. A real HTTP library/
+settings test verifies this separation and the prerequisite teaching links.
