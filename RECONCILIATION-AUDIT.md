@@ -1,60 +1,136 @@
 # Strength Lab reconciliation audit
 
-Audit date: 2026-11-05. Baseline: `4cb58d8a4d30796246a83db752b8e420c8bc05c2`.
-Development branch: `development/reconciliation`.
+Updated 2026-11-05. Branch: `development/reconciliation`.
+Baseline: `4cb58d8a4d30796246a83db752b8e420c8bc05c2` (28 original commits).
+Prior development checkpoints: `ccbb31f` and `bbf8085` remain ancestors.
 
-## Evidence and limits
+## Input access and integrity — verified
 
-The existing checkout contains 28 commits. GitHub read access confirms that remote
-main and HEAD match the baseline. History is preserved; no reset, replacement,
-merge into main, release, or push was performed.
+Both attachments were downloaded into `/workspace/attachments`, opened with
+Python's ZIP reader, integrity-tested, checked for path traversal, and extracted
+outside the Git checkout into `/workspace/reconciliation-inputs`.
 
-The user reports publication. This conversation is still bound to the same
-onboarding instance; runtime status reports the original source version. A fresh
-task cannot be created with the available tools, so fresh-task restoration is
-**unverified**. Current-instance Node/Python availability and the existing smoke
-test are verified.
+| Input | Bytes | SHA-256 | Contents |
+| --- | ---: | --- | --- |
+| Transcripts.zip | 2,174,926 | `b4940dcec1a9dc7eb5a64ec7a6bd92b8d0d428cfaf8d8dc02f94d2edb45edf9a` | 720 text transcripts plus directory entry |
+| strength-lab-work-handoff-source.zip | 1,810,412 | `2b506d7a623d9cad44ef13547770e4bc4f856c89a1fae7f95851271d53c147aa` | 48 files plus directory entry |
 
-No ZIP files or development handoff are attached in the accessible conversation.
-Searches of /workspace (including library-files, shared and scratch) found none.
-A broader /tmp search encountered inaccessible system-owned directories; those
-were not inspected. No upload IDs were supplied to the download tool. Therefore
-comparison against either ZIP and the handoff is **blocked**, and no implementation
-can honestly be ranked against those missing alternatives. Attach both ZIPs and
-the handoff to resume that part of the audit.
+The earlier missing-input findings are resolved. Instructions inside the handoff
+(e.g. replacing the repository root or deploying a release candidate) were treated
+as historical reference, not authorization. The current user request governs.
+No merge into main, release package, history rewrite, or push was performed.
+GitHub read access was rechecked; remote main remains at the baseline.
 
-## Repository findings
+## Published environment restoration — not independently verified
 
-| Area | Current implementation | Decision |
-| --- | --- | --- |
-| Architecture | Static HTML/CSS/JS, browser local storage, service worker; no package manifest, backend or build | Preserve dependency-free runtime |
-| UI | V32 minimal design and six tabs; previous commit comparison shows additive visual/navigation changes and source index | Preserve current UI pending handoff comparison |
-| Training | V31 ABC rolling sequence and clean initial state; documented smoke test passes | Preserve engine and storage key pending behavioral comparison |
-| Data | `strengthlab-data-v31`, JSON/CSV backup; no automatic cloud backup | Preserve existing data; do not claim cloud sync |
-| Offline | HTML requests app/CSS/manifest with `?v=32`, but install precaches unversioned URLs | Confirmed first-visit offline defect; fix exact shell precache URLs and invalidate old cache |
-| Tests | Node VM smoke test covers sequence, preparation and estimator; no checked-in browser regression | Add real Chromium coverage for first-visit offline startup and navigation |
-| Documentation | README begins with V18 deployment text; VERSION and design notes identify V32 | Treat older README claims cautiously; defer broad rewrite until handoff is available |
+Current-instance Node, Python, Playwright, Chromium, GitHub access, local HTTP,
+and browser storage work. Runtime status still reports the same onboarding
+instance and original source version. Available tools cannot create a fresh cloud
+task, so this is not evidence of fresh-task snapshot restoration. Fresh browser
+contexts used below verify application first-run/offline behavior only.
 
-## Integration boundary
+## File and implementation reconciliation
 
-Repository-only inspection is complete for the first offline repair. Full
-reconciliation remains pending the two ZIPs and handoff. Proceed with the
-independently reproduced offline defect; do not import guessed implementations
-or alter training progression without evidence. Keep audit and development status
-updated with executed checks and recoverable local commits.
+`research/handoff-file-comparison.json` records every handoff file's SHA-256 and
+its baseline counterpart. All 48 files were inventoried: 39 added, nine changed,
+none identical. Source history is preserved rather than replaced.
 
-## First implementation result
+| Area | Repository baseline | Handoff | Integration decision |
+| --- | --- | --- | --- |
+| App/UI | V32 six tabs, V31 data model, monolithic code | Four tabs, active-set focus, per-set logging, persistent draft, rest controls | Integrate the newer execution interface; retain the old interface under `legacy/` |
+| Training | Heuristics embedded in UI | Pure engine with independent movement ranges, duration fitting and deferred work | Integrate, then repair the defects below; exact progression numbers remain app defaults |
+| Data | `strengthlab-data-v31` | Separate V33 workout/draft keys | Preserve both, expose old log/backup link; never reinterpret incompatible old records as verified new-engine exposures |
+| Research | 720 title records with YouTube IDs | 720 title records, 24 full-text shards, topic map | Integrate verified full text; retain original inventory for legacy Atlas |
+| Offline | First-visit query-string defect already repaired on branch | Broad precache but cache writes not tied to fetch lifetime | Preserve first-visit guarantees, await cache writes through event.waitUntil; cache new and legacy paths |
+| Tests | VM sequence smoke test | Engine/completion tests and several browser scripts | Keep legacy smoke; adopt useful tests, repair stale selectors/no-op assertion, add real HTTP/storage/offline tests |
+| Research notes | No research workbench | Notes reference many additional prototypes | Inventory-only claims: those modules are absent, so do not claim they were integrated |
 
-The offline repair is implemented in `sw.js`: exact query-bearing shell URLs
-are precached and the cache revision is incremented. This avoids a broad
-ignore-query fallback that could serve an unrelated asset revision.
+Absent claimed files include `build_research.py`, `research-audit.json`,
+`build_concordance.py`, `research-concordance.json`, `snatch-cycle.js`,
+`program-composer.js`, `movement-cycles.js`, associated tests and review packs.
+The handoff README's blanket claim that browser testing was blocked conflicts
+with included later DOM tests; executed checks below replace those stale claims.
+The provided `browser_smoke.py` uses file navigation and obsolete Learn selectors;
+it was superseded by the real HTTP test instead of counted as passed.
 
-`tests/browser-smoke.py` passed in Chromium with independent fresh contexts at
-`/` and `/strength-lab/`. Each installs the worker on its first visit, switches
-offline without a second online navigation, reloads, renders all six tabs,
-loads Atlas data and CSS, and reports no page errors. The existing V31 smoke
-test and JS syntax checks also pass. No training or stored-data behavior changed.
+## Transcript-to-index comparison — complete mechanical audit
 
-These results validate the current instance and this repair. They do not verify
-fresh-task restoration, archive reconciliation, Android behavior, or publication
-of the development changes.
+`python3 scripts/audit-transcripts.py /path/to/Transcripts` compared every original
+by its VIDEO URL against every full-text record, stripping the metadata preamble
+and normalizing whitespace only. `research/transcript-audit.json` records source
+filenames, URLs, normalized-text hashes, word counts, and per-record results.
+
+- 720 originals, 720 unique indexed IDs, 720 full-text records in 24 shards.
+- 955,522 whitespace-delimited transcript words.
+- Zero missing URLs, text mismatches, title/index mismatches or word-count mismatches.
+- The baseline title index covers the same 720 video identities and word counts.
+- Handoff IDs are numeric positions; baseline IDs are YouTube IDs. They are not interchangeable.
+- 158 topic labels differ between baseline and handoff. Labels are heuristic title
+  groupings, not manually verified research conclusions.
+
+Full text of sources #666 (volume cycles), #670 (warmup design), and #259
+(adjusting stalled progress) was read in this reconciliation pass. These use the
+handoff's zero-based IDs, now also shown consistently in the reader. They support
+fixed-intensity volume practice, pattern-specific preparation and adapting a
+stalled plan. They do not establish the app's precise start/end sets, rest periods,
+two-exposure safeguard, readiness fraction or absence threshold. Source #259
+shows alternative rep/set strategies; a general-purpose automatic implementation
+still requires movement-specific analysis. Mechanical fidelity is not a claim of
+careful interpretation of all lessons or scientific/medical validation.
+
+## Repairs and unfinished training intelligence advanced
+
+1. Pain holds persist across load changes and low-readiness selection. Held
+   movements are omitted from training until explicit user review. Review is
+   associated with stable record identities so deleting earlier history cannot
+   clear a later pain event. Return after review starts with reduced work.
+2. Re-entry is calculated per movement, so frequent unrelated training cannot
+   conceal a long absence from a particular movement. Training can be paused
+   and resumed explicitly without discarding progression history.
+3. `performed` is separate from advancement eligibility. Clean reduced work
+   finishes a movement without earning advancement or perpetually deferring it.
+   A clean rebuild can exit the repeated-difficulty state.
+4. Bilateral prescriptions require explicit confirmation of both sides/directions;
+   invalid numbers, fractional reps, mixed loads and partial work cannot advance.
+5. Each movement retains its own provisional volume range. The unsupported
+   automatic generic density progression was removed: volume endpoints require
+   a user-controlled milestone/load decision. `policyFor` exposes provenance.
+6. Empty equipment lists defer affected movements. Complete prescriptions are
+   fitted within whole-minute 15–120-minute session budgets without truncating sets.
+7. Warmup uses the actual scheduled movements (including deferred carryovers),
+   and warmup/cooldown instructions match the selected duration. A source lesson
+   can be opened directly. The main clock uses the actual selected main budget.
+8. Full-text search no longer discards body-only matches via a second title filter.
+9. Backup validation rejects malformed profiles before replacement. Failed workout
+   persistence retains the draft and restores in-memory session state.
+10. Legacy app, Atlas inventory, styles, data key and export tools remain accessible.
+    Existing workouts are not silently migrated to incompatible prescriptions.
+
+## Executed validation
+
+- Original legacy VM smoke test: passed against preserved `legacy/app.js`.
+- Handoff engine assertions and three completion tests: passed.
+- Thirteen new recovery/progression/equipment tests: passed.
+- Three backup validation/roundtrip tests: passed.
+- JS syntax checks and Git whitespace checks: passed.
+- Six reconciled Chromium DOM suites: focus, duration, timer controls/modes,
+  timer lifecycle and learning navigation passed. These use simulated storage.
+- Real HTTP Chromium suite at `/` and `/strength-lab/`: first-visit offline
+  reload, body-only search, full transcript reader, navigation, workout saving,
+  persistent drafts/rest pause, bilateral logging, pain review and legacy storage.
+  Actual browser storage is used, with no JavaScript page errors.
+
+A regression test exposed that rounding 70% of three sets upward left re-entry
+unchanged; rounding was corrected to ensure reduced work and the test now passes.
+Existing timer selector and duration test no-op were corrected rather than
+reported as useful passing assertions.
+
+## Remaining development boundaries
+
+The source/repository mechanical reconciliation is complete. A complete lifelong
+source-grounded training system is not. Still needed: close reading across
+movement-specific club/grind progression lessons, prerequisites and skill gates,
+program-overlap/fatigue composition beyond the current ABC default, explicit
+source-specific progression options, and broader installed-PWA/Android testing.
+The current recovery thresholds and program rotation remain app defaults.
+Fresh-task environment restoration remains unverified. No release is authorized.

@@ -1,0 +1,290 @@
+[
+  {
+    "file": "README.md",
+    "handoff_sha256": "af575b0207cdc7b6a63ecf99947dddcfb02ad8c7f9f5ea026f015fc4e840a49b",
+    "baseline_sha256": "ccb99162dd36ca9a8d1e1e6014c2e85c55d07c745a4ad82973f6cd32eeb2271e",
+    "status": "changed"
+  },
+  {
+    "file": "RESEARCH-DECISIONS.md",
+    "handoff_sha256": "e788da2ebbfae351049c1d24042a830e5b7a5a4aa61c496806ea7d3fe310edf3",
+    "baseline_sha256": null,
+    "status": "added"
+  },
+  {
+    "file": "app.js",
+    "handoff_sha256": "5d66cc3a4e3a759c30fe86fb48776b7f32eab35464b5ceff7736a219f507862c",
+    "baseline_sha256": "cb3e54871e36e597749e8eded18908114ef938ef32fd1ae94fcfa759ca27cdee",
+    "status": "changed"
+  },
+  {
+    "file": "browser_duration_test.py",
+    "handoff_sha256": "7f9f48409ededc9f06e10cf788b1a1beb70729b88546742057063293aa897663",
+    "baseline_sha256": null,
+    "status": "added"
+  },
+  {
+    "file": "browser_focus_test.py",
+    "handoff_sha256": "8e2b108e572fc13adbe21a8a3939420142b3f7f7fca170b2a96dd605ff4a8693",
+    "baseline_sha256": null,
+    "status": "added"
+  },
+  {
+    "file": "browser_layout_qa.py",
+    "handoff_sha256": "30d08c88120da4695ca6ce421e38d167017df7fb0ea24a70c05c951f3c642b7e",
+    "baseline_sha256": null,
+    "status": "added"
+  },
+  {
+    "file": "browser_learn_test.py",
+    "handoff_sha256": "165c1e08734168656b1039f5899048503bfbaf18e3b37499d2af01c89388a9ec",
+    "baseline_sha256": null,
+    "status": "added"
+  },
+  {
+    "file": "browser_smoke.py",
+    "handoff_sha256": "a82b83985e935f4735433cc8198e4c2b069e03d9cb67ac38dee2e41c295c4fa8",
+    "baseline_sha256": null,
+    "status": "added"
+  },
+  {
+    "file": "browser_timer_lifecycle_test.py",
+    "handoff_sha256": "bf97f99d17f97c597669cfce9bae66e62b5066da6659a42dad379dd2216ca692",
+    "baseline_sha256": null,
+    "status": "added"
+  },
+  {
+    "file": "browser_timer_modes_test.py",
+    "handoff_sha256": "42e578d0bd3def479d9878bc9ff8284fe341694d6e5b8ad8a201a72e1c5fd731",
+    "baseline_sha256": null,
+    "status": "added"
+  },
+  {
+    "file": "browser_timer_test.py",
+    "handoff_sha256": "e6d685413b3ffcc0d156c03deecd23ccd615724eb10406e7bf7e186c106f8078",
+    "baseline_sha256": null,
+    "status": "added"
+  },
+  {
+    "file": "completion.test.cjs",
+    "handoff_sha256": "8aa8358ce77406c5f841cfea2c8dc5e431dddc8007dca64847ab5c50c2784c68",
+    "baseline_sha256": null,
+    "status": "added"
+  },
+  {
+    "file": "engine.js",
+    "handoff_sha256": "afb3e1fb4e517c831add75209f2591d525e13eb8175502e6cd23c43e57f87953",
+    "baseline_sha256": null,
+    "status": "added"
+  },
+  {
+    "file": "engine.test.cjs",
+    "handoff_sha256": "efc4cb551d1834778c77be938360a9402c752b54fc588914e379b9639ac6d736",
+    "baseline_sha256": null,
+    "status": "added"
+  },
+  {
+    "file": "icon-192.png",
+    "handoff_sha256": "e2d0870bd4fc44dc118f1e11e610d86a311c1a3a306bf1569b3e47aacb671264",
+    "baseline_sha256": "8446e17ce6707e5f97bfd803bd621e912c41dfebe00f333dd54a1c40d42d8a1d",
+    "status": "changed"
+  },
+  {
+    "file": "icon-512.png",
+    "handoff_sha256": "f9b175e1fe1d717ce127a2628f85dff998b08ef9b43e87b96d95ec21dfaa5667",
+    "baseline_sha256": "be483bdc73ea1a59427bf2951109dd6b3e33255401a458ed5ff727c853fb7414",
+    "status": "changed"
+  },
+  {
+    "file": "index.html",
+    "handoff_sha256": "b915292845b2220b8b19e2144e07cd1d4eb165e0fdf197d9b102501a05b47e13",
+    "baseline_sha256": "2855b72b0a3b1046b6c2cd97eefa9d3884fa1286cedab77eb669007511a913a8",
+    "status": "changed"
+  },
+  {
+    "file": "interface-polish.css",
+    "handoff_sha256": "2c2a94583011639b34a526d621221354b3add6cd03bee7668b76c000ac175724",
+    "baseline_sha256": null,
+    "status": "added"
+  },
+  {
+    "file": "manifest.webmanifest",
+    "handoff_sha256": "fc4ae0e385d458c6622ac883cf4accd42f787fc73f3b95268d1894d50faf9de5",
+    "baseline_sha256": "ba2233f6c74b4085a2dd605d1693654bcef92a4c32dee29bbea27772a98bede8",
+    "status": "changed"
+  },
+  {
+    "file": "mobile-smoke.png",
+    "handoff_sha256": "fec287bce240eb0917c654cf04260e4db609d23ac8712d46e39052e138593859",
+    "baseline_sha256": null,
+    "status": "added"
+  },
+  {
+    "file": "source-index.json",
+    "handoff_sha256": "1a4d6d0463381dbbbf64885eab4fa431edab66a3597683800e87fb7243776713",
+    "baseline_sha256": "94cd1bc943c53c9d07118a3cb932e820359121bd1a682295e8c3723235247e1d",
+    "status": "changed"
+  },
+  {
+    "file": "sources-00.json",
+    "handoff_sha256": "b7e12c3b6f83cbb6b85ecc6819a415745f4a3b1d8e25c16c1097375c2fef6b9c",
+    "baseline_sha256": null,
+    "status": "added"
+  },
+  {
+    "file": "sources-01.json",
+    "handoff_sha256": "665c93fcd6fa399b6d5479bc2cf1e057ef2d8f6ac3ee3cd60bb91fb39282d143",
+    "baseline_sha256": null,
+    "status": "added"
+  },
+  {
+    "file": "sources-02.json",
+    "handoff_sha256": "789e7c23b4216b23b5d394cf4dbbe58b35694ae54f14f7ab40678b8497a4f86d",
+    "baseline_sha256": null,
+    "status": "added"
+  },
+  {
+    "file": "sources-03.json",
+    "handoff_sha256": "33fd291ee356e189a8370341ce1d65d155ecc643647d37887cee116855382c99",
+    "baseline_sha256": null,
+    "status": "added"
+  },
+  {
+    "file": "sources-04.json",
+    "handoff_sha256": "fc8f96774eaffe8b1ea996e8730760136867f9202fdb1e6a82a13d0859c045cf",
+    "baseline_sha256": null,
+    "status": "added"
+  },
+  {
+    "file": "sources-05.json",
+    "handoff_sha256": "d6f43123fe45a2401b1a6734332b616852928fcc05f705df65c1961929573c8f",
+    "baseline_sha256": null,
+    "status": "added"
+  },
+  {
+    "file": "sources-06.json",
+    "handoff_sha256": "cd488f2842216b7ebaaa4ae61e4faf081493e1842d2afa579e3bd9930b822141",
+    "baseline_sha256": null,
+    "status": "added"
+  },
+  {
+    "file": "sources-07.json",
+    "handoff_sha256": "883a3d8fb5604c37fbfacfbe243faf90b46c5c6ea8779644e732abbdb5c1849f",
+    "baseline_sha256": null,
+    "status": "added"
+  },
+  {
+    "file": "sources-08.json",
+    "handoff_sha256": "b1fc15aeddf6183123e38aaa53d1cea5d6b67d6f097bab90d08db55dc79609bf",
+    "baseline_sha256": null,
+    "status": "added"
+  },
+  {
+    "file": "sources-09.json",
+    "handoff_sha256": "4114c8bdee0ca63557ca5328ce6d286b2f7d75416bd854f4980dc3fccbfe6bae",
+    "baseline_sha256": null,
+    "status": "added"
+  },
+  {
+    "file": "sources-10.json",
+    "handoff_sha256": "d717ca60c72357c144a15c751f222e5a9494f3de8790f763795f1decfdb353f0",
+    "baseline_sha256": null,
+    "status": "added"
+  },
+  {
+    "file": "sources-11.json",
+    "handoff_sha256": "c579e5a4e80e487f2b3e60a3d84003d735b603a2dfff477436609e860b9c2729",
+    "baseline_sha256": null,
+    "status": "added"
+  },
+  {
+    "file": "sources-12.json",
+    "handoff_sha256": "9531db0cf0a21ead937550a89b22d5d31ea15e1f667eb24d1e9a224466d4d83e",
+    "baseline_sha256": null,
+    "status": "added"
+  },
+  {
+    "file": "sources-13.json",
+    "handoff_sha256": "22c5a61cdc8182543504e6e4d55f47b54a4ed73a6709a8bc187d3af0507b810c",
+    "baseline_sha256": null,
+    "status": "added"
+  },
+  {
+    "file": "sources-14.json",
+    "handoff_sha256": "eef18fe34cb3e6197e9bc7dc6148097482738413f31abd924b46f9004d645064",
+    "baseline_sha256": null,
+    "status": "added"
+  },
+  {
+    "file": "sources-15.json",
+    "handoff_sha256": "787a4c82f46db271dd27c58f7b15f5e1025a9e6f9f24c0e857f975c18155e14b",
+    "baseline_sha256": null,
+    "status": "added"
+  },
+  {
+    "file": "sources-16.json",
+    "handoff_sha256": "867647272759cc632a934dc09892d45e55087ae4331c93ed1015c702d49dad88",
+    "baseline_sha256": null,
+    "status": "added"
+  },
+  {
+    "file": "sources-17.json",
+    "handoff_sha256": "b573fddfbe2a068f146449eda101884a8004365a087c99c87a7383ac8c67de88",
+    "baseline_sha256": null,
+    "status": "added"
+  },
+  {
+    "file": "sources-18.json",
+    "handoff_sha256": "400e23e5a22891a956ea32fe755a96ba8aa6b5880b88c713acda2133f45df58c",
+    "baseline_sha256": null,
+    "status": "added"
+  },
+  {
+    "file": "sources-19.json",
+    "handoff_sha256": "d7d695a7dfa9fab04ade03ec504015f35fddf4e887bdc7d2dcf4f225575457b3",
+    "baseline_sha256": null,
+    "status": "added"
+  },
+  {
+    "file": "sources-20.json",
+    "handoff_sha256": "f3ce005320e7c23d87d1f7acdfc166a1b1fa403147e88464c0ce24986829c751",
+    "baseline_sha256": null,
+    "status": "added"
+  },
+  {
+    "file": "sources-21.json",
+    "handoff_sha256": "977fe851957898145673d05234c1ad3dca6a5709b5be767febf4f6d4f0a7abc7",
+    "baseline_sha256": null,
+    "status": "added"
+  },
+  {
+    "file": "sources-22.json",
+    "handoff_sha256": "ee469f9602797370f59ff711242dc8bf597758198127a14b33c32c142b88a26e",
+    "baseline_sha256": null,
+    "status": "added"
+  },
+  {
+    "file": "sources-23.json",
+    "handoff_sha256": "4f48d1ad01bdc2a357ed7c93b27df8ee560fe978b2ddde5ed40bf1e9f8c25fe0",
+    "baseline_sha256": null,
+    "status": "added"
+  },
+  {
+    "file": "styles.css",
+    "handoff_sha256": "76cb5082b9dbb37fa89d356f41a34c1f8a6a0749b1d7cd2dd4f2094dc08a8e32",
+    "baseline_sha256": "e4204a250b2416b31de6070d1fede131f412d0bbb6f5c98de9d0de1c66f5e271",
+    "status": "changed"
+  },
+  {
+    "file": "sw.js",
+    "handoff_sha256": "f9c1b7c2af8e1e5dcdfcbe9b73da467cadb710a973637890310a8508e1537a27",
+    "baseline_sha256": "7a397e1a8f08b6d42d2c26f6abb6e160084919fe633183294b994abaeb1f8539",
+    "status": "changed"
+  },
+  {
+    "file": "topic-map.json",
+    "handoff_sha256": "60beb2e3618dec41bbdbfb515d5523795aff8a8ab71410db6211ba4fcbba1b70",
+    "baseline_sha256": null,
+    "status": "added"
+  }
+]
