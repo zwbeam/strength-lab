@@ -21,3 +21,26 @@ missed weeks, durations, owned pairs and backup roundtrips. Existing engine,
 completion, recovery, backup and legacy suites also pass. Eleven quote/hash
 checks pass. Application wiring and final upgrade verification follow in a
 separate focused commit.
+
+## 2026-11-05 — Application programming and history validation
+
+Wired source blocks, parameter controls, prerequisite confirmations, cadence and
+numeric side logging, phase/load decisions and recovery scheduling into the real
+application. Added per-block carryover, protected active drafts from configuration
+changes, validated pair inventories, and preserved default policy identities when
+explicit defaults are saved. Exposed own heavy-rep and club set/rest parameters.
+
+Additional regression work corrected heavy sizing against completed rather than
+future light work; retained the wave cycle count on the heavy lane; distinguished
+incomplete work from completed-but-poor technique in stall alternatives; and
+prevented adapted recovery parameters from claiming exact source example support.
+Density prescriptions cite #410, volume cites #411. Forty-one named engine/recovery/
+completion/backup tests now pass, plus existing engine and legacy assertions.
+
+The real app passed 44 successful source-cycle exposures across about 19 simulated
+weeks, followed by partial work, poor technique, imbalance, pain, a missed month,
+re-entry and calendar spacing. A separate UI history passed six ABC sessions with
+heavy/light work, matched-pair/skill gates, 20-minute movement carryover, custom
+club settings and draft/equipment guards. Six existing browser DOM suites,
+root/subpath offline checks and provenance checks also pass. These are software
+simulations using self-reported input, not claims of real training efficacy.

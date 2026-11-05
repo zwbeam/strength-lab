@@ -35,15 +35,18 @@ function policyFor(id,s={}){
  let start=m.start,end=m.end,reps=m.reps,rest=m.rest,step=1,timed=!!m.timed,roundSeconds=null,sources=[666],exactParametersSource=null,density=null;
  if(profile==='snatch'){start=4;end=20;reps=5;rest=0;roundSeconds=60;step=c.step??1;if(![1,2].includes(step))throw Error('Snatch set increment must be 1 or 2');sources=[411,410];exactParametersSource=411;density=[{sets:16,reps:6},{sets:14,reps:7},{sets:12,reps:8},{sets:11,reps:9},{sets:10,reps:10}];}
  if(profile==='grind'){start=3;end=10;reps=c.reps??3;if(![3,4,5].includes(reps))throw Error('Double-kettlebell reps must be 3, 4 or 5');rest=150;roundSeconds=180;sources=[366,120];exactParametersSource=366;}
- if(profile==='club'){start=2;end=6;reps=c.seconds??30;if(![15,30,45,60].includes(reps))throw Error('Choose a supported timed bout');timed=true;rest=60;sources=[3];}
+ if(profile==='club'){start=c.startSets??2;end=c.endSets??6;if(!Number.isInteger(start)||!Number.isInteger(end)||start<1||start>6||end<start||end>12)throw Error('Club set range must be 1–12, starting at 1–6');reps=c.seconds??30;if(![15,30,45,60].includes(reps))throw Error('Choose a supported timed bout');timed=true;rest=c.restSeconds??60;if(![30,60,90,120,180].includes(rest))throw Error('Choose a supported club rest interval');sources=[3];}
  if(profile==='wave'){
   if(!Number.isFinite(c.lightWeight)||!Number.isFinite(c.heavyWeight)||c.lightWeight<=0||c.heavyWeight<=c.lightWeight)throw Error('Heavy weight must exceed the light weight');
   
   sources=[228,403];
  }
+ const heavyReps=c.heavyReps??Math.max(1,Math.floor(m.reps*.6));if(profile==='wave'&&(!Number.isInteger(heavyReps)||heavyReps<1||heavyReps>m.reps))throw Error('Heavy reps must be whole and no greater than light reps');
  const stages=[];for(let sets=start;sets<end;sets+=step)stages.push({sets,reps,rest});stages.push({sets:end,reps,rest});
- const key=profile==='legacy'&&Object.keys(c).length===0?'legacy-v1':JSON.stringify(['rules-20261105-1',id,profile,reps,step,exposures,c.lightWeight,c.heavyWeight,c.stallStrategy||'repeat']);
- return{movement:id,profile,label:PROFILE_NAMES[profile],key,kind:exactParametersSource===null?'app-default':'transcript-example',volume:{start,end,reps,rest},stages,density,roundSeconds,timed,exposures,principleSources:sources,exactParametersSource,promotion:`${exposures} clean complete exposures (app setting)`,endpoint:'explicit review',config:c};
+ const custom=profile==='club'&&(start!==2||end!==6||rest!==60)?{start,end,rest}:profile==='wave'&&heavyReps!==Math.max(1,Math.floor(m.reps*.6))?{heavyReps}:null;
+ let key=profile==='legacy'&&Object.keys(c).length===0?'legacy-v1':JSON.stringify(['rules-20261105-1',id,profile,reps,step,exposures,c.lightWeight,c.heavyWeight,c.stallStrategy||'repeat']);
+ if(custom)key=JSON.stringify([key,custom]);
+ return{movement:id,profile,heavyReps,label:PROFILE_NAMES[profile],key,kind:exactParametersSource===null?'app-default':'transcript-example',volume:{start,end,reps,rest},stages,density,roundSeconds,timed,exposures,principleSources:sources,exactParametersSource,promotion:`${exposures} clean complete exposures (app setting)`,endpoint:'explicit review',config:c};
 }
 function availableProfiles(id){if(id==='snatch')return ['snatch'];if(['doublePress','doubleSquat'].includes(id))return ['grind'];if(MOVES[id]?.gear==='club')return ['legacy','club'];if(['swing','squat','press','row','clean'].includes(id))return ['legacy','wave'];return ['legacy'];}
 function configureMovement(s,id,config){if(config.profile==='legacy'&&(config.exposures??2)===2&&(!config.stallStrategy||config.stallStrategy==='repeat'))config={};const next={...s,programming:{...s.programming,[id]:config}};const policy=policyFor(id,next);if(policy.profile==='wave'&&![config.lightWeight,config.heavyWeight].every(w=>(s.equipment?.[MOVES[id].gear]||[]).includes(w)))throw Error('Both wave weights must be available');return next;}
@@ -80,12 +83,12 @@ function stateFor(s,id){
  if(policy.profile==='wave'){
   const light=replay(s,id,policy,'light');
   if(track==='heavy'){
-   const heavyReps=Math.max(1,Math.floor(policy.volume.reps*.6));
+   const heavyReps=policy.heavyReps;
    // Whole sets; heavy work must stay strictly below light work (#228).
    const lastLight=records(s,id).filter(x=>x.policyKey===policy.key&&x.track==='light'&&successful(x)).at(-1);
    const lightWork=(lastLight?.targetSets??light.sets)*(lastLight?.targetReps??light.reps)*policy.config.lightWeight;
    const sets=Math.max(0,Math.ceil(lightWork/(heavyReps*policy.config.heavyWeight))-1);
-   result={...result,sets,reps:heavyReps,phase:light.phase,streak:0};
+   result={...result,sets,reps:heavyReps,phase:light.phase,cycles:light.cycles,streak:0};
   }
  }
  return{...result,hold,reviewRecovery,policy,track,allExposures:h.length};
@@ -104,7 +107,9 @@ function prescription(s,id,opts={}){
  else if(st.fail>=2){
   mode='rebuild';
   if(policy.config.stallStrategy==='redistribute'&&!policy.timed&&!policy.roundSeconds&&reps>=3){
-   const failed=records(s,id).filter(x=>x.actualSets>0).at(-1),factor=failed?.quality==='breakdown'?.6:.8;
+   const failed=records(s,id).filter(x=>x.actualSets>0).at(-1);
+   const incomplete=failed&&(failed.actualSets<failed.targetSets||failed.actualReps<failed.targetReps||failed.quality==='hard');
+   const factor=incomplete?.6:.8;
    reps=Math.max(1,Math.floor(st.reps*factor));sets=Math.ceil(st.sets*st.reps/reps);reason='Stall alternative: fewer reps per set, redistributed volume (#259). Fraction and rounding are app defaults; never rush the work.';
   }else{if(sets<=1)reps=Math.max(1,Math.floor(reps*.7));sets=Math.max(1,sets-1);reason='Repeated difficulty: reduce work and rebuild clean technique (app default).';}
  }
@@ -124,9 +129,11 @@ function prescription(s,id,opts={}){
  if(m.pair&&(!weight||!(s.equipment?.pairs||[]).includes(weight)))blocked='Confirm an available matched kettlebell pair at this weight in Settings.';
  if(st.hold)blocked=st.hold+' Resolve the review before resuming.';
  if(blocked){mode=st.hold?'review':'prerequisite';sets=0;reason=blocked;}
+ const adapted=['baseline','recovery','reentry','rebuild','deload','review','prerequisite'].includes(mode);
+ const sourceParameters=adapted?null:policy.exactParametersSource===411&&st.stagePhase==='density'?410:policy.exactParametersSource;
  const roundSeconds=policy.roundSeconds;
  const secondsPerSet=policy.timed?reps*m.side:m.sec;
- return{id,name:m.name,unit:m.unit,weight,sets,reps,rest,side:m.side,timed:policy.timed,mode,reason,phase:st.phase,streak:st.streak,cycle:st.cycles,policyKey:policy.key,profile:policy.profile,track:st.track,roundSeconds,secondsPerSet,sourceIds:policy.principleSources,sourceParameters:policy.exactParametersSource,exposureTarget:policy.exposures};
+ return{id,name:m.name,unit:m.unit,weight,sets,reps,rest,side:m.side,timed:policy.timed,mode,reason,phase:st.phase,streak:st.streak,cycle:st.cycles,policyKey:policy.key,profile:policy.profile,track:st.track,roundSeconds,secondsPerSet,sourceIds:policy.principleSources,sourceParameters,exposureTarget:policy.exposures};
 }
 function chooseCycle(s,id,choice){
  const st=stateFor(s,id);
@@ -195,7 +202,7 @@ function completeRecord(rx,actual,quality,pain){
  const bilateral=rx.side!==2||sets.every(x=>x.bothSides===true&&Number(x.leftReps??x.reps)===Number(x.rightReps??x.reps)&&Number.isInteger(Number(x.leftReps??x.reps))&&Number.isInteger(Number(x.rightReps??x.reps)));
  const exactIntensity=rx.sourceParameters===null||rx.sourceParameters===undefined||sets.length===rx.sets&&sets.every(x=>Number(x.reps)===rx.reps&&(rx.side!==2||Number(x.leftReps??x.reps)===rx.reps&&Number(x.rightReps??x.reps)===rx.reps));
  const cadence=!rx.roundSeconds||sets.every(x=>x.timingValid===true);
- const performed=cadence&&rx.mode!=='review'&&sets.length>0&&sets.length>=rx.sets&&sets.every(valid)&&reps>=rx.reps&&sameLoad&&bilateral&&!['hard','breakdown','pain'].includes(quality)&&!pain;
+ const performed=cadence&&!['review','prerequisite'].includes(rx.mode)&&sets.length>0&&sets.length>=rx.sets&&sets.every(valid)&&reps>=rx.reps&&sameLoad&&bilateral&&!['hard','breakdown','pain'].includes(quality)&&!pain;
  return{id:rx.id,name:rx.name,weight,unit:rx.unit,actualSets:sets.length,actualReps:reps,targetSets:rx.sets,targetReps:rx.reps,rest:rx.rest,quality,pain:!!pain,mode:rx.mode,policyKey:rx.policyKey||'legacy-v1',profile:rx.profile||'legacy',track:rx.track||'base',roundSeconds:rx.roundSeconds||null,sourceIds:rx.sourceIds||[],sourceParameters:rx.sourceParameters??null,exposureTarget:rx.exposureTarget??2,performed,completed:performed&&exactIntensity&&weight===Number(rx.weight)&&!['baseline','recovery','reentry','time-fit','review','rebuild','deload','prerequisite'].includes(rx.mode),sets:actual};
 }
 function validateProgramming(s){
