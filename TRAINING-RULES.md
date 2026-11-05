@@ -90,8 +90,45 @@ gates, 20-minute movement carryover and custom timed club settings. Engine tests
 cover complete double-grind, wave and club histories too.
 
 This validates software transitions with self-reported data, not training efficacy.
-Broader movement curricula (including get-ups, single-arm club levels and advanced
-skills), automatic fatigue estimation and full source-by-source interpretation
+Broader movement curricula beyond the selected get-up goal and single-arm club
+foundations (including advanced levels and skills), automatic fatigue estimation and full source-by-source interpretation
 remain unfinished. Physical Android/installed-PWA testing and a genuinely fresh
 cloud-task restoration check remain distinct from browser emulation and worker
 upgrade tests.
+
+## Get-up and single-arm club curriculum continuation
+
+The shared `MOVES` / `SKILLS` / `BLOCKS` registry now drives the library,
+prerequisite checklist and workout generator. The library links the teaching
+transcripts for each prerequisite, not only the final movement name.
+
+| New system | Transcript support | App decisions and limits |
+| --- | --- | --- |
+| Alternating get-up time goal | #423: familiar complete single repetitions, 3–10 **total** minutes under load, optional 30-second steps; #658: repeat a goal with another weight | Self-confirmed floor press/roll/elbow/hand/hip-pass/overhead/full-movement checklist; two clean exposures; minimum elapsed-time acceptance and recovery fractions |
+| Get-up side accounting | #423: start on the weaker side; an odd total may leave one extra repetition there | Actual complete reps are entered separately from elapsed seconds; the app accepts equal sides or one extra on the configured weaker side |
+| Single-arm inside/outside/shield foundations | #578: continuous volume at fixed five reps per side, from a four-set example toward 20 sets; #581: rest between exercises, not within the volume sequence | Two clean exposures, estimated pace/transition allowance, prerequisite self-confirmation and conservative load offers |
+| Prior two-hand club foundation | #275/#648/#543: single-arm technique builds on two-hand practice; #543 discusses at least three weights and a substantial training period | The app asks for explicit prior-foundation confirmation; it does not certify training years, technique, or readiness from a checkbox |
+
+Get-up seconds are a total alternating time goal, never multiplied by two sides.
+Logged left/right complete-repetition counts are not misread as seconds. The goal
+can run in the integrated timer; elapsed time, continuity and safe controlled
+technique remain self-reported. Incomplete time, absent side counts, unbalanced
+strong-side extra reps or interrupted continuity cannot promote a cycle.
+
+Single-arm club profiles never inherit snatch EMOM rest or density numbers.
+Their per-set rest is zero. After a movement is finished, the app starts the
+reviewed two-minute between-exercise example break. Planning includes those breaks
+only between scheduled movements. Stop safely rather than forcing continuous
+work when control is lost; interrupted work can be saved but earns no advancement.
+A full three-movement endpoint fits the 45-minute app budget at the declared
+estimate; slower performance may require more time. The estimate is not a speed
+prescription or promise of physiological effect.
+
+For one-bout get-up goals, low readiness, re-entry and deload reduce **duration**,
+not an already-single set count. Those adapted numbers are labeled app defaults.
+Neither get-up same-side multi-rep advanced sets (#658) nor club pendulums,
+pullovers, mills, swipes or speed progressions are automatically unlocked.
+
+[CURRICULUM-COVERAGE.md](CURRICULUM-COVERAGE.md) and its JSON inventory screen all
+720 texts across 23 scoped systems. Mention matches are discovery candidates;
+they do not turn missing programming methods into implemented or validated ones.

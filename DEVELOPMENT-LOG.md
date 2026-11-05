@@ -60,3 +60,36 @@ restoration remains unverified. Browser tests are not substituted for that claim
 No additional authorization or setup was requested; no branch was pushed, merged
 or force-pushed, and no release artifact was generated. Full raw source history
 and prior development checkpoints remain ancestors of this branch.
+
+## 2026-11-05 — Remote persistence and curriculum foundations
+
+Pushed `development/reconciliation` through the existing Git proxy. A separate
+fresh checkout recovered `fe744c4`, passed `git fsck --full` and all 22 programming
+tests; remote main stayed at `4cb58d8`. PERSISTENCE.md distinguishes this verified
+GitHub recovery from the still-unavailable fresh Codex task/snapshot test.
+
+Screened all 720 full transcripts into a reproducible 23-system curriculum matrix.
+Title/full-text matches are explicitly discovery candidates, not reviewed rules.
+Added five close-read quotation/hash entries for #423/#658 get-ups, #578/#581
+single-arm club volume/rest and #543 prior foundation. Sixteen provenance entries
+now match the verified corpus.
+
+Implemented the get-up 3–10 total-minute goal and single-arm inside/outside/shield
+continuous 4–20×5 foundation cycles. A shared movement/skill/block registry feeds
+the library, source links, prerequisites and generator. Get-ups log actual total
+seconds separately from side rep counts, including the source's one-extra-weak-
+side allowance. One-bout recovery reduces duration. Club rest runs between
+movements, not sets. Existing profiles, policy identities and stored records remain.
+
+Ten new engine tests and actual HTTP histories passed: 16 successful get-up
+exposures plus five adverse/recovery cases; 34 successful three-movement club
+exposures plus one interrupted case (102 successful club movement records).
+Equipment/skill gates, eight-plus-week goals, weak-side imbalance, continuity,
+pain/re-entry, missed weeks, duration deferrals and timer persistence were exercised.
+The existing six DOM suites, root/subpath offline checks, worker upgrade, existing
+engine/backup/recovery/legacy suites also pass. The library test needed an explicit
+wait for asynchronous transcript loading; it then passed with exact source text.
+
+No Android packaging or release work was introduced. The runtime remains pure
+browser JavaScript with relative bundled assets, compatible with later Capacitor
+integration. Physical Android and complete advanced curricula remain outstanding.

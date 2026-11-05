@@ -7,11 +7,13 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 from threading import Thread
 import io
+import re
 import shutil
 import subprocess
 import tarfile
 from playwright.sync_api import sync_playwright
 ROOT=Path(__file__).resolve().parents[1]
+CACHE_NAME=re.search(r"const CACHE='([^']+)'",(ROOT/'sw.js').read_text()).group(1)
 class Quiet(SimpleHTTPRequestHandler):
     def log_message(self,*args):pass
 with TemporaryDirectory(prefix='strength-upgrade-') as tmp:
@@ -39,7 +41,7 @@ with TemporaryDirectory(prefix='strength-upgrade-') as tmp:
             before=page.evaluate('Object.fromEntries(["strengthlab-data-v31","strengthlab-data-v33","strengthlab-draft-v33"].map(key=>[key,localStorage.getItem(key)]))')
             for name in ['app.js','engine.js','sw.js']:shutil.copy2(ROOT/name,target/name)
             page.evaluate('navigator.serviceWorker.getRegistration().then(registration=>registration.update()).then(()=>true)')
-            page.wait_for_function('caches.keys().then(keys=>keys.includes("strength-lab-programming-20261105-2"))')
+            page.wait_for_function('(name)=>caches.keys().then(keys=>keys.includes(name))',arg=CACHE_NAME)
             page.reload()
             after=page.evaluate('Object.fromEntries(["strengthlab-data-v31","strengthlab-data-v33","strengthlab-draft-v33"].map(key=>[key,localStorage.getItem(key)]))')
             assert before==after,'Upgrade changed saved data or active draft'
