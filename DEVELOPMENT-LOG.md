@@ -44,3 +44,19 @@ heavy/light work, matched-pair/skill gates, 20-minute movement carryover, custom
 club settings and draft/equipment guards. Six existing browser DOM suites,
 root/subpath offline checks and provenance checks also pass. These are software
 simulations using self-reported input, not claims of real training efficacy.
+
+## 2026-11-05 — Upgrade verification and environment boundary
+
+After the training implementation, completed the previously outstanding
+service-worker upgrade check from committed baseline `374967f` to the new app.
+The test uses a temporary checkout copy and Chromium Pixel 5 emulation. Existing
+V31/V33 saved keys and an active rest/workout draft remained byte-identical through
+the upgrade; offline reload and saving the old partial workout succeeded.
+Physical Android installation remains untested.
+
+Current runtime status still identifies the original onboarding environment and
+source version. No fresh-task creation tool is exposed, so cloud snapshot
+restoration remains unverified. Browser tests are not substituted for that claim.
+No additional authorization or setup was requested; no branch was pushed, merged
+or force-pushed, and no release artifact was generated. Full raw source history
+and prior development checkpoints remain ancestors of this branch.

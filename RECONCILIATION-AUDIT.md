@@ -134,3 +134,29 @@ program-overlap/fatigue composition beyond the current ABC default, explicit
 source-specific progression options, and broader installed-PWA/Android testing.
 The current recovery thresholds and program rotation remain app defaults.
 Fresh-task environment restoration remains unverified. No release is authorized.
+
+## Training intelligence continuation — 2026-11-05
+
+The historical remaining-work section above is superseded for the selected
+programming systems by TRAINING-RULES.md and current DEVELOPMENT-STATUS.md.
+Source-scoped profiles now distinguish #411 snatch volume, #410 snatch density,
+#366/#120 double-grind examples, #228/#403 heavy/light principles, and #3 club
+timed practice. Eleven quote anchors and hashes are checked against the already
+verified source corpus. #259 supports stall alternatives; its failure classification
+and rounding remain explicit app decisions. #561's individual recovery account
+is not presented as an automated rehabilitation prescription.
+
+Program-specific deferrals and configurable overlap/calendar/load controls are
+integrated into the application. Existing ABC history, V33 data keys and V31/V32
+access are preserved. Source cycles are opt-in, never automatically assigned as
+new advanced skills. Recovery-adapted numerical prescriptions lose the exact-source
+parameter claim while retaining their principle citations. Configurable defaults
+do not acquire fabricated source support.
+
+Validation now includes complete multiweek engine histories and actual HTTP
+application histories (44 successful snatch exposures plus adverse/recovery cases;
+six ABC workouts plus double/club controls). Cadence and skill input remain
+self-reported. A real baseline-to-current service-worker upgrade passed while
+preserving active data/draft bytes, then continuing offline. This supersedes the
+previously outstanding browser worker-upgrade check; physical Android and fresh
+cloud-task restoration remain unverified.
