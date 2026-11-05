@@ -1,5 +1,5 @@
-const CACHE='strength-lab-v31';
-const ASSETS=['./index.html','./styles.css','./app.js','./manifest.webmanifest','./icon-192.png','./icon-512.png','./header-strengthlab-v23.webp','./header-traininghub-v23.webp','./header-traininglog-v23.webp','./header-settings-v23.webp','./background-v23.webp','./background-graffiti-v29.webp','./header-workout-v28.webp'];
+const CACHE='strength-lab-v32-minimal-1';
+const ASSETS=['./index.html','./styles.css','./app.js','./source-index.json','./manifest.webmanifest','./icon-192.png','./icon-512.png','./header-strengthlab-v23.webp','./header-traininghub-v23.webp','./header-traininglog-v23.webp','./header-settings-v23.webp','./background-v23.webp','./background-graffiti-v29.webp','./header-workout-v28.webp'];
 self.addEventListener('install',event=>{event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(ASSETS)).then(()=>self.skipWaiting()))});
 self.addEventListener('activate',event=>{event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(key=>key.startsWith('strength-lab-')&&key!==CACHE).map(key=>caches.delete(key)))).then(()=>self.clients.claim()))});
 self.addEventListener('fetch',event=>{
