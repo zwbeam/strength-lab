@@ -36,7 +36,9 @@ try:
         assert page.evaluate('state.sessions.at(-1).items.every(item=>item.completed)')
     settings()
     for field in page.locator('[data-weight]').all():
-        movement=field.get_attribute('data-weight');field.fill('5' if movement in ['front','cast','circles'] else '8' if movement=='press' else '12')
+        movement=field.get_attribute('data-weight');
+        if field.get_attribute('readonly') is not None:continue
+        field.fill('5' if movement in ['front','cast','circles'] else '8' if movement=='press' else '12')
     page.locator('#save-weights').click()
     details_for('[data-program-profile="press"]')
     page.locator('[data-program-profile="press"]').select_option('wave');page.locator('[data-wave-light="press"]').fill('8');page.locator('[data-wave-heavy="press"]').fill('12');page.locator('[data-wave-reps="press"]').fill('2')
