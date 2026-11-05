@@ -152,6 +152,73 @@
         "low-readiness fraction",
         "pain hold and user review"
       ]
+    },
+    {
+      "rule": "getup-time-goal",
+      "source_id": 423,
+      "title": "Kettlebell Turkish Getup Nerd Math Goal 1 - Time Under Tension overview",
+      "url": "https://www.youtube.com/watch?v=Xxzkr3O-ujg",
+      "normalized_text_sha256": "0f7248fc54dc75d925de68b6134c1d3c4dc9671e94d10407cead8ba6301e3445",
+      "quote": "three minutes four minutes five minutes six minutes seven minutes eight minutes nine minutes to get to our goal of 10 minutes",
+      "supported_scope": "Alternating familiar single get-ups, building 3–10 total minutes under load, with optional 30-second intermediate steps.",
+      "app_defaults_not_claimed_as_source_rules": [
+        "self-confirmed breakdown checklist",
+        "clean-exposure gate",
+        "minimum elapsed-time acceptance",
+        "recovery fractions"
+      ]
+    },
+    {
+      "rule": "getup-next-load",
+      "source_id": 658,
+      "title": "Turkish Getup Nerd Math video 2",
+      "url": "https://www.youtube.com/watch?v=_bz926Xliuo",
+      "normalized_text_sha256": "db1fcbe31930074b12674d933fa611a0955744478bea39b9fc8d45b30e634b65",
+      "quote": "you can repeat with every weight you have",
+      "supported_scope": "The 10-minute goal can be repeated at another weight. Advanced same-side multi-rep sets are a different, unimplemented pathway.",
+      "app_defaults_not_claimed_as_source_rules": [
+        "owned-weight jump limit",
+        "explicit user load choice"
+      ]
+    },
+    {
+      "rule": "single-club-volume",
+      "source_id": 578,
+      "title": "Single Arm Heavy Club / Steel Club - order of operation - general training overview",
+      "url": "https://www.youtube.com/watch?v=ZPJd77RvVSM",
+      "normalized_text_sha256": "5112fdd99ae57bdaeccc7c85b3b0ab82234b9e1f91df8a57a83cfca8d92469d7",
+      "quote": "people will start with four sets of five or maybe five sets of five",
+      "supported_scope": "Single-arm inside/outside/shield foundations use continuous volume at fixed reps, building toward 20×5 per side; not kettlebell EMOM rest.",
+      "app_defaults_not_claimed_as_source_rules": [
+        "four-set starting example selection",
+        "promotion gate",
+        "time estimates"
+      ]
+    },
+    {
+      "rule": "single-club-rest",
+      "source_id": 581,
+      "title": "Single arm Heavy Club / steel club - order of operation - video 2",
+      "url": "https://www.youtube.com/watch?v=3l4bSG5Nd90",
+      "normalized_text_sha256": "235da9a2ab9304ef9558f7562ff833c603113ad58aa0274793e477bda0280f53",
+      "quote": "two minute break is kind of a good in between",
+      "supported_scope": "Rest between exercises, not between sets of a movement; two minutes is one discussed example.",
+      "app_defaults_not_claimed_as_source_rules": [
+        "which movements fit the duration",
+        "transition-time allowance"
+      ]
+    },
+    {
+      "rule": "single-club-foundation",
+      "source_id": 543,
+      "title": "Practical Shoulder Therapy Through Strength of Movement - Single Arm Heavy Club Shield Cast 7",
+      "url": "https://www.youtube.com/watch?v=huwc0g3yLWk",
+      "normalized_text_sha256": "80faa2476381c4caaefe9ef612825297ccd340905ca1cca81870fe33f56338df",
+      "quote": "when you've gone up through at least three weights and done a logical two-handed program for one to two years",
+      "supported_scope": "Single-arm shield casting follows a substantial two-hand foundation and progressive support removal; not an immediate beginner substitution.",
+      "app_defaults_not_claimed_as_source_rules": [
+        "self-confirmation of previous foundation rather than automatic logged-year certification"
+      ]
     }
   ]
 }

@@ -17,6 +17,20 @@ Object.assign(MOVES,{
  doublePress:{name:'Double clean and press',gear:'kb',pair:true,unit:'kg per bell',family:'press',reps:3,start:3,end:10,rest:150,sec:30,side:1,cues:['Use a matched pair you can rack and press with control.','Keep the trunk stable and lower into a quiet rack.'],avoid:'No maximum attempts or grinding repetitions.'},
  doubleSquat:{name:'Double front squat',gear:'kb',pair:true,unit:'kg per bell',family:'squat',reps:3,start:3,end:10,rest:150,sec:30,side:1,cues:['Use a familiar, secure double rack.','Keep depth and bracing repeatable.'],avoid:'Stop when rack position or controlled depth is lost.'}
 });
+// Skill confirmations are user reports, not automatic technique certification.
+const SKILLS={
+ swing:{name:'Familiar controlled swing',sources:[288]},clean:{name:'Familiar clean',sources:[288]},overhead:{name:'Controlled overhead lockout and snatch technique',sources:[288]},rack:{name:'Secure double rack',sources:[120]},doublePress:{name:'Familiar double clean and press',sources:[366]},doubleSquat:{name:'Familiar double front squat',sources:[366]},
+ getupOverhead:{name:'Stable overhead position through familiar get-up transitions',sources:[423,658]},floorPress:{name:'Comfortable get-up floor press and safe setup/return',sources:[422]},rollToElbow:{name:'Controlled press, roll and elbow support',sources:[298]},pressToHand:{name:'Stable elbow-to-hand support transition',sources:[372]},hipPass:{name:'Controlled hip pass and kneeling transition',sources:[324]},getup:{name:'Familiar complete get-up on both sides with stable overhead position',sources:[423,658]},
+ clubTwoHandFoundation:{name:'Prior two-hand club foundation across at least three weights; ready for a reviewed single-arm transition',sources:[275,648,543]},clubGrip:{name:'Controlled club grip, hand changes and clear swing space',sources:[578,581]},clubInside:{name:'Familiar single-arm inside circle on both sides',sources:[275]},clubOutside:{name:'Familiar single-arm outside circle on both sides',sources:[648]},clubShield:{name:'Familiar single-arm shield cast on both sides',sources:[543]}
+};
+Object.assign(MOVES,{
+ getup:{name:'Turkish get-up',gear:'kb',unit:'kg',family:'getup',reps:180,start:1,end:1,rest:0,sec:180,side:2,timed:true,defaultProfile:'getup',requires:['floorPress','rollToElbow','pressToHand','hipPass','getupOverhead','getup'],teachingSources:[422,298,372,324,423,658],cues:['Use a familiar load and deliberate fixation at each transition.','Alternate complete single repetitions; start with your weaker side.','Record total time under load and actual completed reps on each side.'],avoid:'Stop safely if overhead control or a transition deteriorates; do not rush to meet a time goal.'},
+ clubInside:{name:'Single-arm club inside circle',gear:'club',unit:'lb',family:'rotation',reps:5,start:4,end:20,rest:0,sec:24,side:2,defaultProfile:'singleClub',requires:['clubTwoHandFoundation','clubGrip','clubInside'],teachingSources:[275,578,581],cues:['Begin from a controlled order position with clear space.','Inside means the hand moves toward the center line.','Match both sides and keep the club under control through hand changes.'],avoid:'Do not replace the two-hand learning foundation with a heavy single-arm attempt.'},
+ clubOutside:{name:'Single-arm club outside circle',gear:'club',unit:'lb',family:'rotation',reps:5,start:4,end:20,rest:0,sec:24,side:2,defaultProfile:'singleClub',requires:['clubTwoHandFoundation','clubGrip','clubOutside'],teachingSources:[648,578,581],cues:['Outside means the hand moves away from the center line.','Use a familiar light club and stable controlled movement.','Match inside/outside practice and both sides; do not chase speed.'],avoid:'Stop if the club path, catch or hand change becomes uncontrolled.'},
+ clubShield:{name:'Single-arm club shield cast',gear:'club',unit:'lb',family:'rotation',reps:5,start:4,end:20,rest:0,sec:24,side:2,defaultProfile:'singleClub',requires:['clubTwoHandFoundation','clubGrip','clubShield'],teachingSources:[543,578,581],cues:['Build from the familiar two-hand cast before removing support.','Rotate, push, pull and catch with a controlled return to order.','Keep the club off the ground between sets only while technique stays clean.'],avoid:'Do not force a shoulder range or continue after grip or control is lost.'}
+});
+MOVES.snatch.requires=['swing','clean','overhead'];
+MOVES.doublePress.requires=['rack','doublePress'];MOVES.doubleSquat.requires=['rack','doubleSquat'];
 const DAYS=[{name:'A · Squat / Press / Pull',focus:'Kettlebell strength',ids:['squat','press','row']},{name:'B · Hinge / Cast / Carry',focus:'Hinge and club control',ids:['swing','cast','carry']},{name:'C · Clean / Club / Squat',focus:'Skill and balanced strength',ids:['clean','front','circles']}];
 const LOADS={kb:[4,6,8,10,12,14,16,18,20,22,24,28,32,36,40,44,48],club:[2,3,4,5,7,10,12,15,17,20,25,30,35]};
 const clamp=(n,a,b)=>Math.min(b,Math.max(a,n));
@@ -24,10 +38,10 @@ function records(s,id){return(s.sessions||[]).flatMap((x,sessionIndex)=>(x.items
 function successful(x){return x&&x.quality==='clean'&&!x.pain&&x.completed===true&&x.actualSets>=x.targetSets&&x.actualReps>=x.targetReps&&Number(x.weight)>0;}
 // Each profile states exactly which parameters are examples from a transcript.
 // Promotion, recovery and scheduling thresholds remain configurable app decisions.
-const PROFILE_NAMES={legacy:'Existing volume defaults',wave:'Heavy / light volume wave',snatch:'Snatch EMOM example',grind:'Double-kettlebell strength example',club:'Two-hand club timed practice'};
+const PROFILE_NAMES={legacy:'Existing volume defaults',wave:'Heavy / light volume wave',snatch:'Snatch EMOM example',grind:'Double-kettlebell strength example',club:'Two-hand club timed practice',getup:'Get-up alternating time-under-load goal',singleClub:'Single-arm club continuous volume'};
 function policyFor(id,s={}){
  const m=MOVES[id];if(!Object.hasOwn(MOVES,id))throw Error('Unknown movement');
- const c=s.programming?.[id]||{},profile=c.profile||(['snatch'].includes(id)?'snatch':['doublePress','doubleSquat'].includes(id)?'grind':'legacy');
+ const c=s.programming?.[id]||{},profile=c.profile||m.defaultProfile||(['snatch'].includes(id)?'snatch':['doublePress','doubleSquat'].includes(id)?'grind':'legacy');
  if(!availableProfiles(id).includes(profile))throw Error('Unsupported movement profile');
  if(c.stallStrategy!==undefined&&!['repeat','redistribute'].includes(c.stallStrategy))throw Error('Unknown stall strategy');
  const exposures=c.exposures??2;
@@ -41,14 +55,16 @@ function policyFor(id,s={}){
   
   sources=[228,403];
  }
+ if(profile==='getup'){start=1;end=1;reps=180;rest=0;timed=true;step=c.stepSeconds??60;if(![30,60].includes(step))throw Error('Get-up time step must be 30 or 60 seconds');if(c.weakSide!==undefined&&!['left','right'].includes(c.weakSide))throw Error('Choose left or right weaker side');sources=[423,658];exactParametersSource=423;}
+ if(profile==='singleClub'){start=4;end=20;reps=5;rest=0;step=c.step??1;if(![1,2].includes(step))throw Error('Single-arm club set increment must be 1 or 2');sources=[578,581];exactParametersSource=578;}
  const heavyReps=c.heavyReps??Math.max(1,Math.floor(m.reps*.6));if(profile==='wave'&&(!Number.isInteger(heavyReps)||heavyReps<1||heavyReps>m.reps))throw Error('Heavy reps must be whole and no greater than light reps');
- const stages=[];for(let sets=start;sets<end;sets+=step)stages.push({sets,reps,rest});stages.push({sets:end,reps,rest});
+ const stages=[];if(profile==='getup'){for(let seconds=180;seconds<=600;seconds+=step)stages.push({sets:1,reps:seconds,rest:0});}else{for(let sets=start;sets<end;sets+=step)stages.push({sets,reps,rest});stages.push({sets:end,reps,rest});}
  const custom=profile==='club'&&(start!==2||end!==6||rest!==60)?{start,end,rest}:profile==='wave'&&heavyReps!==Math.max(1,Math.floor(m.reps*.6))?{heavyReps}:null;
  let key=profile==='legacy'&&Object.keys(c).length===0?'legacy-v1':JSON.stringify(['rules-20261105-1',id,profile,reps,step,exposures,c.lightWeight,c.heavyWeight,c.stallStrategy||'repeat']);
- if(custom)key=JSON.stringify([key,custom]);
- return{movement:id,profile,heavyReps,label:PROFILE_NAMES[profile],key,kind:exactParametersSource===null?'app-default':'transcript-example',volume:{start,end,reps,rest},stages,density,roundSeconds,timed,exposures,principleSources:sources,exactParametersSource,promotion:`${exposures} clean complete exposures (app setting)`,endpoint:'explicit review',config:c};
+ if(custom)key=JSON.stringify([key,custom]);if(profile==='getup')key=JSON.stringify([key,c.weakSide||'left']);
+ return{movement:id,profile,continuous:['getup','singleClub'].includes(profile),betweenExercises:profile==='singleClub'?120:0,durationScope:profile==='getup'?'total':null,weakSide:c.weakSide||'left',heavyReps,label:PROFILE_NAMES[profile],key,kind:exactParametersSource===null?'app-default':'transcript-example',volume:{start,end,reps,rest},stages,density,roundSeconds,timed,exposures,principleSources:sources,exactParametersSource,promotion:`${exposures} clean complete exposures (app setting)`,endpoint:'explicit review',config:c};
 }
-function availableProfiles(id){if(id==='snatch')return ['snatch'];if(['doublePress','doubleSquat'].includes(id))return ['grind'];if(MOVES[id]?.gear==='club')return ['legacy','club'];if(['swing','squat','press','row','clean'].includes(id))return ['legacy','wave'];return ['legacy'];}
+function availableProfiles(id){if(MOVES[id]?.defaultProfile)return [MOVES[id].defaultProfile];if(id==='snatch')return ['snatch'];if(['doublePress','doubleSquat'].includes(id))return ['grind'];if(MOVES[id]?.gear==='club')return ['legacy','club'];if(['swing','squat','press','row','clean'].includes(id))return ['legacy','wave'];return ['legacy'];}
 function configureMovement(s,id,config){if(config.profile==='legacy'&&(config.exposures??2)===2&&(!config.stallStrategy||config.stallStrategy==='repeat'))config={};const next={...s,programming:{...s.programming,[id]:config}};const policy=policyFor(id,next);if(policy.profile==='wave'&&![config.lightWeight,config.heavyWeight].every(w=>(s.equipment?.[MOVES[id].gear]||[]).includes(w)))throw Error('Both wave weights must be available');return next;}
 function replay(s,id,policy,track='base'){
  const h=records(s,id).filter(x=>(x.policyKey||'legacy-v1')===policy.key&&(x.track||'base')===track);
@@ -96,7 +112,7 @@ function stateFor(s,id){
 function resolvePain(s,id){if(!MOVES[id])throw Error('Unknown movement');return {...s,painResolutions:{...s.painResolutions,[id]:{painKeys:records(s,id).filter(x=>x.pain||x.quality==='pain').map(x=>x._key)}}};}
 function movementGap(s,id,now=new Date()){const last=records(s,id).filter(x=>x.actualSets>0).at(-1);if(!last)return 0;return Math.max(0,Math.floor(calendarDay(now)-calendarDay(last.date)));}
 function prerequisites(s,id){
- const required=id==='snatch'?['swing','clean','overhead']:['doublePress','doubleSquat'].includes(id)?['rack',id]:[];
+ const required=MOVES[id]?.requires||[];
  return required.filter(skill=>s.skills?.[skill]!==true);
 }
 function prescription(s,id,opts={}){
@@ -106,21 +122,21 @@ function prescription(s,id,opts={}){
  if(!weight){mode='baseline';reason='Choose a familiar working weight; do not test a maximum.';}
  else if(st.fail>=2){
   mode='rebuild';
-  if(policy.config.stallStrategy==='redistribute'&&!policy.timed&&!policy.roundSeconds&&reps>=3){
+  if(policy.config.stallStrategy==='redistribute'&&!policy.timed&&!policy.roundSeconds&&!policy.continuous&&reps>=3){
    const failed=records(s,id).filter(x=>x.actualSets>0).at(-1);
    const incomplete=failed&&(failed.actualSets<failed.targetSets||failed.actualReps<failed.targetReps||failed.quality==='hard');
    const factor=incomplete?.6:.8;
    reps=Math.max(1,Math.floor(st.reps*factor));sets=Math.ceil(st.sets*st.reps/reps);reason='Stall alternative: fewer reps per set, redistributed volume (#259). Fraction and rounding are app defaults; never rush the work.';
-  }else{if(sets<=1)reps=Math.max(1,Math.floor(reps*.7));sets=Math.max(1,sets-1);reason='Repeated difficulty: reduce work and rebuild clean technique (app default).';}
+  }else{if(sets<=1)reps=policy.durationScope==='total'?Math.max(30,Math.floor(reps*.7/30)*30):Math.max(1,Math.floor(reps*.7));sets=Math.max(1,sets-1);reason='Repeated difficulty: reduce work and rebuild clean technique (app default).';}
  }
  else if(mode==='milestone')reason='Cycle endpoint reached. Maintain, choose an available load, or select the supported next cycle explicitly.';
  const gapDays=defaults.reentryDays??14;
- if(opts.readiness==='low'){sets=Math.max(1,Math.ceil(sets*(defaults.recoveryFraction??.5)));mode='recovery';reason='Reduced readiness: less work, no advancement credit. '+reason;}
- if(opts.reentry||st.reviewRecovery||movementGap(s,id,opts.now)>gapDays){sets=Math.min(sets,Math.max(1,Math.floor(st.sets*(defaults.reentryFraction??.7))));mode='reentry';reason='Return after absence or review: reduced work; no advancement credit. '+reason;}
+ if(opts.readiness==='low'){if(policy.durationScope==='total')reps=Math.max(30,Math.floor(reps*(defaults.recoveryFraction??.5)/30)*30);else sets=Math.max(1,Math.ceil(sets*(defaults.recoveryFraction??.5)));mode='recovery';reason='Reduced readiness: less work, no advancement credit. '+reason;}
+ if(opts.reentry||st.reviewRecovery||movementGap(s,id,opts.now)>gapDays){if(policy.durationScope==='total')reps=Math.min(reps,Math.max(30,Math.floor(st.reps*(defaults.reentryFraction??.7)/30)*30));else sets=Math.min(sets,Math.max(1,Math.floor(st.sets*(defaults.reentryFraction??.7))));mode='reentry';reason='Return after absence or review: reduced work; no advancement credit. '+reason;}
  const deloadEvery=defaults.deloadEvery??0;
  const eligible=records(s,id).filter(x=>successful(x)&&!['recovery','reentry','rebuild','deload'].includes(x.mode)).length;
  const sinceDeload=records(s,id).filter(x=>x.actualSets>0).findLastIndex(x=>x.mode==='deload'&&x.performed);
- if(deloadEvery>0&&eligible>0&&eligible%deloadEvery===0&&sinceDeload!==records(s,id).filter(x=>x.actualSets>0).length-1&&mode==='volume'){sets=Math.max(1,Math.floor(sets*.5));mode='deload';reason='Planned lighter exposure (app-configured interval); no progression credit.';}
+ if(deloadEvery>0&&eligible>0&&eligible%deloadEvery===0&&sinceDeload!==records(s,id).filter(x=>x.actualSets>0).length-1&&mode==='volume'){if(policy.durationScope==='total')reps=Math.max(30,Math.floor(reps*.5/30)*30);else sets=Math.max(1,Math.floor(sets*.5));mode='deload';reason='Planned lighter exposure (app-configured interval); no progression credit.';}
  let blocked='';const missing=prerequisites(s,id);
  if(sets<1)blocked='No whole heavy set fits below the last light exposure. Choose a closer heavy weight or build the light cycle first.';
  if(missing.length)blocked='Confirm familiar prerequisite skills in Settings: '+missing.join(', ');
@@ -132,8 +148,8 @@ function prescription(s,id,opts={}){
  const adapted=['baseline','recovery','reentry','rebuild','deload','review','prerequisite'].includes(mode);
  const sourceParameters=adapted?null:policy.exactParametersSource===411&&st.stagePhase==='density'?410:policy.exactParametersSource;
  const roundSeconds=policy.roundSeconds;
- const secondsPerSet=policy.timed?reps*m.side:m.sec;
- return{id,name:m.name,unit:m.unit,weight,sets,reps,rest,side:m.side,timed:policy.timed,mode,reason,phase:st.phase,streak:st.streak,cycle:st.cycles,policyKey:policy.key,profile:policy.profile,track:st.track,roundSeconds,secondsPerSet,sourceIds:policy.principleSources,sourceParameters,exposureTarget:policy.exposures};
+ const secondsPerSet=policy.timed?reps*(policy.durationScope==='total'?1:m.side):m.sec;
+ return{id,name:m.name,unit:m.unit,weight,sets,reps,rest,continuous:policy.continuous,betweenExercises:policy.betweenExercises,durationScope:policy.durationScope,weakSide:policy.weakSide,side:m.side,timed:policy.timed,mode,reason,phase:st.phase,streak:st.streak,cycle:st.cycles,policyKey:policy.key,profile:policy.profile,track:st.track,roundSeconds,secondsPerSet,sourceIds:policy.principleSources,sourceParameters,exposureTarget:policy.exposures};
 }
 function chooseCycle(s,id,choice){
  const st=stateFor(s,id);
@@ -161,9 +177,11 @@ const BLOCKS={
  abc:{name:'Rolling A / B / C',days:DAYS},
  snatch:{name:'Snatch EMOM block',days:[{name:'Snatch volume / density',focus:'Opt-in source example; familiar technique required',ids:['snatch']}]},
  double:{name:'Double-kettlebell strength block',days:[{name:'Double clean and press / front squat',focus:'Source #366 strength example; confirmed matched pair required',ids:['doublePress','doubleSquat']}]},
+ getup:{name:'Get-up time-under-load block',days:[{name:'Alternating Turkish get-ups',focus:'Familiar complete single reps; total time under load',ids:['getup']}]},
+ singleClub:{name:'Single-arm club foundation block',days:[{name:'Inside / Outside / Shield',focus:'Continuous volume within each movement; breaks between movements',ids:['clubInside','clubOutside','clubShield']}]},
  club:{name:'Two-hand club practice block',days:[{name:'Two-hand club patterns',focus:'Familiar club patterns; choose timed profiles in Settings',ids:['front','cast','circles']}]}
 };
-const DEMANDS={hinge:['lower','grip'],squat:['lower'],press:['shoulder','grip'],pull:['shoulder','grip'],carry:['grip'],rotation:['shoulder','grip']};
+const DEMANDS={getup:['lower','shoulder','grip'],hinge:['lower','grip'],squat:['lower'],press:['shoulder','grip'],pull:['shoulder','grip'],carry:['grip'],rotation:['shoulder','grip']};
 function calendarDay(value){const text=typeof value==='string'&&/^\d{4}-\d{2}-\d{2}$/.test(value)?value:new Date(value??Date.now()).toLocaleDateString('sv-SE');return Date.parse(text+'T12:00:00Z')/86400000;}
 function plan(s,opts={}){
  const block=s.programBlock||'abc';if(!BLOCKS[block])throw Error('Unknown program block');
@@ -187,7 +205,7 @@ function plan(s,opts={}){
   const recent=history.some(x=>today-calendarDay(x.date)<(defaults.minGapDays??0)&&(x.items||[]).some(y=>y.actualSets>0&&MOVES[y.id]&&(DEMANDS[MOVES[y.id].family]||[]).some(d=>demands.includes(d))));
   const isHard=rx.track==='heavy'||rx.profile==='grind'||rx.mode==='density';
   if(restDay||recent||(isHard&&hard>=(defaults.maxHardMovements??3))){scheduled.push(id);deferred.push(id);continue;}
-  const cost=minutesFor(rx);
+  const cost=minutesFor(rx)+(items.length?(items.at(-1).betweenExercises||0)/60:0);
   if(used+cost>budget.main+1e-8){deferred.push(id);continue;}
   items.push(rx);used+=cost;if(isHard)hard++;
  }
@@ -195,15 +213,34 @@ function plan(s,opts={}){
 }
 function deferredAfter(plan,records){const pending=new Set(plan.deferred||[]);for(const record of records){if(!(record.performed??record.completed))pending.add(record.id);else pending.delete(record.id);}return [...pending];}
 function completeRecord(rx,actual,quality,pain){
- const sets=(actual||[]).filter(x=>x.done),valid=x=>Number.isFinite(Number(x.weight))&&Number(x.weight)>0&&Number.isInteger(Number(x.reps))&&Number(x.reps)>0;
- const reps=sets.length?Math.min(...sets.map(x=>(rx.side===2?Math.min(Number(x.leftReps??x.reps)||0,Number(x.rightReps??x.reps)||0):(Number(x.reps)||0)))):0;
- const weight=sets.length?Number(sets[0].weight):Number(rx.weight);
- const sameLoad=sets.every(x=>Number(x.weight)===weight);
- const bilateral=rx.side!==2||sets.every(x=>x.bothSides===true&&Number(x.leftReps??x.reps)===Number(x.rightReps??x.reps)&&Number.isInteger(Number(x.leftReps??x.reps))&&Number.isInteger(Number(x.rightReps??x.reps)));
- const exactIntensity=rx.sourceParameters===null||rx.sourceParameters===undefined||sets.length===rx.sets&&sets.every(x=>Number(x.reps)===rx.reps&&(rx.side!==2||Number(x.leftReps??x.reps)===rx.reps&&Number(x.rightReps??x.reps)===rx.reps));
+ const sets=(actual||[]).filter(x=>x.done),totalTime=rx.durationScope==='total';
+ const valid=x=>Number.isFinite(Number(x.weight))&&Number(x.weight)>0&&Number.isInteger(Number(x.reps))&&Number(x.reps)>0;
+ const reps=sets.length?Math.min(...sets.map(x=>totalTime?Number(x.reps)||0:rx.side===2?Math.min(Number(x.leftReps??x.reps)||0,Number(x.rightReps??x.reps)||0):Number(x.reps)||0)):0;
+ const weight=sets.length?Number(sets[0].weight):Number(rx.weight),sameLoad=sets.every(x=>Number(x.weight)===weight);
+ const bilateral=rx.side!==2||sets.every(x=>{
+  if(x.bothSides!==true)return false;
+  const left=Number(x.leftReps??(totalTime?0:x.reps)),right=Number(x.rightReps??(totalTime?0:x.reps));
+  if(!Number.isInteger(left)||!Number.isInteger(right)||left<=0||right<=0)return false;
+  if(!totalTime)return left===right;
+  const weak=rx.weakSide==='right'?right:left,strong=rx.weakSide==='right'?left:right;
+  return weak>=strong&&weak-strong<=1;
+ });
+ const exactIntensity=rx.sourceParameters===null||rx.sourceParameters===undefined||sets.length===rx.sets&&(totalTime||sets.every(x=>Number(x.reps)===rx.reps&&(rx.side!==2||Number(x.leftReps??x.reps)===rx.reps&&Number(x.rightReps??x.reps)===rx.reps)));
  const cadence=!rx.roundSeconds||sets.every(x=>x.timingValid===true);
- const performed=cadence&&!['review','prerequisite'].includes(rx.mode)&&sets.length>0&&sets.length>=rx.sets&&sets.every(valid)&&reps>=rx.reps&&sameLoad&&bilateral&&!['hard','breakdown','pain'].includes(quality)&&!pain;
- return{id:rx.id,name:rx.name,weight,unit:rx.unit,actualSets:sets.length,actualReps:reps,targetSets:rx.sets,targetReps:rx.reps,rest:rx.rest,quality,pain:!!pain,mode:rx.mode,policyKey:rx.policyKey||'legacy-v1',profile:rx.profile||'legacy',track:rx.track||'base',roundSeconds:rx.roundSeconds||null,sourceIds:rx.sourceIds||[],sourceParameters:rx.sourceParameters??null,exposureTarget:rx.exposureTarget??2,performed,completed:performed&&exactIntensity&&weight===Number(rx.weight)&&!['baseline','recovery','reentry','time-fit','review','rebuild','deload','prerequisite'].includes(rx.mode),sets:actual};
+ const continuous=!rx.continuous||sets.every(x=>x.continuous===true);
+ const performed=cadence&&continuous&&!['review','prerequisite'].includes(rx.mode)&&sets.length>0&&sets.length>=rx.sets&&sets.every(valid)&&reps>=rx.reps&&sameLoad&&bilateral&&!['hard','breakdown','pain'].includes(quality)&&!pain;
+ return{id:rx.id,name:rx.name,weight,unit:rx.unit,actualSets:sets.length,actualReps:reps,targetSets:rx.sets,targetReps:rx.reps,rest:rx.rest,quality,pain:!!pain,mode:rx.mode,policyKey:rx.policyKey||'legacy-v1',profile:rx.profile||'legacy',track:rx.track||'base',roundSeconds:rx.roundSeconds||null,continuous:!!rx.continuous,durationScope:rx.durationScope||null,weakSide:rx.weakSide||null,sourceIds:rx.sourceIds||[],sourceParameters:rx.sourceParameters??null,exposureTarget:rx.exposureTarget??2,performed,completed:performed&&exactIntensity&&weight===Number(rx.weight)&&!['baseline','recovery','reentry','time-fit','review','rebuild','deload','prerequisite'].includes(rx.mode),sets:actual};
+}
+function nextRest(plan,items,index){
+ const rx=plan.items[index];if(!items.some(item=>item.sets.some(set=>!set.done)))return null;
+ if(rx.continuous){if(items[index].sets.some(set=>!set.done))return null;return rx.betweenExercises?{seconds:rx.betweenExercises,label:'Rest between movements'}:null;}
+ return{seconds:rx.rest,label:'Rest'};
+}
+function describeProgression(id,s={}){
+ const p=policyFor(id,s);
+ if(p.profile==='getup')return 'Alternate familiar single get-ups from 3 to 10 total minutes under load, in '+(p.config.stepSeconds??60)+'-second steps (#423/#658). Exposure gates are app defaults. Advanced multi-rep sets are not automatically assigned.';
+ if(p.profile==='singleClub')return 'Build 4–20 sets of 5 per side without resting within a movement (#578); take a two-minute example break between movements (#581). Pendulums, pullovers and mills are later pathways, not automatically unlocked here.';
+ return p.label+': '+p.volume.start+'–'+p.volume.end+' sets of '+p.volume.reps+(p.timed?' seconds.':'.')+' Promotion and recovery gates are app settings.';
 }
 function validateProgramming(s){
  const object=x=>x&&typeof x==='object'&&!Array.isArray(x);
@@ -240,5 +277,5 @@ function validateBackup(input){
  validateProgramming(input);
  return {...input,nextWeights:input.nextWeights||{},defaultMinutes:input.defaultMinutes??45,deferredIds:input.deferredIds||[]};
 }
-return{MOVES,DAYS,BLOCKS,LOADS,PROFILE_NAMES,policyFor,availableProfiles,configureMovement,prerequisites,chooseCycle,loadOptions,selectLoad,validateProgramming,validateBackup,records,successful,stateFor,prescription,minutesFor,timeBudget,plan,completeRecord,deferredAfter,resolvePain,movementGap};
+return{MOVES,SKILLS,DAYS,BLOCKS,LOADS,PROFILE_NAMES,describeProgression,policyFor,availableProfiles,configureMovement,prerequisites,chooseCycle,loadOptions,selectLoad,validateProgramming,validateBackup,records,successful,stateFor,prescription,minutesFor,timeBudget,plan,completeRecord,nextRest,deferredAfter,resolvePain,movementGap};
 });
