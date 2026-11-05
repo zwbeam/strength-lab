@@ -25,3 +25,13 @@ remain unverified. A fresh Git checkout is a separate, successfully tested claim
 
 No token or interactive login was required here: the existing platform Git
 proxy supplied access. Do not put credentials into chat or repository files.
+
+## Curriculum checkpoint recovery
+
+The code at `2817a3fa76c360deb49efa7128f04eddaed3c7a5` was pushed and recovered
+into `/tmp/strength-lab-curriculum-recovery.lR4KCo`. Its objects verified with
+`git fsck --full`; 22 programming tests, 10 curriculum tests, 16 provenance
+quote/hash checks and the 720-source coverage/registry check passed there.
+Later verified fixes and documentation are pushed normally to the same branch;
+compare remote `refs/heads/development/reconciliation` with local HEAD before
+continuing. Main must remain unchanged.

@@ -3,10 +3,26 @@
 Updated 2026-11-05. Branch: `development/reconciliation`.
 Original main: `4cb58d8a4d30796246a83db752b8e420c8bc05c2`.
 All existing commits through `374967f` preserved; source-scoped engine checkpoint:
-`d387b81`; application/history checkpoint: `f5270fb`. No merge, force-push, deployment or release package.
+`d387b81`; curriculum engine checkpoint: `9c70c0a`; curriculum application checkpoint: `2817a3f`.
+The development branch is pushed to origin. No merge, force-push, deployment or release package.
+
+## Persistent recovery verified
+
+`development/reconciliation` is now stored on the existing GitHub repository,
+not solely in this workspace. Separate fresh checkouts recovered `fe744c4` and
+then `2817a3f`, passed Git object verification and the corresponding engine and
+research tests. See [PERSISTENCE.md](PERSISTENCE.md). Main remained at the original
+SHA. A fresh Codex task/cloud snapshot cannot be launched with available tools;
+that distinct restoration check remains unverified.
 
 ## Training systems implemented
 
+- Source-grounded get-up 3–10 **total-minute** progression with separate side rep
+  counts, weak-side allowance, continuity and prerequisite checks.
+- Single-arm club inside/outside/shield 4–20×5 continuous foundation volume,
+  with between-movement rather than inter-set rest.
+- Shared movement/skill/block definitions feed library, teaching links, prerequisites
+  and generator. One-bout recovery reduces duration rather than leaving one set unchanged.
 - Optional source-scoped snatch EMOM volume/density and double-kettlebell strength blocks.
 - Explicit phase/load choices, owned-weight jump limits, matched pairs and skill gates.
 - Heavy/light waves constrained by the last completed light exposure's work.
@@ -23,18 +39,27 @@ All existing commits through `374967f` preserved; source-scoped engine checkpoin
   their original policy identity. Old V31/V32 data/interface remain available.
 
 [TRAINING-RULES.md](TRAINING-RULES.md) explains source support versus app defaults.
-[research/programming-rules.json](research/programming-rules.json) contains eleven
+[research/programming-rules.json](research/programming-rules.json) contains sixteen
 verified quotation anchors and transcript hashes. The mechanical reconciliation
 of 720 transcripts / 955,522 words remains intact; it is not a claim that all
 lessons have been interpreted or that the app is medically validated.
 
+[CURRICULUM-COVERAGE.md](CURRICULUM-COVERAGE.md) and the reproducible JSON inventory
+screen all 720 full texts across 23 scoped systems: four implemented scopes,
+seven partial scopes and twelve missing scopes. Candidate mentions are not
+interpreted rules; implementation boundaries are explicit.
+
 ## Verified
 
-- 22 programming tests, 13 recovery tests, 3 completion tests, 3 backup tests;
+- 22 programming tests, 10 curriculum tests, 13 recovery tests, 3 completion tests, 3 backup tests;
   existing engine assertions and legacy smoke test also pass.
 - Full snatch volume and density histories; multiple-week double-grind, heavy/light
   and club cycles; misses, incomplete work, technique correction/breakdown, pain,
   imbalance, duration changes, configurable gates and backup roundtrip.
+- New actual HTTP histories: 16 successful get-up exposures plus five adverse/
+  recovery cases, and 34 successful three-movement club exposures plus one interrupted
+  case (102 successful club movement records). Time units, side imbalance, pain,
+  missed weeks, duration deferrals, rest structure, reload and earlier data were checked.
 - Actual HTTP app: 44 successful snatch exposures over about 19 simulated weeks,
   then load choice, failures, pain review and a missed month, saved/reloaded in
   actual browser storage. Phase citations are checked in the saved records.
@@ -44,7 +69,7 @@ lessons have been interpreted or that the app is medically validated.
 - Six existing Chromium DOM suites and root/subpath offline browser tests pass.
 - Baseline `374967f` to current service-worker upgrade preserves saved keys/draft
   byte-for-byte, reloads offline under mobile emulation and continues the old workout.
-- Eleven provenance quote/hash checks, syntax and whitespace checks pass.
+- Sixteen provenance quote/hash checks, full-corpus matrix/registry checks, teaching-link/form checks, syntax and whitespace checks pass.
 
 Browser simulations verify software behavior using self-reported workout input;
 they do not establish physical training outcomes or technique competence.
@@ -60,10 +85,14 @@ node completion.test.cjs
 node recovery.test.cjs
 node backup.test.cjs
 node programming.test.cjs
+node curriculum.test.cjs
 node --check app.js
 node --check engine.js
 node --check sw.js
 python3 tests/research-provenance.py
+python3 tests/curriculum-coverage.py
+python3 tests/curriculum-library.py
+python3 tests/curriculum-histories.py
 python3 tests/browser-smoke.py
 python3 tests/training-histories.py
 python3 tests/programming-controls.py
@@ -80,19 +109,20 @@ Server: `python3 -m http.server 8000 --bind 127.0.0.1 --directory /workspace/str
 
 ## Highest-priority remaining work
 
-1. Extend source-supported curricula and prerequisites to get-ups, single-arm club
-   levels and additional movement-specific variants. Do not pretend the short
-   two-hand club block reproduces a full multi-level program.
-2. Validate richer program composition beyond configurable demand-category overlap;
-   account for specific movements/implements rather than infer fatigue from a score.
-3. Expand interpretation of the verified transcript collection; no source support
-   should be inferred solely from keyword matches or title grouping.
-4. Physical Android and installed-PWA checks. Chromium mobile emulation and worker
-   upgrade checks pass but do not establish physical-device behavior.
-5. Fresh cloud-task restoration. Runtime still reports the same onboarding instance
-   and original source version; no tool is available to create a fresh task. It
-   remains unverified, separately from browser reload and worker upgrade coverage.
+1. Dedicated get-up breakdown workouts and advanced get-up pathways (#658), then
+   single-arm club pendulum/pullover/mill/swipe teaching and prerequisites. The new
+   foundation blocks do not implement those later curricula automatically.
+2. Richer program composition than the current declared demand spacing; validate
+   movement/implement-specific overlap without claiming to measure individual fatigue.
+3. Other missing systems in the coverage matrix: competition jerk/long-cycle,
+   ladders, mace, bodyweight ground/quadruped/push-pull, slam-ball and related resistance.
+   Each requires source review and its own rules rather than borrowed snatch numbers.
+4. Physical Android / installed-PWA checks. Keep static relative assets and pure
+   browser engine compatible with eventual Capacitor packaging, but no APK or native
+   packaging should begin before the core application is release-ready.
+5. A genuinely fresh Codex task/snapshot test. Remote branch recovery is now proven;
+   future-task authentication and environment restoration are separate, untested claims.
 
-No user setup/authorization is currently blocking development. These selected
-training systems are implemented and tested; the full lifelong curriculum is
-still a workbench, not a release.
+See NEXT-CONTINUATION.md for the exact next-task prompt. No user setup or
+additional authorization is currently needed. Selected foundation systems are
+implemented and tested; the complete curriculum remains unfinished.

@@ -160,3 +160,25 @@ self-reported. A real baseline-to-current service-worker upgrade passed while
 preserving active data/draft bytes, then continuing offline. This supersedes the
 previously outstanding browser worker-upgrade check; physical Android and fresh
 cloud-task restoration remain unverified.
+
+## Persistent recovery and curriculum coverage continuation — 2026-11-05
+
+The user explicitly authorized pushing the development branch. It is now stored
+on origin, with no force-push or change to main. The earlier local-only statements
+refer to previous checkpoints. A fresh Git checkout recovered the prior completed
+branch at `fe744c4`; a second fresh checkout recovered curriculum checkpoint
+`2817a3f`, passed Git object checks, 22 programming tests, 10 curriculum tests,
+16 source quote/hash checks and the 720-record coverage check.
+
+All 720 full texts were screened into the 23-system coverage matrix. Its keyword
+evidence is candidate discovery; source-grounded implementation claims use the
+separate close-read rule manifest. The matrix distinguishes implemented scopes
+from partial and missing systems and identifies the next curriculum priorities.
+
+Implemented selected get-up alternating time goals (#423/#658) and continuous
+single-arm club foundation volume/rest (#578/#581), with prior-foundation teaching
+from #543 and shared prerequisite definitions. Actual application histories cover
+56 new-system sessions, including failures/recovery, in addition to prior suites.
+The complete get-up/club advanced curricula remain incomplete. Android packaging
+was intentionally not started. Fresh Git recovery is not a fresh Codex snapshot
+restoration test; the latter is still unavailable with current tools.

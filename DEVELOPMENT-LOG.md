@@ -98,3 +98,10 @@ Final UI consistency review removed two-hand timed-practice controls from
 single-arm continuous-volume settings. The engine already ignored those controls;
 the form now exposes only the correct progression choices. A real HTTP library/
 settings test verifies this separation and the prerequisite teaching links.
+
+A second independent fresh checkout recovered curriculum checkpoint `2817a3f`
+from GitHub and passed object verification, the 22 programming and 10 curriculum
+tests, 16 provenance checks and the full 720-source coverage/registry check.
+Remote persistence is verified; fresh Codex task/snapshot restoration is still a
+separate unavailable check. The remaining curriculum and exact continuation prompt
+are documented in DEVELOPMENT-STATUS.md and NEXT-CONTINUATION.md.
