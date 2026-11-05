@@ -1,0 +1,157 @@
+{
+  "version": 1,
+  "scope": "Selected transcript interpretation, not clinical validation or a complete synthesis of all 720 sources.",
+  "rules": [
+    {
+      "rule": "snatch-volume",
+      "source_id": 411,
+      "title": "Kettlebell Snatch Nerd math video 1 - volume cycle",
+      "url": "https://www.youtube.com/watch?v=wHVHxCZlsMg",
+      "normalized_text_sha256": "d091092dc33bc8e592c0f2918ad8d46a8ea5da9c6f53aa1742b1f48c8b731169",
+      "quote": "four sets of five on each side inside of a minute every minute on the minute",
+      "supported_scope": "Snatch-specific example: 4 to 20 EMOM sets, five per side; one- or two-set increments are discussed.",
+      "app_defaults_not_claimed_as_source_rules": [
+        "clean-exposure gate",
+        "equipment jump cap",
+        "recovery rules"
+      ]
+    },
+    {
+      "rule": "snatch-density",
+      "source_id": 410,
+      "title": "Kettlebell Snatch Nerd Math part 2 - density cycle",
+      "url": "https://www.youtube.com/watch?v=HuNB0kfiUXk",
+      "normalized_text_sha256": "87aeccb072e72aa2970f4fe927c3a0c8874df9315bcade43b92c635c56a5cd54",
+      "quote": "16 and we multiply it by 6 and that gives us 96 reps on each side",
+      "supported_scope": "Snatch-only density example: 16×6, 14×7, 12×8, 11×9, 10×10 per side, still EMOM.",
+      "app_defaults_not_claimed_as_source_rules": [
+        "explicit phase-choice UI",
+        "clean-exposure gate"
+      ]
+    },
+    {
+      "rule": "double-grind",
+      "source_id": 366,
+      "title": "Kettlebell Double Clean and Press / Double Front Squat Nerd Math Part 2",
+      "url": "https://www.youtube.com/watch?v=azwF3OoJtZ8",
+      "normalized_text_sha256": "c3daac16ddd4a176dcaf52f26fb2f94f5638a544188f8064f2a8c20e0b4386ae",
+      "quote": "three sets of five to ten sets of five three sets of four to ten sets of four three sets of three to ten sets of three",
+      "supported_scope": "Double clean/press and front squat worked examples: 3–10 sets of 3, 4 or 5; three-minute rounds discussed.",
+      "app_defaults_not_claimed_as_source_rules": [
+        "start-load self-selection",
+        "promotion gate",
+        "pair/skill confirmation"
+      ]
+    },
+    {
+      "rule": "double-equipment",
+      "source_id": 120,
+      "title": "Clean and Press and Double Front Squat - some very nerdy trainer nerd math and program design",
+      "url": "https://www.youtube.com/watch?v=UoY6GcHG8eQ",
+      "normalized_text_sha256": "34857acf53fe4bd11fa2c9daadcd84531f18503621615b48e692457035c0e237",
+      "quote": "you obviously need pairs of kettlebells",
+      "supported_scope": "Matched-pair assumption and fixed-weight volume programming; two- or three-minute rounds are discussed.",
+      "app_defaults_not_claimed_as_source_rules": [
+        "confirmed pairs inventory",
+        "no maximum testing in the app"
+      ]
+    },
+    {
+      "rule": "heavy-light",
+      "source_id": 228,
+      "title": "Heavy / light training nerd math ideas to improve your program success with kettlebell training",
+      "url": "https://www.youtube.com/watch?v=Sc4ROQ-l7ZU",
+      "normalized_text_sha256": "cdb91b9f24133f5455d1c1955f513dbf56dccd9b8ffa456c23e1cd3f016dbb3f",
+      "quote": "your heavy day should have a lower overall work capacity than your light day",
+      "supported_scope": "Heavier exposures have less total work than the completed lighter exposure. Whole-set rounding matters.",
+      "app_defaults_not_claimed_as_source_rules": [
+        "heavy reps fraction",
+        "coupled light-stage advancement",
+        "maximum offered load jump"
+      ]
+    },
+    {
+      "rule": "long-term-wave",
+      "source_id": 403,
+      "title": "Kettlebell Program Design 2 - Heavy/Light",
+      "url": "https://www.youtube.com/watch?v=Q5oU9CLYyqY",
+      "normalized_text_sha256": "feb858263cfa89a607f2ff58d6271d6cd93569bb9b58326ea76b95b721726c6a",
+      "quote": "on your light day you do high volume and on your heavy day you pick another weight of kettlebell",
+      "supported_scope": "Vary heavy/light demand for sustainable long-term practice; not a maximum-effort prescription.",
+      "app_defaults_not_claimed_as_source_rules": [
+        "weekly day ceiling",
+        "minimum gap days",
+        "maximum heavy movements"
+      ]
+    },
+    {
+      "rule": "club-timed",
+      "source_id": 3,
+      "title": "2 Hand Heavy Club - Order of operation - strategy for training",
+      "url": "https://www.youtube.com/watch?v=CGU8U5OuNvc",
+      "normalized_text_sha256": "28052409a87e215efc1014c67c32792b324b372e601681ec178ea85b6b42a1a2",
+      "quote": "for the most part we do time under tension for anything under 50 pounds with the two-handed club",
+      "supported_scope": "Two-hand club strategy emphasizes light-to-heavy, simple-to-complex timed practice. It does not specify this app’s isolated cast/circle bout lengths.",
+      "app_defaults_not_claimed_as_source_rules": [
+        "15–60 second bouts",
+        "2–6 sets",
+        "60-second rest",
+        "no automated complexity selection"
+      ]
+    },
+    {
+      "rule": "prerequisites",
+      "source_id": 288,
+      "title": "Kettlebell -the order of operation of learning",
+      "url": "https://www.youtube.com/watch?v=LH5Na78H1pk",
+      "normalized_text_sha256": "16645fd95114060d7c337a674bd007519fd6b8d0029f8de5c1968c988ecb4713",
+      "quote": "we have to go back and shore up a weakness",
+      "supported_scope": "Foundational skill before complexity and heavy loading; the precise skill checklist is an app safeguard.",
+      "app_defaults_not_claimed_as_source_rules": [
+        "self-confirmed prerequisite checklist"
+      ]
+    },
+    {
+      "rule": "stall",
+      "source_id": 259,
+      "title": "How to adjust when you are unable to progress beyond certain numbers in a program - Nerd Math",
+      "url": "https://www.youtube.com/watch?v=NMi4N3axtg4",
+      "normalized_text_sha256": "0fc000bc9aece7aa3ace499770bb3bb1e846c7554ecfc9167268bdb517759553",
+      "quote": "we can change the number of reps and match the volume",
+      "supported_scope": "Adjust sets/reps rather than repeat failed work; examples use roughly 60% or 80% reps and redistributed work.",
+      "app_defaults_not_claimed_as_source_rules": [
+        "which failures trigger a rebuild",
+        "floor/ceiling rounding",
+        "return-to-original-step gate"
+      ]
+    },
+    {
+      "rule": "overlap",
+      "source_id": 548,
+      "title": "Program Design 4 - Basic Kettlebell, 2 Hand Heavy Club, Single arm Club - Training Tetris",
+      "url": "https://www.youtube.com/watch?v=XYuiOsBAvXI",
+      "normalized_text_sha256": "0cdb4d3f1e34f4c8076a90aa4af3133e4b9b693650bff28c68f6b871c2a7dbb2",
+      "quote": "because both of these things will be covered very intensively in the two-handed Club program",
+      "supported_scope": "Consider movement overlap and recoverability when combining implements. The app does not reproduce the complete club program described.",
+      "app_defaults_not_claimed_as_source_rules": [
+        "demand categories",
+        "calendar spacing",
+        "whole-prescription deferral"
+      ]
+    },
+    {
+      "rule": "recovery",
+      "source_id": 561,
+      "title": "Recovering from injury or from potential injury -  Nerd Math series",
+      "url": "https://www.youtube.com/watch?v=rUdFrgwgbiI",
+      "normalized_text_sha256": "d1432ebffe989a1101f19d6f3f81db1836005c250a83bddea02a448aa2b1ad61",
+      "quote": "my rebuild strategy is going to be different from your rebuild strategy",
+      "supported_scope": "A personal injury/recovery narrative supports adapting familiar work. Its personal percentages are not prescribed automatically.",
+      "app_defaults_not_claimed_as_source_rules": [
+        "re-entry days and fraction",
+        "low-readiness fraction",
+        "pain hold and user review"
+      ]
+    }
+  ]
+}
