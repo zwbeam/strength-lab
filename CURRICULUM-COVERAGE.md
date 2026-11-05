@@ -6,21 +6,21 @@ All 720 records have an inventory entry, including those with no title matches. 
 
 | System | Coverage | Discovery/reference IDs (zero-based) | Implemented / remaining boundary |
 | --- | --- | --- | --- |
-| Kettlebell deadlift / hinge / swing | partial | #704, #288 | Swing defaults exist; deadlift teaching/progression and variant pathways remain incomplete. |
+| Kettlebell deadlift / hinge / swing | partial | #704, #288 | Unloaded hinge teaching and swing defaults exist; loaded deadlift and variant pathways remain incomplete. |
 | Kettlebell clean / press / squat | partial | #120, #366, #288 | Scoped double-grind examples and basic defaults; not every single-arm or stance variation. |
 | Snatch EMOM volume / density example | implemented | #411, #410 | Only the reviewed EMOM example; competition/complex variants are separate gaps. |
 | Get-up alternating time-under-load goal | implemented | #423, #658, #422, #298, #372, #324 | Prerequisite checklist and 3–10 minute alternating-single-rep goal; no automatic technique certification. |
-| Get-up breakdown practice, advanced rep/complexity pathways | missing | #658, #324, #372 | Teaching references exposed, but dedicated breakdown workouts and advanced multi-rep loaded cycles remain unimplemented. |
+| Get-up breakdown practice, advanced rep/complexity pathways | partial | #422, #298, #372, #324, #658 | Four practice components have skill/evidence gates; advanced full-get-up same-side multi-rep cycles remain missing. |
 | Competition jerk / long cycle / marathon | missing | #287, #464, #465 | Do not apply hard-style snatch or double-grind numbers to these methods. |
 | Carries, walking and single-leg/stance work | partial | #527, #439, #669 | Suitcase carry only; walking, unilateral/stance variants and their own cycles remain missing. |
 | Two-hand club levels and movement families | partial | #3 | Isolated timed patterns exist; the complete seven-family multi-level curriculum does not. |
 | Single-arm club inside / outside / shield foundations | implemented | #578, #581, #275, #648, #543 | Continuous 4–20×5 volume, balanced sides, and between-movement breaks; no automatic advanced-level assignment. |
-| Single-arm pendulums / pullovers / mills / swipes | missing | #578, #581, #264, #269 | Source-supported next families identified; exact prerequisites/teaching and cycles need close review. |
+| Single-arm pendulums / pullovers / mills / swipes | partial | #578, #260, #265, #269, #624 | Pendulum/pullover teaching with app-default volume and practice/skill gates exists; mills and swipes remain missing. |
 | Rotational footwork / pivots / staggered combinations | missing | #487, #489, #582 | No stance/pivot competency model or automatic complex combinations. |
 | Mace 360, flows, leverage and complexity | missing | #485, #553, #607 | Mace is not treated as an interchangeable club load; no mace generator. |
 | Bodyweight get-ups / ground transitions | missing | #84, #98, #102 | Not replaced by the loaded get-up goal. |
 | Quadruped / crawling / bear patterns | missing | #87, #100, #554 | No dedicated quadruped curriculum. |
-| Push-up / pull-up / core progression | missing | #608, #609, #717 | Kettlebell rows are not a push-up/pull-up progression. |
+| Push-up / pull-up / core progression | partial | #608, #609, #717 | Method #609 push-up EMOM wave is implemented; method #608, pull-ups and other core progressions remain missing. |
 | Slam-ball cycles and levels | missing | #25, #252, #266 | No slam-ball equipment or prescription model. |
 | Sandbag / dumbbell / barbell integration | missing | #482, #514, #703 | Discussed in the collection; no interchangeable-load assumptions or generator. |
 | Climbing / rope and sport-specific systems | missing | #121, #555 | No sport-specific planning or climbing progression. |
@@ -32,4 +32,4 @@ All 720 records have an inventory entry, including those with no title matches. 
 
 The runtime library, prerequisite checklist and generator share `MOVES`, `SKILLS` and `BLOCKS` in `engine.js`. Tests validate those links. The matrix is not a claim that every matched title has been interpreted.
 
-Highest next priorities: dedicated get-up breakdown practice and single-arm club intermediate teaching/skill pathways; then richer program composition. Mace, slam-ball, bodyweight and competition methods require their own models, not reused kettlebell numbers.
+Highest next priorities: richer program composition, reviewed remaining foundational bodyweight/ground systems, and release-readiness validation before advanced specialty variants. Mace, slam-ball, bodyweight and competition methods require their own models, not reused kettlebell numbers.

@@ -219,6 +219,142 @@
       "app_defaults_not_claimed_as_source_rules": [
         "self-confirmation of previous foundation rather than automatic logged-year certification"
       ]
+    },
+    {
+      "rule": "getup-breakdown-hand",
+      "source_id": 372,
+      "title": "Kettlebell Half Getup to Hand - TGU Breakdown series - Pressing and Abs",
+      "url": "https://www.youtube.com/watch?v=3JXbBTysXpA",
+      "normalized_text_sha256": "92a5d7358ed262250b53600f93b895cc6ff6d7595b0593fb5967f5a2eae75c27",
+      "quote": "you're going to start with three reps and you're going to build up towards ten reps",
+      "supported_scope": "For the half-get-up-to-hand light/single-kettlebell case, a 3–10 rep route is discussed. It is not copied as an exact prescription to other drills.",
+      "app_defaults_not_claimed_as_source_rules": [
+        "one set",
+        "90-second rest",
+        "two supporting exposures",
+        "skill confirmation"
+      ]
+    },
+    {
+      "rule": "getup-breakdown-floor",
+      "source_id": 422,
+      "title": "Kettlebell Turkish Getup Base Floor Press",
+      "url": "https://www.youtube.com/watch?v=DSYpqFSpZEg",
+      "normalized_text_sha256": "992f4adc82a602f6a1a47e71c29265dee5d90627ea5266bf1a8fa67e156cf9fd",
+      "quote": "we always want to take any complex exercise and break it down into individual pieces",
+      "supported_scope": "Floor press is a separately practiced component, with reviewed setup and return.",
+      "app_defaults_not_claimed_as_source_rules": [
+        "1×3–5 rep practice",
+        "rest and pace",
+        "pathway gates"
+      ]
+    },
+    {
+      "rule": "getup-breakdown-elbow",
+      "source_id": 298,
+      "title": "Kettlebell 1/2 Turkish Getup to Elbow",
+      "url": "https://www.youtube.com/watch?v=LDS7Grx3mLc",
+      "normalized_text_sha256": "b648f0106a4c2888fd34a123ffcaf8ac5ac96816b118b4cfe74813ab726b950d",
+      "quote": "press roll elbow shoulder shoulder elbow",
+      "supported_scope": "The elbow drill is a controlled press/roll/elbow sequence and reversed return.",
+      "app_defaults_not_claimed_as_source_rules": [
+        "1×3–5 rep practice",
+        "supporting floor-press evidence"
+      ]
+    },
+    {
+      "rule": "getup-breakdown-hip",
+      "source_id": 324,
+      "title": "Kettlebell 42 - Half Getup to Hip Pass - Turkish getup breakdown for better technique",
+      "url": "https://www.youtube.com/watch?v=9JMiQ2sbdDY",
+      "normalized_text_sha256": "56f21ef8341d918677d17b4a20f24dc2bad2fe8231ce5b40eddc921f8c7a3d39",
+      "quote": "without the stand up at the top",
+      "supported_scope": "Hip-pass breakdown omits the final stand and practices the transition separately.",
+      "app_defaults_not_claimed_as_source_rules": [
+        "1×3–5 rep practice",
+        "supporting hand-practice evidence"
+      ]
+    },
+    {
+      "rule": "club-inside-pendulum",
+      "source_id": 260,
+      "title": "How to build a bulletproof COREâ€”Single Arm Heavy Club 13â€”Inside Pendulum",
+      "url": "https://www.youtube.com/watch?v=4LqqrNosRiI",
+      "normalized_text_sha256": "3c0cdaf8270f1443a3f692326f613ad6feafee4c61ce78785113419a1e57d9dd",
+      "quote": "An easy way to learn to do this is to do this with two hands first",
+      "supported_scope": "Supported rehearsal precedes single-arm inside pendulum; inside/outside sides should be balanced.",
+      "app_defaults_not_claimed_as_source_rules": [
+        "2–6×3 intermediate volume",
+        "recent evidence and maintenance thresholds"
+      ]
+    },
+    {
+      "rule": "club-outside-pendulum",
+      "source_id": 265,
+      "title": "How to prevent injuries for athletic development - Single Arm Heavy Club 12 Outside Pendulum",
+      "url": "https://www.youtube.com/watch?v=q8l1G7UoERA",
+      "normalized_text_sha256": "1a99e77604de9c802822235a2bafdb73d73ae5bc016bdeb51d2a4b6cf59a5432",
+      "quote": "when we learn the single arm version of anything we start by practicing the two-handed version",
+      "supported_scope": "Outside pendulum teaching uses supported practice before single-arm rotation.",
+      "app_defaults_not_claimed_as_source_rules": [
+        "intermediate set/rep targets",
+        "evidence gating"
+      ]
+    },
+    {
+      "rule": "club-front-outside-pullover",
+      "source_id": 269,
+      "title": "If Cavemen Lifted Weights...Learn How To Millâ€”Single Arm Heavy Club 14 Outside Pullover",
+      "url": "https://www.youtube.com/watch?v=sJ5XCgdCMx8",
+      "normalized_text_sha256": "5ab7462fa58b7e2dee2efb4eb6552498bccd78e8da9254049f905e8e94675782",
+      "quote": "we normally learn to pull over first front to back",
+      "supported_scope": "Review front-to-back pullover before the outside variation; progression isolates components before integration.",
+      "app_defaults_not_claimed_as_source_rules": [
+        "intermediate 2–6×3 protocol",
+        "supporting exposure counts"
+      ]
+    },
+    {
+      "rule": "club-inside-pullover",
+      "source_id": 624,
+      "title": "The Inside Pullover 3 Count | Single Arm Heavy Club 26",
+      "url": "https://www.youtube.com/watch?v=lBKIaQ6iej8",
+      "normalized_text_sha256": "9692c02a2f80924d88953d5675171ca60b60964f3f7dff5bb75b51f26c458845",
+      "quote": "then we go to the outside pullover",
+      "supported_scope": "The lesson builds front, outside and inside pullover variations with a controlled three-count drill.",
+      "app_defaults_not_claimed_as_source_rules": [
+        "exact practice set/rep targets",
+        "logged dependency gates"
+      ]
+    },
+    {
+      "rule": "unloaded-hinge",
+      "source_id": 704,
+      "title": "kettlebell 1:  2 hand deadlift, the foundation exercise for the 2 hand swing",
+      "url": "https://www.youtube.com/watch?v=x0XkmM34BPI",
+      "normalized_text_sha256": "0e8bfae8e930790b4279da5f8e01365fa1b4c1874eb330ee0f1e957ba0c25ca4",
+      "quote": "without the weight normally this is just done as maybe two to three sets of ten total reps",
+      "supported_scope": "Unloaded hinge/deadlift-pattern teaching example uses 2–3×10 before weighted swing learning.",
+      "app_defaults_not_claimed_as_source_rules": [
+        "60-second rest",
+        "estimated pace",
+        "promotion threshold"
+      ]
+    },
+    {
+      "rule": "pushup-volume",
+      "source_id": 609,
+      "title": "Tetris of Training: Pushup Progression Method 1 Nerd Math",
+      "url": "https://www.youtube.com/watch?v=DX_ZNGks1lU",
+      "normalized_text_sha256": "8745df016ac9d8cabb542d31e78333b6c6c0ae7af91196d4963cdf4807b11e27",
+      "quote": "we cut that number to forty percent",
+      "supported_scope": "Reviewed method uses a conservative clean-rep baseline fraction and 10–30-minute EMOM volume wave, then baseline review.",
+      "app_defaults_not_claimed_as_source_rules": [
+        "conservative baseline input instead of an in-app max test",
+        "integer floor rounding",
+        "clean-exposure gate",
+        "retest revision and recovery rules"
+      ]
     }
   ]
 }

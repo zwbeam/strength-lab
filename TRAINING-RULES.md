@@ -132,3 +132,48 @@ pullovers, mills, swipes or speed progressions are automatically unlocked.
 [CURRICULUM-COVERAGE.md](CURRICULUM-COVERAGE.md) and its JSON inventory screen all
 720 texts across 23 scoped systems. Mention matches are discovery candidates;
 they do not turn missing programming methods into implemented or validated ones.
+
+## Breakdown, intermediate and bodyweight pathways
+
+Get-up practice now has four registry entries: floor press (#422), press/roll to
+elbow (#298), hand support (#372), and hip-pass practice without the stand (#324).
+The hand drill's light-load 3–10 rep route is discussed in #372. The other drills'
+1×3–5 targets, all set counts/rest/pace, and the exposure gates are app defaults;
+those teaching transcripts do not specify a universal numeric protocol.
+
+The intermediate club block includes inside/outside pendulums (#260/#265), front
+and outside pullovers (#269), and the controlled inside three-count pullover
+(#624). #578 supports the family sequence and general volume method. This block's
+2–6×3 starting protocol is an editable app choice, not falsely attributed as exact
+numbers from those teaching lessons. It retains continuous practice within a
+movement and between-movement rest, without importing snatch density or EMOM rules.
+Mills, reverse mills and swipes are still not automatically selected.
+
+New steps require both an explicit familiar-skill confirmation and recent clean
+supporting practice at the current parent load/policy. The default is two supporting
+exposures (configurable separately from a movement's own promotion gate). Incomplete,
+corrected, recovery or stale practice cannot supply that evidence. The generator
+includes needed supporting movements rather than leaving an empty intermediate
+program. Continued clean intermediate practice can maintain previously established
+supporting evidence, but cannot bypass a parent pain event, changed load, missing
+skill review or an unpracticed ancestor. This is an app gate, not a source-specified
+competency test. Skill checkboxes are never checked automatically from a log.
+
+The unloaded hinge block uses the 2–3×10 **without load** teaching example in #704;
+rest/pace/promotion are app choices. Zero external load is valid only on movements
+explicitly marked bodyweight. It is not accepted as a valid working load for
+kettlebell or club training. The existing weighted programs retain their behavior.
+
+Push-up method #609 uses a conservative clean-rep baseline, a selected 40% or 50%
+fraction, and a 10–30-round one-minute EMOM volume wave. The baseline input is
+already conservative (exclude a failed/final rep); the app does not demand a new
+maximum test. Whole-rep floor rounding, the clean-exposure gate and recovery rules
+are app choices. A reviewed baseline/restart is explicit at the endpoint; it does
+not erase prior history. A same-number baseline restart still begins a new cycle.
+Short sessions defer a full EMOM prescription instead of granting credit for a
+silently reduced target. Push-up method #608 and pull-up progression remain missing.
+
+One-set breakdown recovery reduces reps. `performed` and progression eligibility
+remain separate: even fully logged work with technique corrections cannot earn a
+clean-exposure promotion. UI readiness, source links and generated prescriptions
+all use the same movement/prerequisite registry and evidence functions.

@@ -1730,9 +1730,10 @@
         288
       ],
       "implemented_movement_ids": [
+        "hingePractice",
         "swing"
       ],
-      "boundary": "Swing defaults exist; deadlift teaching/progression and variant pathways remain incomplete."
+      "boundary": "Unloaded hinge teaching and swing defaults exist; loaded deadlift and variant pathways remain incomplete."
     },
     {
       "id": "kb-grinds",
@@ -5734,7 +5735,7 @@
     {
       "id": "getup-advanced",
       "system": "Get-up breakdown practice, advanced rep/complexity pathways",
-      "status": "missing",
+      "status": "partial",
       "screening_pattern": "get.?up|hip pass|hip drop",
       "candidate_title_ids": [
         18,
@@ -6771,12 +6772,19 @@
         }
       ],
       "source_reference_ids": [
-        658,
+        422,
+        298,
+        372,
         324,
-        372
+        658
       ],
-      "implemented_movement_ids": [],
-      "boundary": "Teaching references exposed, but dedicated breakdown workouts and advanced multi-rep loaded cycles remain unimplemented."
+      "implemented_movement_ids": [
+        "getupFloor",
+        "getupElbow",
+        "getupHand",
+        "getupHipPass"
+      ],
+      "boundary": "Four practice components have skill/evidence gates; advanced full-get-up same-side multi-rep cycles remain missing."
     },
     {
       "id": "kb-competition",
@@ -11537,7 +11545,7 @@
     {
       "id": "single-club-next",
       "system": "Single-arm pendulums / pullovers / mills / swipes",
-      "status": "missing",
+      "status": "partial",
       "screening_pattern": "pendulum|pullover|\\bmill\\b|\\bswipe\\b",
       "candidate_title_ids": [
         2,
@@ -12265,12 +12273,19 @@
       ],
       "source_reference_ids": [
         578,
-        581,
-        264,
-        269
+        260,
+        265,
+        269,
+        624
       ],
-      "implemented_movement_ids": [],
-      "boundary": "Source-supported next families identified; exact prerequisites/teaching and cycles need close review."
+      "implemented_movement_ids": [
+        "clubInsidePendulum",
+        "clubOutsidePendulum",
+        "clubFrontPullover",
+        "clubOutsidePullover",
+        "clubInsidePullover"
+      ],
+      "boundary": "Pendulum/pullover teaching with app-default volume and practice/skill gates exists; mills and swipes remain missing."
     },
     {
       "id": "rotational-footwork",
@@ -13499,7 +13514,7 @@
     {
       "id": "push-pull-core",
       "system": "Push-up / pull-up / core progression",
-      "status": "missing",
+      "status": "partial",
       "screening_pattern": "push.?up|pull.?up|\\bcore\\b",
       "candidate_title_ids": [
         7,
@@ -15179,8 +15194,10 @@
         609,
         717
       ],
-      "implemented_movement_ids": [],
-      "boundary": "Kettlebell rows are not a push-up/pull-up progression."
+      "implemented_movement_ids": [
+        "pushup"
+      ],
+      "boundary": "Method #609 push-up EMOM wave is implemented; method #608, pull-ups and other core progressions remain missing."
     },
     {
       "id": "slam-ball",
@@ -31503,6 +31520,362 @@
           "Keep the club off the ground between sets only while technique stays clean."
         ],
         "avoid": "Do not force a shoulder range or continue after grip or control is lost."
+      },
+      "getupFloor": {
+        "name": "Get-up floor press practice",
+        "gear": "kb",
+        "unit": "kg",
+        "family": "getup",
+        "reps": 3,
+        "start": 1,
+        "end": 1,
+        "rest": 90,
+        "sec": 36,
+        "repSeconds": 6,
+        "side": 2,
+        "defaultProfile": "getupDrill",
+        "requires": [
+          "floorPress"
+        ],
+        "practicePrereqs": [],
+        "teachingSources": [
+          422
+        ],
+        "practiceRepEnd": 5,
+        "practiceSourceNumbers": null,
+        "cues": [
+          "Use the familiar floor setup and support the return with the other hand.",
+          "Keep a controlled wrist and forearm position; match both sides."
+        ],
+        "avoid": "Use a familiar light load; stop when support, position or controlled return is lost."
+      },
+      "getupElbow": {
+        "name": "Get-up press to elbow",
+        "gear": "kb",
+        "unit": "kg",
+        "family": "getup",
+        "reps": 3,
+        "start": 1,
+        "end": 1,
+        "rest": 90,
+        "sec": 36,
+        "repSeconds": 6,
+        "side": 2,
+        "defaultProfile": "getupDrill",
+        "requires": [
+          "floorPress",
+          "rollToElbow"
+        ],
+        "practicePrereqs": [
+          "getupFloor"
+        ],
+        "teachingSources": [
+          298
+        ],
+        "practiceRepEnd": 5,
+        "practiceSourceNumbers": null,
+        "cues": [
+          "Press, roll and rise onto the elbow with deliberate support.",
+          "Reverse the sequence with control and match both sides."
+        ],
+        "avoid": "Use a familiar light load; stop when support, position or controlled return is lost."
+      },
+      "getupHand": {
+        "name": "Get-up press to hand",
+        "gear": "kb",
+        "unit": "kg",
+        "family": "getup",
+        "reps": 3,
+        "start": 1,
+        "end": 1,
+        "rest": 90,
+        "sec": 36,
+        "repSeconds": 6,
+        "side": 2,
+        "defaultProfile": "getupDrill",
+        "requires": [
+          "floorPress",
+          "rollToElbow",
+          "pressToHand"
+        ],
+        "practicePrereqs": [
+          "getupElbow"
+        ],
+        "teachingSources": [
+          372
+        ],
+        "practiceRepEnd": 10,
+        "practiceSourceNumbers": 372,
+        "cues": [
+          "Press, roll, elbow, hand; stabilize rather than repeatedly moving the support hand.",
+          "Return through elbow and shoulders with control."
+        ],
+        "avoid": "Use a familiar light load; stop when support, position or controlled return is lost."
+      },
+      "getupHipPass": {
+        "name": "Get-up hip-pass practice",
+        "gear": "kb",
+        "unit": "kg",
+        "family": "getup",
+        "reps": 3,
+        "start": 1,
+        "end": 1,
+        "rest": 90,
+        "sec": 36,
+        "repSeconds": 6,
+        "side": 2,
+        "defaultProfile": "getupDrill",
+        "requires": [
+          "floorPress",
+          "rollToElbow",
+          "pressToHand",
+          "hipPass"
+        ],
+        "practicePrereqs": [
+          "getupHand"
+        ],
+        "teachingSources": [
+          324
+        ],
+        "practiceRepEnd": 5,
+        "practiceSourceNumbers": null,
+        "cues": [
+          "From stable hand support, lift the hip and bring the knee back in line with the hand.",
+          "Orient upright, then reverse deliberately; this drill omits the final stand."
+        ],
+        "avoid": "Use a familiar light load; stop when support, position or controlled return is lost."
+      },
+      "clubInsidePendulum": {
+        "name": "Single-arm club inside pendulum",
+        "gear": "club",
+        "unit": "lb",
+        "family": "rotation",
+        "reps": 3,
+        "start": 2,
+        "end": 6,
+        "rest": 0,
+        "sec": 24,
+        "repSeconds": 4,
+        "side": 2,
+        "defaultProfile": "clubIntermediate",
+        "requires": [
+          "clubTwoHandFoundation",
+          "clubGrip",
+          "clubInside",
+          "clubOutside",
+          "clubShield",
+          "clubInsidePendulum",
+          "clubPendulumTwoHand"
+        ],
+        "practicePrereqs": [
+          "clubInside",
+          "clubOutside",
+          "clubShield"
+        ],
+        "teachingSources": [
+          578,
+          581,
+          260
+        ],
+        "cues": [
+          "Inside travels toward the center line; use the supported two-hand rehearsal first.",
+          "Rotate through a controlled path, then return to order."
+        ],
+        "avoid": "Use a familiar light club and reviewed technique; stop rather than force rotation, grip or a catch."
+      },
+      "clubOutsidePendulum": {
+        "name": "Single-arm club outside pendulum",
+        "gear": "club",
+        "unit": "lb",
+        "family": "rotation",
+        "reps": 3,
+        "start": 2,
+        "end": 6,
+        "rest": 0,
+        "sec": 24,
+        "repSeconds": 4,
+        "side": 2,
+        "defaultProfile": "clubIntermediate",
+        "requires": [
+          "clubTwoHandFoundation",
+          "clubGrip",
+          "clubInside",
+          "clubOutside",
+          "clubShield",
+          "clubOutsidePendulum",
+          "clubPendulumTwoHand"
+        ],
+        "practicePrereqs": [
+          "clubInside",
+          "clubOutside",
+          "clubShield"
+        ],
+        "teachingSources": [
+          578,
+          581,
+          265
+        ],
+        "cues": [
+          "Outside travels away from the center line.",
+          "Rehearse with two hands, then remove support only with familiar control."
+        ],
+        "avoid": "Use a familiar light club and reviewed technique; stop rather than force rotation, grip or a catch."
+      },
+      "clubFrontPullover": {
+        "name": "Single-arm club front pullover",
+        "gear": "club",
+        "unit": "lb",
+        "family": "rotation",
+        "reps": 3,
+        "start": 2,
+        "end": 6,
+        "rest": 0,
+        "sec": 24,
+        "repSeconds": 5,
+        "side": 2,
+        "defaultProfile": "clubIntermediate",
+        "requires": [
+          "clubTwoHandFoundation",
+          "clubGrip",
+          "clubInside",
+          "clubOutside",
+          "clubShield",
+          "clubFrontPullover"
+        ],
+        "practicePrereqs": [
+          "clubShield"
+        ],
+        "teachingSources": [
+          578,
+          581,
+          269
+        ],
+        "cues": [
+          "Rehearse the familiar straight-back, straight-forward pullover.",
+          "Keep the return to order controlled before adding rotation."
+        ],
+        "avoid": "Use a familiar light club and reviewed technique; stop rather than force rotation, grip or a catch."
+      },
+      "clubOutsidePullover": {
+        "name": "Single-arm club outside pullover",
+        "gear": "club",
+        "unit": "lb",
+        "family": "rotation",
+        "reps": 3,
+        "start": 2,
+        "end": 6,
+        "rest": 0,
+        "sec": 24,
+        "repSeconds": 5,
+        "side": 2,
+        "defaultProfile": "clubIntermediate",
+        "requires": [
+          "clubTwoHandFoundation",
+          "clubGrip",
+          "clubInside",
+          "clubOutside",
+          "clubShield",
+          "clubOutsidePullover"
+        ],
+        "practicePrereqs": [
+          "clubFrontPullover"
+        ],
+        "teachingSources": [
+          578,
+          581,
+          269
+        ],
+        "cues": [
+          "Use the familiar front-to-back pullover foundation first.",
+          "The hand travels outside and past the same-side ear; return under control."
+        ],
+        "avoid": "Use a familiar light club and reviewed technique; stop rather than force rotation, grip or a catch."
+      },
+      "clubInsidePullover": {
+        "name": "Single-arm club inside pullover three count",
+        "gear": "club",
+        "unit": "lb",
+        "family": "rotation",
+        "reps": 3,
+        "start": 2,
+        "end": 6,
+        "rest": 0,
+        "sec": 24,
+        "repSeconds": 6,
+        "side": 2,
+        "defaultProfile": "clubIntermediate",
+        "requires": [
+          "clubTwoHandFoundation",
+          "clubGrip",
+          "clubInside",
+          "clubOutside",
+          "clubShield",
+          "clubInsidePullover"
+        ],
+        "practicePrereqs": [
+          "clubOutsidePullover"
+        ],
+        "teachingSources": [
+          578,
+          581,
+          624
+        ],
+        "cues": [
+          "Build from front and outside pullovers before the inside variation.",
+          "Use three deliberate counts and demonstrate control before the return."
+        ],
+        "avoid": "Use a familiar light club and reviewed technique; stop rather than force rotation, grip or a catch."
+      },
+      "hingePractice": {
+        "name": "Unloaded hip-hinge practice",
+        "gear": "bodyweight",
+        "bodyweight": true,
+        "unit": "bodyweight",
+        "family": "hinge",
+        "reps": 10,
+        "start": 2,
+        "end": 3,
+        "rest": 60,
+        "sec": 30,
+        "side": 1,
+        "defaultProfile": "hingePractice",
+        "requires": [
+          "hingePattern"
+        ],
+        "teachingSources": [
+          704
+        ],
+        "cues": [
+          "Rehearse the unloaded hinge with deliberate bracing and controlled return.",
+          "Use the pattern as preparation rather than a maximum-effort test."
+        ],
+        "avoid": "Stop when bracing or comfortable movement is lost."
+      },
+      "pushup": {
+        "name": "Push-up EMOM volume",
+        "gear": "bodyweight",
+        "bodyweight": true,
+        "unit": "bodyweight",
+        "family": "press",
+        "reps": 0,
+        "start": 10,
+        "end": 30,
+        "rest": 0,
+        "sec": 20,
+        "side": 1,
+        "defaultProfile": "pushup",
+        "requires": [
+          "pushupTechnique"
+        ],
+        "teachingSources": [
+          609
+        ],
+        "cues": [
+          "Keep the trunk stable and use a clean, controlled repetition.",
+          "Stop the set when the clean movement standard is lost.",
+          "Use the configured conservative baseline; the app does not ask for daily maximum attempts."
+        ],
+        "avoid": "Do not turn incomplete or poor-technique reps into progression credit."
       }
     },
     "skills": {
@@ -31612,9 +31985,83 @@
         "sources": [
           543
         ]
+      },
+      "clubPendulumTwoHand": {
+        "name": "Familiar supported two-hand pendulum before single-arm practice",
+        "sources": [
+          260,
+          265
+        ]
+      },
+      "clubInsidePendulum": {
+        "name": "Familiar single-arm inside pendulum",
+        "sources": [
+          260
+        ]
+      },
+      "clubOutsidePendulum": {
+        "name": "Familiar single-arm outside pendulum",
+        "sources": [
+          265
+        ]
+      },
+      "clubFrontPullover": {
+        "name": "Familiar controlled front-to-back pullover",
+        "sources": [
+          269,
+          624
+        ]
+      },
+      "clubOutsidePullover": {
+        "name": "Familiar outside pullover",
+        "sources": [
+          269
+        ]
+      },
+      "clubInsidePullover": {
+        "name": "Familiar controlled inside pullover with three counts",
+        "sources": [
+          624
+        ]
+      },
+      "hingePattern": {
+        "name": "Familiar unloaded hip hinge and controlled bracing",
+        "sources": [
+          704
+        ]
+      },
+      "pushupTechnique": {
+        "name": "Familiar clean push-up with stable trunk and controlled range",
+        "sources": [
+          609
+        ]
       }
     },
     "blocks": {
+      "hingePractice": {
+        "name": "Unloaded hinge foundation",
+        "days": [
+          {
+            "name": "Hip-hinge preparation",
+            "focus": "Unloaded teaching example; no equipment needed",
+            "ids": [
+              "hingePractice"
+            ]
+          }
+        ]
+      },
+      "pushup": {
+        "name": "Push-up volume block",
+        "days": [
+          {
+            "name": "Push-up EMOM volume",
+            "focus": "Conservative clean baseline; explicit review at cycle endpoint",
+            "ids": [
+              "pushup"
+            ]
+          }
+        ]
+      },
       "abc": {
         "name": "Rolling A / B / C",
         "days": [
@@ -31668,6 +32115,37 @@
             "ids": [
               "doublePress",
               "doubleSquat"
+            ]
+          }
+        ]
+      },
+      "getupPractice": {
+        "name": "Get-up breakdown practice",
+        "days": [
+          {
+            "name": "Floor / Elbow / Hand / Hip pass",
+            "focus": "Reviewed skills plus recent clean practice; no automatic technique certification",
+            "ids": [
+              "getupFloor",
+              "getupElbow",
+              "getupHand",
+              "getupHipPass"
+            ]
+          }
+        ]
+      },
+      "clubIntermediate": {
+        "name": "Single-arm club intermediate pathways",
+        "days": [
+          {
+            "name": "Pendulums and pullovers",
+            "focus": "Supporting practice and reviewed skill confirmations required",
+            "ids": [
+              "clubInsidePendulum",
+              "clubOutsidePendulum",
+              "clubFrontPullover",
+              "clubOutsidePullover",
+              "clubInsidePullover"
             ]
           }
         ]

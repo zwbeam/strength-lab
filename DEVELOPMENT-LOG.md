@@ -105,3 +105,31 @@ tests, 16 provenance checks and the full 720-source coverage/registry check.
 Remote persistence is verified; fresh Codex task/snapshot restoration is still a
 separate unavailable check. The remaining curriculum and exact continuation prompt
 are documented in DEVELOPMENT-STATUS.md and NEXT-CONTINUATION.md.
+
+## 2026-11-05 — Reviewed practice pathways and foundational bodyweight systems
+
+Verified local HEAD against the fetched remote development branch before edits;
+main remained unchanged. Read the requested breakdown and intermediate teaching
+sources plus #704 unloaded hinge and #609 push-up programming.
+
+Implemented four get-up breakdowns and five intermediate club movements using
+shared skill/practice dependencies. Recent clean parent work and explicit skill
+review are both required; supporting movements are generated when needed. Added
+maintenance of established evidence through active practice, with transitive
+pain/skill/load guards. One-set recovery now reduces reps. Exact intermediate
+numbers and gate thresholds are identified as app defaults, not invented source
+prescriptions.
+
+Continued beyond those pathways with unloaded hinge preparation and push-up EMOM
+volume. Added explicit bodyweight zero-load support without weakening weighted
+movement validation, conservative baseline entry and deliberate cycle restarts.
+A technique-correction record may be performed but is never progression-eligible.
+
+Thirteen pathway and seven bodyweight engine tests pass alongside the prior 51
+named tests. Actual HTTP histories passed the generated get-up and club pathways,
+including skill review, incomplete work, equipment loss, missed-month re-entry,
+maintenance and transitive pain holds. The bodyweight UI passed a complete
+42-exposure push-up wave, hinge quick logging at zero load, baseline review,
+technique/pain/re-entry and offline checks. Twenty-six rule quotations/hashes
+match the original verified transcript corpus. Coverage remains scoped rather
+than claiming a complete interpretation of 720 lessons.
