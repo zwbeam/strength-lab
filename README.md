@@ -20,3 +20,23 @@ Data key remains strengthlab-data-v1. Clearing Chrome storage can delete trainin
 
 
 V27: Workout for Life 10-minute warm-up and cooldown, baseline-first Foundation prescriptions, movement guides directly under headings, structured difficulty/technique/pain feedback, phase-aware training report, exercise details, dated notebook table, meaningful CSV export and unused asset cleanup.
+
+
+## V31 preview — rolling full-body sessions
+
+This version keeps the offline-first interface but uses a new `strengthlab-data-v31` local data key for a clean start.
+Training starts immediately with three rolling workouts:
+
+- A: double front squat, strict press, row
+- B: two-hand swing, shield cast, suitcase carry
+- C: single-arm clean, goblet squat, two-hand circles
+
+The rotation advances only after saving a planned workout, regardless of calendar frequency.
+Warmup, work and cooldown are now planned as 7 / 31 / 7 minutes (45 minutes total).
+A main-work time estimate is displayed. **This is a planning target, not a hard timer
+that automatically stops or changes prescriptions.** Take needed rest and modify
+volume rather than rushing technique.
+
+V30 browser data is not imported or erased: V31 uses its own storage key. Training history starts empty. Backup JSON remains format version 1.
+
+Run `node v31-smoke-test.cjs` for basic sequence/migration checks.
