@@ -42,3 +42,19 @@ reconciliation remains pending the two ZIPs and handoff. Proceed with the
 independently reproduced offline defect; do not import guessed implementations
 or alter training progression without evidence. Keep audit and development status
 updated with executed checks and recoverable local commits.
+
+## First implementation result
+
+The offline repair is implemented in `sw.js`: exact query-bearing shell URLs
+are precached and the cache revision is incremented. This avoids a broad
+ignore-query fallback that could serve an unrelated asset revision.
+
+`tests/browser-smoke.py` passed in Chromium with independent fresh contexts at
+`/` and `/strength-lab/`. Each installs the worker on its first visit, switches
+offline without a second online navigation, reloads, renders all six tabs,
+loads Atlas data and CSS, and reports no page errors. The existing V31 smoke
+test and JS syntax checks also pass. No training or stored-data behavior changed.
+
+These results validate the current instance and this repair. They do not verify
+fresh-task restoration, archive reconciliation, Android behavior, or publication
+of the development changes.

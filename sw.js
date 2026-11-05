@@ -1,5 +1,6 @@
-const CACHE='strength-lab-v32-minimal-1';
-const ASSETS=['./index.html','./styles.css','./app.js','./source-index.json','./manifest.webmanifest','./icon-192.png','./icon-512.png','./header-strengthlab-v23.webp','./header-traininghub-v23.webp','./header-traininglog-v23.webp','./header-settings-v23.webp','./background-v23.webp','./background-graffiti-v29.webp','./header-workout-v28.webp'];
+const CACHE='strength-lab-v32-minimal-2';
+// Match the shell's query strings so the first offline reload needs no second online visit.
+const ASSETS=['./index.html','./styles.css?v=32','./app.js?v=32','./source-index.json','./manifest.webmanifest?v=32','./icon-192.png','./icon-512.png','./header-strengthlab-v23.webp','./header-traininghub-v23.webp','./header-traininglog-v23.webp','./header-settings-v23.webp','./background-v23.webp','./background-graffiti-v29.webp','./header-workout-v28.webp'];
 self.addEventListener('install',event=>{event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(ASSETS)).then(()=>self.skipWaiting()))});
 self.addEventListener('activate',event=>{event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(key=>key.startsWith('strength-lab-')&&key!==CACHE).map(key=>caches.delete(key)))).then(()=>self.clients.claim()))});
 self.addEventListener('fetch',event=>{
