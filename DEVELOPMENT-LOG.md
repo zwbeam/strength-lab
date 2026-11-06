@@ -263,3 +263,15 @@ The changed-load test verifies that stale evidence is regenerated rather than
 silently reused. 95 named Node tests and engine/legacy assertions pass. Thirty
 quotation/hash anchors and the regenerated 720-source coverage/registry check pass.
 The hinge coverage row remains partial; unilateral/stance pathways are unfinished.
+
+## 2026-11-06 — Executor recovery and chronological composition
+
+The environment returned from executor failure. Verified local and remote HEAD
+at `a68b180` and ancestry of `b05b82c` / `ea80b41`; main remains `4cb58d8`.
+The three reported uncommitted files survived. Reviewed the chronological-history
+change rather than reconstructing it: composition now sorts a filtered copy by
+date before selecting the least recently practiced block. Raw history is unchanged.
+Nine composition and five hinge tests plus 30 provenance checks pass. The extended
+browser test remains under review; its first failure assumes a whole advanced
+bear-squat prescription fits a 15-minute session. No unverified test is committed
+with this small recovery increment.

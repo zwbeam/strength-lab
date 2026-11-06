@@ -291,7 +291,7 @@ function plan(s,opts={}){
  const c=s.programComposition;
  if(!c?.enabled)return blockPlan(s,opts);
  validateComposition(c);
- const day=calendarDay(opts.now),history=(s.sessions||[]).filter(x=>calendarDay(x.date)<=day);
+ const day=calendarDay(opts.now),history=(s.sessions||[]).filter(x=>calendarDay(x.date)<=day).sort((a,b)=>calendarDay(a.date)-calendarDay(b.date));
  const hardRecent=history.some(x=>day-calendarDay(x.date)<(c.hardGapDays??2)&&(x.items||[]).some(y=>y.actualSets>0&&(y.track==='heavy'||y.profile==='grind'||y.mode==='density')));
  const defaults={...s.trainingDefaults,minGapDays:Math.max(s.trainingDefaults?.minGapDays??0,c.minGapDays??1)};
  const candidates=c.blocks.map((block,order)=>{
