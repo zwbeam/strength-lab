@@ -125,3 +125,8 @@ Preview test data survives normal updates and never reads live history. Once liv
 open the verified link in Chrome on Android; optionally choose menu → Add to home
 screen (or Install app) and confirm the name includes DEV. Keep the normal Strength
 Lab installation separate.
+
+Latest confirmed content upload: source `e62542b3d5f81923bf7a9025f72243972e300121`,
+deployment `08b6544f29885370ee3f03f08e038271534b2c33`. Repeat normal publication
+was verified without administrative writes; source main/Pages stayed unchanged.
+The site still awaits the one-time owner enablement described above.

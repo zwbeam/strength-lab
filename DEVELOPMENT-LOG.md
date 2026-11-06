@@ -409,3 +409,13 @@ source-main/Pages invariance checks. Four publisher guard tests pass. Android-si
 coexistence tests passed again. Rechecked actual live index/app/worker/manifest
 fingerprints: unchanged. Public HTTPS preview verification still awaits enablement;
 network and repository creation must not be requested again.
+
+## 2026-11-06 — Preview update path verified
+
+Uploaded source e62542b3d5f81923bf7a9025f72243972e300121 as normal deployment
+commit 08b6544f29885370ee3f03f08e038271534b2c33 on the separate preview branch.
+No administration/Pages-write calls were required. Source main and Pages settings
+passed invariance checks. Corrected the managed-file guard to include sw.js itself,
+which is intentionally not in its own precache inventory. The real repeat update
+succeeded without force-push or lost deployment history. Pages remains disabled;
+owner enablement in the preview repo settings is still the only required action.

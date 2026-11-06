@@ -64,7 +64,7 @@ def publish(ref,create=False):
    if old.get('channel')!='development-preview' or old.get('storage_namespace')!='sl-dev-preview':raise ValueError('Existing files are not a managed Strength Lab preview')
    worker=(checkout/'sw.js').read_text();match=re.search(r'const FILES=(\[.*?\]);',worker,re.S)
    if not match:raise ValueError('Cannot verify previous managed asset inventory')
-   owned={urlsplit(x).path.removeprefix('./') or 'index.html' for x in json.loads(match[1])}|{'.nojekyll'}
+   owned={urlsplit(x).path.removeprefix('./') or 'index.html' for x in json.loads(match[1])}|{'.nojekyll','sw.js'}
    tracked=run('git','ls-files',cwd=checkout).splitlines()
    if set(tracked)-owned:raise ValueError('Unrecognized deployment files; preserving them instead of overwriting')
    for name in tracked:(checkout/name).unlink()
