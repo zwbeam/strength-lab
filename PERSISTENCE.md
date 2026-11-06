@@ -89,3 +89,24 @@ rejection, live set/timer snapshots, reader behavior during a transaction,
 close/reload draft handoff, duplicate-save protection, external and synchronous
 stale-write detection, unsaved-draft export, offline reload and unsupported-lock
 read-only mode. The existing fault-injection and worker-upgrade suites pass.
+
+## Executor recovery and remote continuity — 2026-11-06
+
+The previously failed executor became usable again. Verified actual shell, Git,
+Node and Chromium operations rather than relying only on the status service.
+The same workspace contained three interrupted files. Remote HEAD was `a68b180`,
+with `b05b82c` and `ea80b41` confirmed ancestors and no newer remote work.
+Reviewed and independently checkpointed chronology `8e35d01`, corrected browser
+histories `1280712`, and cadence feedback `7e4a049`.
+
+A separate GitHub clone at `/tmp/strength-lab-recovered-checkout-s910hab1`
+recovered exactly `7e4a04914c0306830bf27f433183a421d5f7daf8`, verified objects with
+`git fsck --full`, and passed every root Node suite (98 named tests plus engine
+assertions), 30 source quotations/hashes, all-720-source registry coverage, the
+actual cadence workflow and real multi-tab reliability suite. No working-tree
+files were copied into it. Later documentation commits may follow.
+
+This verifies GitHub recovery and the restored executor, not a new empty Codex
+task/snapshot or guaranteed persistence of future local edits. Keep pushing tested
+increments. A cloud status response can say running even when actual executor
+commands fail; shell/browser checks remain necessary. Main was not changed.

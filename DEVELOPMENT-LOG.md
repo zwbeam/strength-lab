@@ -305,3 +305,20 @@ after reducing to two blocks without altering history. All 98 named Node tests,
 engine/legacy assertions, 30 provenance anchors and the 720-source registry check
 pass. Offline worker upgrade, timer lifecycle and free set logging also pass in
 this restored executor. Earlier small increments were pushed separately.
+
+## 2026-11-06 — Independent recovered-source verification and handoff
+
+Independently cloned origin into `/tmp/strength-lab-recovered-checkout-s910hab1`
+and recovered `7e4a04914c0306830bf27f433183a421d5f7daf8`. Git object verification,
+all Node suites, 30 provenance anchors, the 720-source registry check, actual
+cadence workflow and real multi-tab suite passed from that clone. No local working
+files were copied. Restored executor functionality and remote persistence are
+verified; a genuinely fresh Codex task/snapshot is still a distinct unavailable
+check. Main remains unchanged.
+
+Consolidated status and continuation instructions to remove stale claims that
+composition, multi-tab protection and loaded hinge practice were unfinished.
+No partial implementation is being left behind. Further workload/coverage tests,
+accessibility/release reliability and reviewed foundational ground/quadruped or
+intermediate club pathways are next. No user setup is required; no main merge,
+force-push, release or APK was produced.

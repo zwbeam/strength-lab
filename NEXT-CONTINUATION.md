@@ -1,37 +1,38 @@
 # Exact next continuation prompt
 
-Continue Strength Lab on `development/reconciliation` from the latest remote
-commit. Fetch and verify origin first; preserve all commits, working files,
-existing tests, stored workout data and research documentation. Read
-DEVELOPMENT-STATUS.md, DEVELOPMENT-LOG.md, TRAINING-RULES.md,
-CURRICULUM-COVERAGE.md and PERSISTENCE.md.
+Continue Strength Lab from the latest `origin/development/reconciliation`.
+First verify that shell execution, GitHub and a representative browser test work;
+environment status alone previously reported running while the executor was unusable.
+Fetch origin, compare HEAD/status, preserve newer commits and inspect any uncommitted
+work before applying it. Never reset or rewrite history.
 
-Get-up breakdowns, single-arm club pendulum/pullover practice, unloaded hinge and
-push-up #609 are implemented. Active-draft backup/recovery tests are in
-`tests/backup-restore.py`. Read the latest development log for subsequent work.
-Two-hand/single-hand hip drops and bear-squat practice are also implemented; run
-`node ground.test.cjs` and `python3 tests/ground-histories.py`. The next priorities
-are coherent program composition and release reliability, then reviewed loaded
-hinge, complete ground transitions and traveling quadruped practice. Read full
-relevant transcripts and distinguish teaching from app-default numeric rules.
+Read DEVELOPMENT-STATUS.md, DEVELOPMENT-LOG.md, CURRICULUM-COVERAGE.md,
+TRAINING-RULES.md and PERSISTENCE.md. Confirm ancestry of `b05b82c` (coordinated
+programming), `ea80b41` (exclusive writer), `a68b180` (loaded hinge), `8e35d01`
+(chronological selection), `1280712` (36-workout adverse histories) and `7e4a049`
+(cadence feedback), or inspect newer work first. Later documentation commits may follow.
 
-Implement the highest-priority reviewed pathway in the actual application;
-expand multiweek engine and HTTP UI histories for equipment limits, incomplete
-work, technique, pain, recovery, missed sessions and duration changes. Preserve
-snatch/double-kettlebell/heavy-light/two-hand club/get-up/single-arm foundation
-behavior, the full workout overview, timers, offline use and existing data.
-Update the curriculum matrix, provenance, training rules and development log.
-Make focused verified commits and push the development branch normally to the
-existing repository. Never force-push, delete history, merge into main or create
-a release package. Keep future Capacitor compatibility, but do not begin APK
-packaging before the core is release-ready. Verify fresh Codex task restoration
-only if the environment can actually launch a fresh task; distinguish it from
-Git checkout and browser reload tests. Report remaining gaps and any required
-user action plainly.
+The interrupted local work was recovered and verified. The browser extension's
+failure was a test assumption: a full advanced target does not fit a 15-minute
+session. Preserve the corrected refusal/reduced-work checks. Do not reintroduce
+that failing expectation or silently shrink targets for advancement credit.
 
-Latest verified application checkpoint from this resumed task: `d99a153` (later
-documentation commits may follow). Backup protection, ground foundations and
-cross-block ground spacing are complete. An independent GitHub clone passed the
-Node, research, backup and ground-history suites. No uncommitted partial feature
-was left at handoff. Next, inspect composition and release reliability, including
-concurrent-tab storage behavior; current rollback transactions are single-tab.
+Run relevant tests, especially `node composition.test.cjs`,
+`node hinge-pathway.test.cjs`, `python3 tests/composition-feedback.py`,
+`python3 tests/multi-tab.py`, `python3 tests/backup-restore.py` and source checks.
+The repository has 98 named Node tests, engine/legacy checks and longer realistic
+histories. Preserve the complete overview, free set logging, timers, adjustable
+duration, offline library, saved data and all existing movement cycles.
+
+Continue with high-impact composition/workload verification, accessibility and
+release reliability; then source-reviewed complete ground/traveling quadruped or
+intermediate club pathways. Read full relevant teaching sources before encoding
+rules. Numeric programming, cadence, spacing and exposure app defaults must not
+be attributed to transcripts without support. No automatic skill certification.
+
+Use small independently tested commits and push each completed increment normally
+to the existing development branch. Update status/log/coverage/rules and this prompt.
+Do not merge main, force-push, publish a release or build an APK. Preserve relative
+static assets and pure browser architecture for future Capacitor packaging.
+If execution fails, stop dependent work, report the last successful pushed commit
+and any uncommitted files, and give exact recovery steps without claiming tests ran.
