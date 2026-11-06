@@ -252,3 +252,9 @@ source-defined recovery calculations. No individualized fatigue score is claimed
 The compact "Why this workout?" panel explains emphasis, selection, supporting
 practice and each selected block's eligibility. Volume/intensity/skill/recovery
 labels describe the prescriptions, not measured physiological intensity.
+
+A read-only or conflicted tab cannot log or save training evidence. Browser-managed
+writer ownership and saved-value checks prevent updated tabs from overwriting one
+another's drafts/history. A reader can export and inspect saved training; closing
+the owner and reloading transfers editing with the current draft and timer.
+This is data protection, not a training principle from a transcript.

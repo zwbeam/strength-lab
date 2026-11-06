@@ -227,3 +227,22 @@ and multiple months. Actual Chromium passed 34 saved workouts across four blocks
 partial work, missed-month re-entry, shorter sessions, pain, decision explanations,
 reload/offline and independent history. Existing programming-control browser suite
 and all 90 named Node tests pass. Multi-tab reliability is the next active task.
+
+## 2026-11-06 — Exclusive writer and stale-state protection
+
+Added lifetime browser Web Lock ownership before storage recovery. Readers never
+roll back an active writer's transaction and cannot mutate/import. Read-only tabs
+follow saved state/drafts, retain library/export access and explain close/reload
+handoff. Raw-value guards and storage events stop unexpected/stale overwrites.
+Unsupported lock environments remain read/export-only. Added an explicit duplicate
+originating-draft check at workout save, including older inconsistent snapshots.
+Generic settings/history saves now use paired transactions and restore saved state
+on failure; timer auto-writes are suppressed in read-only/conflicted/recovery mode.
+
+Real `tests/multi-tab.py` passes ownership, active journal readers, set/timer view,
+failed read-only import/save, close/reload handoff, duplicates, external changes,
+synchronous stale checks, backup, offline and unsupported-browser cases. Existing
+backup failure and mobile-emulated worker-upgrade suites pass. All 90 named Node
+tests and six DOM suites pass. DOM fixtures now have a localhost test origin for
+real Web Locks while retaining their explicitly simulated storage. No fake lock
+fallback was added to production. Details and older-client limits are in PERSISTENCE.md.

@@ -57,3 +57,35 @@ available tools cannot launch a genuinely fresh Codex task. Cloud snapshot
 restoration, fresh-task credentials, physical Android behavior and hardware
 storage durability remain distinct unverified claims. Do not rely on this local
 checkout or its temporary independent clone surviving a task boundary.
+
+## Exclusive write ownership
+
+Updated V33 clients hold the browser Web Lock `strengthlab-v33-writer` for their
+page lifetime. Only that owner may recover a journal or write state/drafts.
+Other tabs can view current saved data, read research and export backups; editing
+and import are blocked. Close the editing tab and reload another tab to resume
+from the latest saved state. Locks are released by the browser when a page closes
+or crashes, rather than by an expiring localStorage lease that could split writers.
+
+Startup recovery occurs only after ownership. A reader encountering a journal
+reads the pre-transaction snapshot and does not roll back another tab's write.
+Before every save, the owner compares raw history/draft values with its last known
+saved snapshot. Unexpected storage events/values freeze writes and retain local
+work for export, protecting against stale overwrite by this updated client.
+Reload after closing other tabs to reconcile from saved data. Generic settings
+and history edits also use the journaled pair transaction; failed saves no longer
+leave apparently successful in-memory settings.
+
+Web Locks require a supported browser on HTTPS or localhost. Without support the
+app remains read/export-only rather than using a race-prone fallback. Physical
+Android/Capacitor WebView support still needs device testing. Older already-open
+application versions cannot be made to honor the new lock; close those tabs when
+upgrading. Unexpected old-client changes are detected, but old code itself cannot
+be prevented from writing. These guarantees do not cover physical storage loss,
+user-cleared browser data or arbitrary external storage modification.
+
+`tests/multi-tab.py` verifies real same-origin ownership, read-only import/save
+rejection, live set/timer snapshots, reader behavior during a transaction,
+close/reload draft handoff, duplicate-save protection, external and synchronous
+stale-write detection, unsaved-draft export, offline reload and unsupported-lock
+read-only mode. The existing fault-injection and worker-upgrade suites pass.

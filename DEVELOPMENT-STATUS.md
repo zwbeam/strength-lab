@@ -115,3 +115,13 @@ are integrated. Eight engine cases (including 48 multi-family sessions) and 34
 actual generated/saved browser workouts pass; all 90 named Node tests pass.
 The 23-system composition row remains partial: no complete Tetris club curriculum
 or individualized fatigue model is claimed. Multi-tab protection is next.
+
+## Multi-tab reliability update
+
+Updated clients now allow one editing tab using lifetime browser Web Lock ownership.
+Other tabs are read/export-only and can resume after closing the owner/reloading.
+Recovery runs only under ownership; readers never roll back another writer.
+Unexpected saved-value changes block stale writes. Settings/history edits use the
+same paired transaction and failed saves restore prior state. Real multi-tab,
+backup failure, offline upgrade and all six DOM tests pass. See PERSISTENCE.md for
+supported-origin/browser requirements and limits for obsolete open clients.

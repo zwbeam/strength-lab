@@ -4,12 +4,46 @@ const E=window.StrengthEngine,KEY='strengthlab-data-v33',DRAFT='strengthlab-draf
 const $=s=>document.querySelector(s),esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const today=()=>new Date().toLocaleDateString('sv-SE');
 const fresh=()=>({version:33,defaultMinutes:45,sessions:[],weights:{},equipment:{kb:[8,12,16,20,24],club:[5,10,15]},nextWeights:{},created:today()});
-let storageRecoveryIssue=false,recoverySnapshot=null;
-recoverTrainingStorage();
+let storageRecoveryIssue=false,recoverySnapshot=null,storageReady=false,storageWritable=false,storageConflict=false,storageLockUnavailable=false,storageExpected=null;
 function read(k,f){try{const raw=recoverySnapshot?(k===KEY?recoverySnapshot.state:k===DRAFT?recoverySnapshot.draft:localStorage.getItem(k)):localStorage.getItem(k);const v=JSON.parse(raw);return v&&typeof v==='object'?v:f;}catch{return f;}}
 let state=read(KEY,fresh());if(state.version!==33||!Array.isArray(state.sessions))state=fresh();state.nextWeights=state.nextWeights||{};state.defaultMinutes=Number(state.defaultMinutes)||45;state.deferredIds=Array.isArray(state.deferredIds)?state.deferredIds:[];let todayMinutes=state.defaultMinutes;
 let draft=read(DRAFT,null),tab='today',readiness='normal',phase='warmup',timerEnd=0,timerInterval=null,learnMode='movements',search='',sourceData=null,sourceCache={},openSource=null,searchFull=false,fullMatches=null;
 const newIdentity=()=>globalThis.crypto?.randomUUID?.()||Date.now().toString(36)+'-'+Math.random().toString(36).slice(2);
+// A browser-managed lock owns writes for this page's lifetime, including recovery.
+// Other tabs can read/export; they must close the writer and reload to edit.
+function storageNotice(){
+ if(storageConflict)return 'Saved data changed outside this tab. Editing is blocked to protect newer history. Export any unsaved work, then close other Strength Lab tabs and reload.';
+ if(storageLockUnavailable)return 'This browser cannot safely coordinate saved writes. Use a current browser over HTTPS or localhost. Reading and export remain available.';
+ if(!storageWritable)return 'Another Strength Lab tab is editing this training log. This tab is read-only. Close the other tab, then reload here to resume the latest saved workout.';
+ return '';
+}
+function loadTrainingSnapshot(){
+ if(!storageWritable){recoverySnapshot=null;try{const journal=JSON.parse(localStorage.getItem(JOURNAL));if(journal?.version===1&&[journal.state,journal.draft].every(v=>v===null||typeof v==='string'))recoverySnapshot=journal;}catch{}}
+ state=read(KEY,fresh());if(state.version!==33||!Array.isArray(state.sessions))state=fresh();
+ state.nextWeights=state.nextWeights||{};state.defaultMinutes=Number(state.defaultMinutes)||45;state.deferredIds=Array.isArray(state.deferredIds)?state.deferredIds:[];
+ todayMinutes=state.defaultMinutes;draft=read(DRAFT,null);
+ try{storageExpected={state:localStorage.getItem(KEY),draft:localStorage.getItem(DRAFT)};}catch{storageRecoveryIssue=true;}
+}
+function checkWriter(){
+ if(!storageReady||!storageWritable||storageConflict||storageRecoveryIssue){alert(storageRecoveryIssue?'Storage recovery is pending; saved writes are blocked.':storageNotice()||'Training storage is still loading.');return false;}
+ try{if(storageExpected&&(localStorage.getItem(KEY)!==storageExpected.state||localStorage.getItem(DRAFT)!==storageExpected.draft||localStorage.getItem(JOURNAL)!==null)){storageConflict=true;alert(storageNotice());render();return false;}}
+ catch{alert('Could not check saved data. No write was attempted; export a backup before closing.');return false;}
+ return true;
+}
+function rememberStorage(){storageExpected={state:localStorage.getItem(KEY),draft:localStorage.getItem(DRAFT)};}
+async function initializeStorage(){
+ const ready=()=>{loadTrainingSnapshot();storageReady=true;render();};
+ if(!navigator.locks?.request){storageLockUnavailable=true;ready();return;}
+ try{await navigator.locks.request('strengthlab-v33-writer',{mode:'exclusive',ifAvailable:true},async lock=>{
+  if(!lock){
+   // Never roll back another tab's in-flight transaction; read its prior snapshot.
+   try{const journal=JSON.parse(localStorage.getItem(JOURNAL));if(journal?.version===1)recoverySnapshot=journal;}catch{}
+   ready();return;
+  }
+  storageWritable=true;recoverTrainingStorage();ready();
+  await new Promise(()=>{}); // Released by the browser when the page is destroyed.
+ });}catch{storageWritable=false;storageLockUnavailable=true;ready();}
+}
 // An unfinished journal is rolled back before loading state on the next page load.
 function restoreTrainingPair(previous){
  for(const [key,value] of [[KEY,previous.state],[DRAFT,previous.draft]]){
@@ -24,33 +58,33 @@ function recoverTrainingStorage(){
  }catch{storageRecoveryIssue=true;alert('Storage recovery could not finish. Saved data has not been discarded. Writes are blocked; keep this page open and export a backup before closing.');}
 }
 function persistTraining(nextState,nextDraft){
- if(storageRecoveryIssue){alert('Storage recovery is pending; no saved data was changed. Export a backup before closing.');return false;}
+ if(!checkWriter())return false;
  let previous,journalWritten=false;
  try{
   previous={version:1,state:localStorage.getItem(KEY),draft:localStorage.getItem(DRAFT)};
   localStorage.setItem(JOURNAL,JSON.stringify(previous));journalWritten=true;
   localStorage.setItem(KEY,JSON.stringify(nextState));if(nextDraft)localStorage.setItem(DRAFT,JSON.stringify(nextDraft));else localStorage.removeItem(DRAFT);
-  localStorage.removeItem(JOURNAL);return true;
+  localStorage.removeItem(JOURNAL);rememberStorage();return true;
  }catch{let restored=true;
   if(journalWritten){try{restoreTrainingPair(previous);localStorage.removeItem(JOURNAL);}catch{restored=false;storageRecoveryIssue=true;recoverySnapshot=previous;}}
   alert(restored?'Could not save both training data and draft. Previous saved data was preserved; keep this page open and export a backup.':'Storage failed and recovery is pending. Saved writes are blocked; keep this page open and export a backup before closing.');return false;
  }
 }
-function save(){if(storageRecoveryIssue){alert('Storage recovery is pending; saved writes are blocked.');return false;}try{localStorage.setItem(KEY,JSON.stringify(state));return true;}catch{alert('Could not save: browser storage is unavailable or full. Export a backup before closing this page.');return false;}}
-function saveDraft(){if(storageRecoveryIssue){alert('Storage recovery is pending; saved writes are blocked.');return false;}try{if(draft)localStorage.setItem(DRAFT,JSON.stringify(draft));else localStorage.removeItem(DRAFT);return true;}catch{alert('Could not save the workout draft. Export your data before closing this page.');return false;}}
+function save(){const saved=persistTraining(state,draft);if(!saved&&storageExpected){try{state=JSON.parse(storageExpected.state)||fresh();}catch{}}return saved;}
+function saveDraft(){if(!checkWriter())return false;try{if(draft)localStorage.setItem(DRAFT,JSON.stringify(draft));else localStorage.removeItem(DRAFT);rememberStorage();return true;}catch{alert('Could not save the workout draft. Export your data before closing this page.');return false;}}
 function currentPlan(){return draft?.plan||E.plan(state,{readiness,minutes:todayMinutes});}
 // Timer state is part of the draft so a refresh cannot silently erase a rest interval.
 function activeTimer(){return draft?.clock||null;}
-function timer(seconds,label='Rest'){if(!draft)return;draft.clock={label,remaining:Math.max(0,Math.floor(seconds)),endAt:Date.now()+Math.max(0,seconds)*1000,running:true};saveDraft();clearInterval(timerInterval);timerInterval=setInterval(updateTimer,250);updateTimer();}
+function timer(seconds,label='Rest'){if(!checkWriter())return;if(!draft)return;draft.clock={label,remaining:Math.max(0,Math.floor(seconds)),endAt:Date.now()+Math.max(0,seconds)*1000,running:true};saveDraft();clearInterval(timerInterval);timerInterval=setInterval(updateTimer,250);updateTimer();}
 function timerRemaining(c){return c?.running?Math.max(0,Math.ceil((c.endAt-Date.now())/1000)):Math.max(0,c?.remaining||0);}
-function pauseTimer(){const c=activeTimer();if(!c)return;c.remaining=timerRemaining(c);c.running=false;delete c.endAt;saveDraft();updateTimer();}
-function resumeTimer(){const c=activeTimer();if(!c||c.running||!c.remaining)return;c.endAt=Date.now()+c.remaining*1000;c.running=true;saveDraft();updateTimer();}
-function clearTimer(){if(draft){draft.clock=null;saveDraft();}clearInterval(timerInterval);updateTimer();}
+function pauseTimer(){if(!checkWriter())return;const c=activeTimer();if(!c)return;c.remaining=timerRemaining(c);c.running=false;delete c.endAt;saveDraft();updateTimer();}
+function resumeTimer(){if(!checkWriter())return;const c=activeTimer();if(!c||c.running||!c.remaining)return;c.endAt=Date.now()+c.remaining*1000;c.running=true;saveDraft();updateTimer();}
+function clearTimer(){if(!checkWriter())return;if(draft){draft.clock=null;saveDraft();}clearInterval(timerInterval);updateTimer();}
 function formatTime(sec){return `${String(Math.floor(sec/60)).padStart(2,'0')}:${String(sec%60).padStart(2,'0')}`;}
 function timerControls(){const c=activeTimer();const kind=draft?.stage==='work'?(c?.label?.startsWith('Rest')?'rest':'work'):draft?.stage||'work';return `<div class="timer timer-${kind}" aria-label="Workout timer" data-timer-mode="${kind}"><div class="row"><span id="timer-label">${esc(c?.label||(kind==='work'?'WORK · ready for next set':kind.toUpperCase()))}</span><strong id="clock" role="timer">${formatTime(timerRemaining(c))}</strong></div><div class="buttonrow">${c?.running?'<button class="button smallbtn secondary" data-clock="pause">Pause</button>':c?.remaining?'<button class="button smallbtn secondary" data-clock="resume">Resume</button>':''}<button class="button smallbtn secondary" data-clock="add">+30 sec</button><button class="button smallbtn secondary" data-clock="clear">Skip / clear</button></div></div>`;}
-function updateTimer(){const main=$('#main-clock');if(main&&draft?.workStarted){const budget=(draft.plan?.cap||31)*60;const remain=Math.max(0,budget-Math.floor((Date.now()-new Date(draft.workStarted).getTime())/1000));main.textContent=formatTime(remain);if(remain===0)main.closest('.notice')?.classList.add('warning');}const c=activeTimer(),t=$('#clock');if(t)t.textContent=formatTime(timerRemaining(c));if(c?.running&&timerRemaining(c)===0){c.running=false;c.remaining=0;delete c.endAt;saveDraft();clearInterval(timerInterval);t?.closest('.timer')?.classList.add('warning');}}
-function start(){if(draft)return;const plan=E.plan(state,{readiness,minutes:todayMinutes});if(!plan.items.length){alert("No complete movement fits today. Choose more time or adjust your training plan.");return;}draft={id:'d'+newIdentity(),plan,started:new Date().toISOString(),date:today(),stage:'warmup',items:plan.items.map(rx=>({id:rx.id,sets:Array.from({length:rx.sets},()=>({done:false,reps:rx.reps,weight:rx.weight})),quality:'clean',pain:false})),notes:''};saveDraft();render();}
-function changed(i,j,field,value){
+function updateTimer(){const main=$('#main-clock');if(main&&draft?.workStarted){const budget=(draft.plan?.cap||31)*60;const remain=Math.max(0,budget-Math.floor((Date.now()-new Date(draft.workStarted).getTime())/1000));main.textContent=formatTime(remain);if(remain===0)main.closest('.notice')?.classList.add('warning');}const c=activeTimer(),t=$('#clock');if(t)t.textContent=formatTime(timerRemaining(c));if(storageWritable&&!storageConflict&&!storageRecoveryIssue&&c?.running&&timerRemaining(c)===0){c.running=false;c.remaining=0;delete c.endAt;saveDraft();clearInterval(timerInterval);t?.closest('.timer')?.classList.add('warning');}}
+function start(){if(!checkWriter())return;if(draft)return;const plan=E.plan(state,{readiness,minutes:todayMinutes});if(!plan.items.length){alert("No complete movement fits today. Choose more time or adjust your training plan.");return;}draft={id:'d'+newIdentity(),plan,started:new Date().toISOString(),date:today(),stage:'warmup',items:plan.items.map(rx=>({id:rx.id,sets:Array.from({length:rx.sets},()=>({done:false,reps:rx.reps,weight:rx.weight})),quality:'clean',pain:false})),notes:''};saveDraft();render();}
+function changed(i,j,field,value){if(!checkWriter())return;
  if(!draft)return;
  const d=draft.items[i].sets[j];
  if(field==='done'&&value&&(!E.validWorkingWeight(draft.plan.items[i].id,d.weight)||!Number.isInteger(Number(d.reps))||Number(d.reps)<=0)){alert('Enter a positive weight and whole reps or seconds before completing this set.');return;}
@@ -65,8 +99,8 @@ function changed(i,j,field,value){
  }
  render();
 }
-function editDraft(i,key,value){if(!draft)return;draft.items[i][key]=value;saveDraft();render();}
-function saveWorkout(){if(!draft)return;const previous=JSON.stringify(state);const actual=draft.plan.items.map((rx,i)=>E.completeRecord(rx,draft.items[i].sets,draft.items[i].quality,draft.items[i].pain));if(!actual.some(x=>x.actualSets>0)){alert('Log at least one completed set before saving.');return;}
+function editDraft(i,key,value){if(!checkWriter())return;if(!draft)return;draft.items[i][key]=value;saveDraft();render();}
+function saveWorkout(){if(!checkWriter())return;if(!draft)return;if(draft.id&&state.sessions.some(session=>session.draftId===draft.id)){alert('This workout is already saved. Export a backup and discard the duplicate draft; no history entry was added.');return;}const previous=JSON.stringify(state);const actual=draft.plan.items.map((rx,i)=>E.completeRecord(rx,draft.items[i].sets,draft.items[i].quality,draft.items[i].pain));if(!actual.some(x=>x.actualSets>0)){alert('Log at least one completed set before saving.');return;}
  const notes=$('#notes')?.value||draft.notes;state.deferredIds=E.deferredAfter(draft.plan,actual);state.deferredByBlock={...state.deferredByBlock,[draft.plan.block||'abc']:state.deferredIds};state.sessions.push({id:'s'+newIdentity(),draftId:draft.id||null,date:draft.date,slot:draft.plan.slot,block:draft.plan.block||'abc',programMode:draft.plan.composition?'coordinated':'single',title:draft.plan.day.name,items:actual,notes,started:draft.started,finished:new Date().toISOString()});actual.forEach(x=>{if(x.completed&&state.nextWeights)delete state.nextWeights[x.id]});if(!persistTraining(state,null)){state=JSON.parse(previous);return;}draft=null;clearInterval(timerInterval);tab='progress';render();}
 function timeText(n){return n>0?`${n} min`:'—';}
 function loadText(rx){return rx.bodyweight?'Bodyweight / no external load':rx.weight?rx.weight+' '+rx.unit:'Choose load';}
@@ -156,11 +190,14 @@ function saveProgramming(){
  }catch(error){alert('Cannot save programming: '+error.message);}
 }
 function renderSettings(){return `<section class="hero"><div class="eyebrow">Equipment & privacy</div><h1>Settings</h1><p class="muted">No account. Your workouts stay in this browser unless you export them.</p></section>${card('Previous training records',`<p>Your V31/V32 workouts and drafts remain in their original storage. They are not counted as comparable exposures by the new engine.</p><a class="button secondary" href="legacy/index.html">Open previous training log and backups</a>`)}${renderProgramming()}${card('Default workout duration',`<div class="field"><label for="default-minutes">Default session length</label><select id="default-minutes">${[15,20,30,45,60,75,90,120].map(n=>`<option value="${n}" ${state.defaultMinutes===n?'selected':''}>${n} minutes</option>`).join('')}</select></div><button class="button secondary" id="save-duration">Save default</button>`)}${card('Available equipment',`<p class="small muted">Enter the actual weights you own, separated by commas. The engine will never invent an available next weight.</p>${['kb','club'].map(g=>`<div class="field"><label>${g==='kb'?'Kettlebells (kg)':'Heavy clubs (lb)'}</label><input data-equipment="${g}" value="${esc((state.equipment[g]||[]).join(', '))}"></div>`).join('')}<div class="field"><label>Matched kettlebell pairs (kg per bell, comma-separated)</label><input data-equipment="pairs" value="${esc((state.equipment.pairs||[]).join(', '))}"></div><button class="button secondary" id="save-equipment">Save equipment</button>`)}${card('Working weights',`<p class="small muted">Set conservative starting weights. Leave a movement at 0 to select the load while training. No maximum testing required.</p>${Object.entries(E.MOVES).map(([id,m])=>`<div class="field"><label>${esc(m.name)} (${m.unit})</label><input type="number" min="0" step="0.5" data-weight="${id}" ${m.bodyweight?'readonly':''} value="${esc(m.bodyweight?0:state.weights[id]||0)}"></div>`).join('')}<button class="button secondary" id="save-weights">Save working weights</button>`)}${card('Backup & restore',`<p class="small muted">Your data is stored locally. JSON backups include the active workout draft and timer. Export regularly; clearing browser storage can erase it.</p><div class="buttonrow"><button class="button" id="export">Export JSON backup</button><button class="button secondary" id="export-csv">Export CSV</button></div><div class="field"><label>Restore a V33 backup</label><input id="import" type="file" accept=".json,application/json"></div>`)}${card('Start over',`<p class="small muted">Erase V33 workouts, weights, and drafts on this device only. Older versions use separate storage.</p><button class="button danger" id="reset">Reset V33 data</button>`)}<p class="footer-note">Strength Lab V33 · experimental prescription engine. Training recommendations are not medical assessments. Stop movements that cause pain.</p>`;}
-function render(){const main=$('#app');main.innerHTML=(storageRecoveryIssue?'<div class="notice warning" role="alert">Storage recovery is pending. Saved writes are blocked; export a backup before closing.</div>':'')+(tab==='today'?renderToday():tab==='progress'?renderProgress():tab==='learn'?renderLearn():renderSettings());document.querySelectorAll('[data-tab]').forEach(x=>x.classList.toggle('active',x.dataset.tab===tab));updateTimer();}
+function render(){const main=$('#app');main.innerHTML=(storageReady&&storageNotice()?'<div class="notice warning" role="alert" id="storage-notice">'+esc(storageNotice())+'</div>':'')+(storageRecoveryIssue?'<div class="notice warning" role="alert">Storage recovery is pending. Saved writes are blocked; export a backup before closing.</div>':'')+(tab==='today'?renderToday():tab==='progress'?renderProgress():tab==='learn'?renderLearn():renderSettings());if(storageReady&&(!storageWritable||storageConflict||storageRecoveryIssue)){main.querySelectorAll('input,select,textarea,button').forEach(el=>{if(!['export','export-csv','search-full','clear-source','source-search','import'].includes(el.id)&&el.dataset.openSource===undefined&&el.dataset.learn===undefined)el.disabled=true;});}
+ document.querySelectorAll('[data-tab]').forEach(x=>x.classList.toggle('active',x.dataset.tab===tab));updateTimer();}
 function download(name,content,type){const blob=new Blob([content],{type}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),2000);}
 function chooseWeight(id){if(draft){alert('Finish or discard the active workout before changing its next load.');return;}const m=E.MOVES[id],opts=E.loadOptions(state,id);if(!opts.length){alert('No eligible heavier load within your configured jump limit. Maintain, add suitable equipment, or deliberately review the limit in Settings.');return;}const answer=prompt(`Next available ${m.name} weight (${m.unit}): ${opts.join(', ')}. Enter one, or cancel to maintain.`,String(opts[0]));if(answer===null)return;try{state=E.selectLoad(state,id,Number(answer));save();render();}catch(error){alert(error.message);}}
 document.addEventListener('change',e=>{if(e.target.id==='today-minutes'){todayMinutes=Number(e.target.value);render();}});
 document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
+ if(!storageReady)return;
+ if(!(b.dataset.tab||b.dataset.openSource!==undefined||b.dataset.learn||['export','export-csv','search-full','clear-source'].includes(b.id))&&!checkWriter())return;
  if(b.hasAttribute('data-retest-pushup')){if(draft){alert('Finish or discard the active workout before reviewing the baseline.');return;}const value=prompt('Enter a recent conservative clean-rep baseline. Exclude any failed/final rep; no maximum test is requested now.',String(state.programming?.pushup?.cleanBaseline||0));if(value===null)return;try{const previous=state;state=E.retestPushup(state,Number(value));if(!save()){state=previous;return;}render();}catch(error){alert(error.message);}return;}
  if(b.id==='save-programming'){saveProgramming();return;}
  if(b.dataset.cycleFor){if(draft){alert('Finish or discard the active workout before changing its cycle.');return;}try{state=E.chooseCycle(state,b.dataset.cycleFor,'density');save();render();}catch(error){alert(error.message);}return;}
@@ -174,7 +211,7 @@ document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)r
  if(b.dataset.movementTimer!==undefined){const rx=draft?.plan.items[Number(b.dataset.movementTimer)];if(rx?.durationScope==='total'){timer(rx.reps,`${rx.name} goal`);render();}return;}
  if(b.dataset.startRound!==undefined){const i=Number(b.dataset.startRound),rx=draft?.plan.items[i];if(!rx?.roundSeconds)return;draft.roundStarts??={};draft.roundStarts[rx.id]=Date.now();saveDraft();timer(rx.roundSeconds,`Round · ${rx.name}`);render();return;}
  if(b.id==='start'){start();return;}
- if(b.id==='save-duration'){state.defaultMinutes=Number($('#default-minutes').value)||45;todayMinutes=state.defaultMinutes;save();render();return;}
+ if(b.id==='save-duration'){state.defaultMinutes=Number($('#default-minutes').value)||45;if(!save())return;todayMinutes=state.defaultMinutes;render();return;}
  if(b.dataset.stage){clearTimer();draft.stage=b.dataset.stage;if(draft.stage==='work'&&!draft.workStarted)draft.workStarted=new Date().toISOString();saveDraft();render();return;}
  if(b.dataset.timer!==undefined){timer(Number(b.dataset.timer),draft?.stage==='warmup'?'Warmup':draft?.stage==='cooldown'?'Cooldown':'Rest');render();return;}
  if(b.dataset.clock){const action=b.dataset.clock;if(action==='pause')pauseTimer();if(action==='resume')resumeTimer();if(action==='clear')clearTimer();if(action==='add'){const c=activeTimer();if(c){c.remaining=timerRemaining(c)+30;if(c.running)c.endAt=Date.now()+c.remaining*1000;saveDraft();}}render();return;}
@@ -196,20 +233,27 @@ document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)r
  if(b.dataset.weightFor){chooseWeight(b.dataset.weightFor);return;}
  if(b.dataset.delete){if(confirm('Delete this training entry? The movement progression will be recalculated.')){state.sessions=state.sessions.filter(x=>x.id!==b.dataset.delete);save();render();}return;}
  if(draft&&['save-weights','save-equipment'].includes(b.id)){alert('Finish or discard the active workout before changing weights or equipment.');return;}
- if(b.id==='save-weights'){document.querySelectorAll('[data-weight]').forEach(x=>(state.weights[x.dataset.weight]=Math.max(0,Number(x.value)||0),state.nextWeights[x.dataset.weight]=Math.max(0,Number(x.value)||0)));save();alert('Working weights saved.');render();return;}
+ if(b.id==='save-weights'){document.querySelectorAll('[data-weight]').forEach(x=>(state.weights[x.dataset.weight]=Math.max(0,Number(x.value)||0),state.nextWeights[x.dataset.weight]=Math.max(0,Number(x.value)||0)));if(!save())return;alert('Working weights saved.');render();return;}
  if(b.id==='save-equipment'){try{const equipment={...state.equipment};document.querySelectorAll('[data-equipment]').forEach(x=>{equipment[x.dataset.equipment]=[...new Set(x.value.split(',').map(Number).filter(n=>Number.isFinite(n)&&n>0))].sort((a,b)=>a-b)});const next=E.validateProgramming({...state,equipment}),previous=state;state=next;if(!save()){state=previous;return;}alert('Equipment saved.');render();}catch(error){alert('Cannot save equipment: '+error.message);}return;}
  if(b.id==='export'){download('strength-lab-v33-backup.json',JSON.stringify({...state,workoutDraft:draft},null,2),'application/json');return;}
  if(b.id==='export-csv'){const rows=[['date','session','movement','weight','unit','sets','min_reps_or_seconds','quality','pain']];state.sessions.forEach(x=>x.items.forEach(y=>rows.push([x.date,x.title,y.name,y.weight,y.unit,y.actualSets,y.actualReps,y.quality,y.pain])));download('strength-lab-v33-history.csv',rows.map(row=>row.map(v=>'"'+String(v??'').replace(/"/g,'""')+'"').join(',')).join('\n'),'text/csv');return;}
  if(b.id==='reset'){if(confirm('Erase ALL V33 training data on this device?')){const next=fresh();if(!persistTraining(next,null))return;state=next;todayMinutes=state.defaultMinutes;draft=null;clearInterval(timerInterval);tab='today';render();}return;}
 });
 document.addEventListener('change',e=>{const el=e.target;
+ if(el.id==='import'||el.dataset.set||el.dataset.quality!==undefined||el.dataset.pain!==undefined){if(!checkWriter())return;}
  if(el.dataset.set){const [i,j,key]=el.dataset.set.split(':');changed(+i,+j,key,['bothSides','timingValid','continuous'].includes(key)?el.checked:el.value);return;}
  if(el.dataset.quality!==undefined){editDraft(+el.dataset.quality,'quality',el.value);return;}
  if(el.dataset.pain!==undefined){editDraft(+el.dataset.pain,'pain',el.checked);return;}
  if(el.id==='import'){const f=el.files?.[0];if(!f)return;f.text().then(t=>{if(f.size>10000000)throw Error('Backup is too large');const x=E.validateBackup(JSON.parse(t));if(confirm('Replace training data and the active workout with this backup?')){const {workoutDraft,...nextState}=x;if(!persistTraining(nextState,workoutDraft))return;state=nextState;draft=workoutDraft;clearInterval(timerInterval);tab=draft?'today':'progress';render();}}).catch(err=>alert('Cannot restore backup: '+err.message));return;}
 });
-document.addEventListener('input',e=>{if(e.target.id==='source-search'){search=e.target.value;fullMatches=null;const el=$('#sources');if(el&&sourceData)el.innerHTML=sourceResults();}if(e.target.id==='notes'&&draft){draft.notes=e.target.value;saveDraft();}});
+document.addEventListener('input',e=>{if(e.target.id==='source-search'){search=e.target.value;fullMatches=null;const el=$('#sources');if(el&&sourceData)el.innerHTML=sourceResults();}if(e.target.id==='notes'&&draft&&checkWriter()){draft.notes=e.target.value;saveDraft();}});
 window.addEventListener('online',()=>{$('#network').textContent='LOCAL FIRST';});window.addEventListener('offline',()=>{$('#network').textContent='OFFLINE READY';});
 setInterval(()=>{if(draft)updateTimer()},1000);
 if('serviceWorker'in navigator)navigator.serviceWorker.register('./sw.js').catch(()=>{});
-render();
+window.addEventListener('storage',event=>{
+ if(![KEY,DRAFT,JOURNAL,null].includes(event.key))return;
+ if(storageWritable){storageConflict=true;clearInterval(timerInterval);render();}
+ else if(storageReady){loadTrainingSnapshot();render();}
+});
+$('#app').innerHTML='<div role="status">Loading saved training…</div>';
+initializeStorage();

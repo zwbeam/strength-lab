@@ -52,7 +52,7 @@ try:
   running_payload=json.loads(Path(running_download.value.path()).read_text());running_clock=running_payload['workoutDraft']['clock'];assert running_clock['running']
   page.locator('#reset').click();settings();import_file(running_payload,'running-timer.json');page.wait_for_function('draft?.clock?.running===true')
   assert page.evaluate('draft.clock.endAt')==running_clock['endAt']
-  page.reload();assert page.evaluate('draft.id')==draft['id'] and page.evaluate('draft.clock.endAt')==running_clock['endAt']
+  page.reload();page.wait_for_function('storageReady');assert page.evaluate('draft.id')==draft['id'] and page.evaluate('draft.clock.endAt')==running_clock['endAt']
   page.get_by_role('button',name='Pause',exact=True).click()
   page.get_by_role('button',name='Complete next set').click();page.get_by_role('button',name='Finish main work · cooldown').click();before_save=snapshot()
   page.evaluate('''()=>{window.originalRemoveItem=Storage.prototype.removeItem;Storage.prototype.removeItem=function(key){if(key==='strengthlab-draft-v33')throw new Error('Injected removal failure');return originalRemoveItem.call(this,key);};testAlerts=[];}''')
@@ -66,12 +66,12 @@ try:
   # A startup rollback can itself fail: retain the old snapshot and block writes.
   page.add_init_script('''if(sessionStorage.getItem('failRecovery')){const native=Storage.prototype.setItem;Storage.prototype.setItem=function(key,value){if(key==='strengthlab-data-v33')throw Error('Injected startup recovery failure');return native.call(this,key,value);};}''')
   page.evaluate("sessionStorage.setItem('failRecovery','yes')")
-  page.reload();assert page.evaluate('storageRecoveryIssue && state.sessions.length===0 && draft!==null')
+  page.reload();page.wait_for_function('storageReady');assert page.evaluate('storageRecoveryIssue && state.sessions.length===0 && draft!==null')
   assert page.get_by_role('alert').count()==1
   assert page.evaluate('localStorage.getItem("strengthlab-transaction-v33")') is not None
-  failed_recovery=snapshot();page.locator('#save-workout').click();assert snapshot()==failed_recovery
+  failed_recovery=snapshot();assert page.locator('#save-workout').is_disabled();assert snapshot()==failed_recovery
   page.evaluate("sessionStorage.removeItem('failRecovery')")
-  page.reload();assert snapshot()==before_save and page.evaluate('state.sessions.length')==0
+  page.reload();page.wait_for_function('storageReady');assert snapshot()==before_save and page.evaluate('state.sessions.length')==0
   assert page.evaluate('draft.id')==draft['id'] and page.evaluate('localStorage.getItem("strengthlab-transaction-v33")') is None
   page.locator('#save-workout').click();assert page.evaluate('state.sessions.length')==1
   settings();saved=snapshot();duplicate=page.evaluate('JSON.parse(JSON.stringify(state))');duplicate['workoutDraft']=draft
