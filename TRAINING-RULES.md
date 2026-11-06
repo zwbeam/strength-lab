@@ -258,3 +258,21 @@ writer ownership and saved-value checks prevent updated tabs from overwriting on
 another's drafts/history. A reader can export and inspect saved training; closing
 the owner and reloading transfers editing with the current draft and timer.
 This is data protection, not a training principle from a transcript.
+
+## Unloaded-to-loaded hinge foundation
+
+The optional kettlebell hinge foundation block adds a two-hand deadlift taught in
+#704. It requires explicit hinge/deadlift familiarity plus recent clean unloaded
+hinge practice. Missing/stale evidence schedules the unloaded parent; evidence
+does not auto-confirm loaded technique. Child practice can maintain established
+parent evidence under the same existing rules, but a new child load cannot bypass
+stale parent evidence or pain. This block can join coordinated programming.
+
+The loaded default is **2–4×5 with 90-second rests**; editable sets and 3/5/8 reps,
+exposure gates, load increases and recovery adaptations are Strength Lab defaults.
+#704's 2–3×10 example is explicitly **without weight**; it is not claimed as a
+loaded prescription. Load selection remains explicit, owned and limited by the
+configured jump cap. Short sessions fit whole prescriptions. Incomplete, corrected,
+painful or reduced work never earns normal progression credit. Existing swing/ABC
+cycles are preserved; deadlift completion does not auto-certify a swing or advanced
+unilateral/stance hinge variation.

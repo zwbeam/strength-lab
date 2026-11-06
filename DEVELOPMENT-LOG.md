@@ -246,3 +246,20 @@ backup failure and mobile-emulated worker-upgrade suites pass. All 90 named Node
 tests and six DOM suites pass. DOM fixtures now have a localhost test origin for
 real Web Locks while retaining their explicitly simulated storage. No fake lock
 fallback was added to production. Details and older-client limits are in PERSISTENCE.md.
+
+## 2026-11-06 — Foundational loaded hinge pathway
+
+After pushing coordinated programming `b05b82c` and writer protection `ea80b41`,
+close-read #704 and added a two-hand deadlift registry entry/profile/block. It
+uses explicit loaded technique plus recent unloaded supporting evidence, shared
+recovery and owned-load review. Loaded set/rep/rest choices are configurable app
+defaults; the source's 2–3×10 example is correctly retained as unloaded only.
+No existing swing/ABC policy or progression was altered.
+
+Five engine tests and 13 actual generated/saved UI workouts pass: incomplete
+foundation work, explicit review, short duration, complete loaded cycle, owned
+25% load increase, stale-parent requalification, pain and offline history.
+The changed-load test verifies that stale evidence is regenerated rather than
+silently reused. 95 named Node tests and engine/legacy assertions pass. Thirty
+quotation/hash anchors and the regenerated 720-source coverage/registry check pass.
+The hinge coverage row remains partial; unilateral/stance pathways are unfinished.

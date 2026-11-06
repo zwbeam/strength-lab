@@ -1731,9 +1731,10 @@
       ],
       "implemented_movement_ids": [
         "hingePractice",
+        "deadlift",
         "swing"
       ],
-      "boundary": "Unloaded hinge teaching and swing defaults exist; loaded deadlift and variant pathways remain incomplete."
+      "boundary": "Unloaded-to-loaded two-hand deadlift practice has skill/evidence gates and app-default volume; swing defaults remain separate, and unilateral/stance pathways remain incomplete."
     },
     {
       "id": "kb-grinds",
@@ -31968,6 +31969,36 @@
           "Keep elbows straight and move deliberately within comfortable range; return to the same knee position."
         ],
         "avoid": "Do not force range, speed or an endurance target after control deteriorates."
+      },
+      "deadlift": {
+        "name": "Two-hand kettlebell deadlift",
+        "gear": "kb",
+        "unit": "kg",
+        "family": "hinge",
+        "reps": 5,
+        "start": 2,
+        "end": 4,
+        "rest": 90,
+        "sec": 30,
+        "repSeconds": 6,
+        "side": 1,
+        "defaultProfile": "deadliftPractice",
+        "requires": [
+          "hingePattern",
+          "deadliftTechnique"
+        ],
+        "practicePrereqs": [
+          "hingePractice"
+        ],
+        "teachingSources": [
+          704
+        ],
+        "cues": [
+          "Place the bell between the feet and hinge back with controlled alignment.",
+          "Stand with controlled bracing, glute engagement and a stable trunk.",
+          "Return the bell to the ground under control; use a familiar manageable load."
+        ],
+        "avoid": "Do not turn the lift into a swing or increase weight before clean practice and deliberate review."
       }
     },
     "skills": {
@@ -32145,9 +32176,27 @@
         "sources": [
           100
         ]
+      },
+      "deadliftTechnique": {
+        "name": "Familiar two-hand kettlebell deadlift with stable hinge and controlled return",
+        "sources": [
+          704
+        ]
       }
     },
     "blocks": {
+      "hingePathway": {
+        "name": "Kettlebell hinge foundation",
+        "days": [
+          {
+            "name": "Unloaded to loaded hinge",
+            "focus": "Reviewed deadlift technique with recent unloaded practice",
+            "ids": [
+              "deadlift"
+            ]
+          }
+        ]
+      },
       "groundPractice": {
         "name": "Bodyweight ground foundations",
         "days": [

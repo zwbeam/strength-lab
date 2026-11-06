@@ -125,3 +125,12 @@ Unexpected saved-value changes block stale writes. Settings/history edits use th
 same paired transaction and failed saves restore prior state. Real multi-tab,
 backup failure, offline upgrade and all six DOM tests pass. See PERSISTENCE.md for
 supported-origin/browser requirements and limits for obsolete open clients.
+
+## Loaded foundation update
+
+The optional kettlebell hinge foundation block now schedules unloaded supporting
+practice and the source-reviewed two-hand deadlift. Explicit skill/evidence gates,
+editable loaded practice, deliberate owned-load review and recovery are integrated.
+Five engine cases and 13 real UI workouts pass; all 95 named Node tests pass.
+Source provenance now has 30 verified anchors. Swing/ABC history and policy keys
+are unchanged; advanced hinge variants remain missing.

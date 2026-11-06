@@ -400,6 +400,20 @@
         "evidence recency and clean-exposure gates",
         "recovery reductions"
       ]
+    },
+    {
+      "rule": "loaded-hinge-foundation",
+      "source_id": 704,
+      "title": "kettlebell 1:  2 hand deadlift, the foundation exercise for the 2 hand swing",
+      "url": "https://www.youtube.com/watch?v=x0XkmM34BPI",
+      "normalized_text_sha256": "0e8bfae8e930790b4279da5f8e01365fa1b4c1874eb330ee0f1e957ba0c25ca4",
+      "quote": "this is the first exercise that you would like to work on because all other exercises are built off of this structure",
+      "supported_scope": "Two-hand kettlebell deadlift teaching foundation; the 2–3×10 numeric example later in the text is explicitly without weight.",
+      "app_defaults_not_claimed_as_source_rules": [
+        "loaded set/rep/rest targets",
+        "recent unloaded evidence gate",
+        "promotion and load-increase thresholds"
+      ]
     }
   ]
 }

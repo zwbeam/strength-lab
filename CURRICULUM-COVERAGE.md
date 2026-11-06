@@ -6,7 +6,7 @@ All 720 records have an inventory entry, including those with no title matches. 
 
 | System | Coverage | Discovery/reference IDs (zero-based) | Implemented / remaining boundary |
 | --- | --- | --- | --- |
-| Kettlebell deadlift / hinge / swing | partial | #704, #288 | Unloaded hinge teaching and swing defaults exist; loaded deadlift and variant pathways remain incomplete. |
+| Kettlebell deadlift / hinge / swing | partial | #704, #288 | Unloaded-to-loaded two-hand deadlift practice has skill/evidence gates and app-default volume; swing defaults remain separate, and unilateral/stance pathways remain incomplete. |
 | Kettlebell clean / press / squat | partial | #120, #366, #288 | Scoped double-grind examples and basic defaults; not every single-arm or stance variation. |
 | Snatch EMOM volume / density example | implemented | #411, #410 | Only the reviewed EMOM example; competition/complex variants are separate gaps. |
 | Get-up alternating time-under-load goal | implemented | #423, #658, #422, #298, #372, #324 | Prerequisite checklist and 3–10 minute alternating-single-rep goal; no automatic technique certification. |

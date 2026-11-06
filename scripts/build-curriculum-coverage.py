@@ -6,7 +6,7 @@ import json,re,subprocess
 ROOT=Path(__file__).resolve().parents[1]
 # status describes the scoped system in this row, not every lesson matching a term.
 ROWS=[
- ('kb-hinge','Kettlebell deadlift / hinge / swing','partial',r'deadlift|\bhinge\b|\bswing\b',[704,288],['hingePractice','swing'],'Unloaded hinge teaching and swing defaults exist; loaded deadlift and variant pathways remain incomplete.'),
+ ('kb-hinge','Kettlebell deadlift / hinge / swing','partial',r'deadlift|\bhinge\b|\bswing\b',[704,288],['hingePractice','deadlift','swing'],'Unloaded-to-loaded two-hand deadlift practice has skill/evidence gates and app-default volume; swing defaults remain separate, and unilateral/stance pathways remain incomplete.'),
  ('kb-grinds','Kettlebell clean / press / squat','partial',r'clean|press|squat',[120,366,288],['clean','press','squat','doublePress','doubleSquat'],'Scoped double-grind examples and basic defaults; not every single-arm or stance variation.'),
  ('snatch-emom','Snatch EMOM volume / density example','implemented',r'snatch',[411,410],['snatch'],'Only the reviewed EMOM example; competition/complex variants are separate gaps.'),
  ('getup-base','Get-up alternating time-under-load goal','implemented',r'get.?up',[423,658,422,298,372,324],['getup'],'Prerequisite checklist and 3–10 minute alternating-single-rep goal; no automatic technique certification.'),
