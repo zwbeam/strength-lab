@@ -27,7 +27,16 @@ try:
   with page.expect_download() as download:page.locator('#export').click()
   payload=json.loads(Path(download.value.path()).read_text())
   draft=payload['workoutDraft'];assert draft['id'] and draft['stage']=='work' and draft['items'][0]['sets'][0]['done'] and not draft['clock']['running']
-  page.locator('#reset').click();settings();empty=snapshot()
+  # Discard must not erase the in-memory draft when storage removal fails.
+  active=snapshot();page.locator('[data-tab="today"]').click()
+  page.evaluate('''()=>{window.originalRemoveItem=Storage.prototype.removeItem;Storage.prototype.removeItem=function(key){if(key==='strengthlab-draft-v33')throw Error('Injected discard failure');return originalRemoveItem.call(this,key);};testAlerts=[];}''')
+  page.locator('#discard').click();assert snapshot()==active and page.evaluate('draft!==null')
+  page.evaluate('()=>{Storage.prototype.removeItem=originalRemoveItem;}')
+  settings();page.locator('#reset').click();settings();empty=snapshot()
+  # Failure to write the journal must leave both original keys untouched.
+  page.evaluate('''()=>{window.originalSetItem=Storage.prototype.setItem;Storage.prototype.setItem=function(key,value){if(key==='strengthlab-transaction-v33')throw Error('Injected journal failure');return originalSetItem.call(this,key,value);};}''')
+  import_file(payload,'journal-write-failed.json');page.wait_for_function('testAlerts.some(m=>m.includes("Previous saved data was preserved"))');assert snapshot()==empty
+  page.evaluate('()=>{Storage.prototype.setItem=originalSetItem;}')
   invalid=json.loads(json.dumps(payload));invalid['workoutDraft']['items'][0]['sets']=[]
   import_file(invalid,'invalid-draft.json');page.wait_for_function('testAlerts.some(m=>m.startsWith("Cannot restore backup:"))');assert snapshot()==empty
   page.evaluate('''()=>{window.originalSetItem=Storage.prototype.setItem;Storage.prototype.setItem=function(key,value){if(key==='strengthlab-draft-v33')throw new DOMException('Injected draft quota failure','QuotaExceededError');return originalSetItem.call(this,key,value);};}''')
@@ -38,7 +47,13 @@ try:
   assert page.locator('[data-check="0:0"]').inner_text()=='✓'
   assert page.get_by_role('button',name='Resume',exact=True).count()==1
   assert page.evaluate('draft.clock.remaining')==draft['clock']['remaining']
-  page.reload();assert page.evaluate('draft.id')==draft['id']
+  page.get_by_role('button',name='Resume',exact=True).click();settings()
+  with page.expect_download() as running_download:page.locator('#export').click()
+  running_payload=json.loads(Path(running_download.value.path()).read_text());running_clock=running_payload['workoutDraft']['clock'];assert running_clock['running']
+  page.locator('#reset').click();settings();import_file(running_payload,'running-timer.json');page.wait_for_function('draft?.clock?.running===true')
+  assert page.evaluate('draft.clock.endAt')==running_clock['endAt']
+  page.reload();assert page.evaluate('draft.id')==draft['id'] and page.evaluate('draft.clock.endAt')==running_clock['endAt']
+  page.get_by_role('button',name='Pause',exact=True).click()
   page.get_by_role('button',name='Complete next set').click();page.get_by_role('button',name='Finish main work · cooldown').click();before_save=snapshot()
   page.evaluate('''()=>{window.originalRemoveItem=Storage.prototype.removeItem;Storage.prototype.removeItem=function(key){if(key==='strengthlab-draft-v33')throw new Error('Injected removal failure');return originalRemoveItem.call(this,key);};testAlerts=[];}''')
   page.locator('#save-workout').click();page.wait_for_function('testAlerts.some(m=>m.includes("Previous saved data was preserved"))')
