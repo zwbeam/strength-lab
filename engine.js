@@ -250,7 +250,8 @@ const BLOCKS={
  singleClub:{name:'Single-arm club foundation block',days:[{name:'Inside / Outside / Shield',focus:'Continuous volume within each movement; breaks between movements',ids:['clubInside','clubOutside','clubShield']}]},
  club:{name:'Two-hand club practice block',days:[{name:'Two-hand club patterns',focus:'Familiar club patterns; choose timed profiles in Settings',ids:['front','cast','circles']}]}
 };
-const DEMANDS={getup:['lower','shoulder','grip'],hinge:['lower','grip'],squat:['lower'],press:['shoulder','grip'],pull:['shoulder','grip'],carry:['grip'],rotation:['shoulder','grip']};
+const DEMANDS={ground:['lower','shoulder'],getup:['lower','shoulder','grip'],hinge:['lower','grip'],squat:['lower'],press:['shoulder','grip'],pull:['shoulder','grip'],carry:['grip'],rotation:['shoulder','grip']};
+function movementDemands(id){return [...(DEMANDS[MOVES[id]?.family]||[])];}
 function calendarDay(value){const text=typeof value==='string'&&/^\d{4}-\d{2}-\d{2}$/.test(value)?value:new Date(value??Date.now()).toLocaleDateString('sv-SE');return Date.parse(text+'T12:00:00Z')/86400000;}
 function plan(s,opts={}){
  const block=s.programBlock||'abc';if(!BLOCKS[block])throw Error('Unknown program block');
@@ -271,8 +272,8 @@ function plan(s,opts={}){
   if(stateFor(s,id).hold){held.push(id);deferred.push(id);continue;}
   const rx=prescription(s,id,opts);
   if(rx.mode==='prerequisite'){prerequisite.push(id);requirements.push({id,reason:rx.reason});deferred.push(id);continue;}
-  const demands=DEMANDS[MOVES[id].family]||[];
-  const recent=history.some(x=>today-calendarDay(x.date)<(defaults.minGapDays??0)&&(x.items||[]).some(y=>y.actualSets>0&&MOVES[y.id]&&(DEMANDS[MOVES[y.id].family]||[]).some(d=>demands.includes(d))));
+  const demands=movementDemands(id);
+  const recent=history.some(x=>today-calendarDay(x.date)<(defaults.minGapDays??0)&&(x.items||[]).some(y=>y.actualSets>0&&MOVES[y.id]&&movementDemands(y.id).some(d=>demands.includes(d))));
   const isHard=rx.track==='heavy'||rx.profile==='grind'||rx.mode==='density';
   if(restDay||recent||(isHard&&hard>=(defaults.maxHardMovements??3))){scheduled.push(id);deferred.push(id);continue;}
   const cost=minutesFor(rx)+(items.length?(items.at(-1).betweenExercises||0)/60:0);
@@ -366,9 +367,14 @@ function validateBackup(input){
   if(!object(map))throw Error('Invalid working weights');
   for(const [id,weight] of Object.entries(map))if(!Object.hasOwn(MOVES,id)||!Number.isFinite(weight)||weight<0)throw Error('Invalid working weights');
  }
+ const sessionIds=new Set(),draftIds=new Set();
  for(const session of input.sessions){
   if(!object(session)||typeof session.id!=='string'||typeof session.title!=='string'||typeof session.date!=='string'||!/^\d{4}-\d{2}-\d{2}$/.test(session.date)||!Array.isArray(session.items))throw Error('Invalid training entry');
+  if(sessionIds.has(session.id))throw Error('Duplicate workout identity');sessionIds.add(session.id);
+  if(session.draftId!==undefined&&session.draftId!==null){if(typeof session.draftId!=='string'||!session.draftId||draftIds.has(session.draftId))throw Error('Duplicate or invalid workout draft identity');draftIds.add(session.draftId);}
+  const movementIds=new Set();
   for(const item of session.items){
+   if(movementIds.has(item?.id))throw Error('Duplicate movement in workout');movementIds.add(item?.id);
    if(MOVES[item?.id]?.bodyweight&&(item.bodyweight!==true||item.weight!==0))throw Error('Invalid bodyweight record');
    if(!object(item)||!Object.hasOwn(MOVES,item.id)||!Number.isFinite(item.weight)||item.weight<0||!Number.isInteger(item.actualSets)||item.actualSets<0||!Number.isFinite(item.actualReps)||item.actualReps<0||!Number.isInteger(item.targetSets)||item.targetSets<0||!Number.isFinite(item.targetReps)||item.targetReps<=0||!Number.isFinite(item.rest)||item.rest<0||!['clean','minor','hard','breakdown','pain'].includes(item.quality))throw Error('Invalid movement record');
   }
@@ -383,5 +389,5 @@ function validateBackup(input){
  const workoutDraft=validateDraft(input.workoutDraft,input);
  return {...input,workoutDraft,nextWeights:input.nextWeights||{},defaultMinutes:input.defaultMinutes??45,deferredIds:input.deferredIds||[]};
 }
-return{MOVES,SKILLS,DAYS,BLOCKS,LOADS,PROFILE_NAMES,describeProgression,policyFor,availableProfiles,configureMovement,practiceEvidence,supportingMoves,requirementLabel,prerequisites,chooseCycle,loadOptions,selectLoad,retestPushup,validWorkingWeight,validateProgramming,validateDraft,validateBackup,records,successful,stateFor,prescription,minutesFor,timeBudget,plan,completeRecord,nextRest,deferredAfter,resolvePain,movementGap};
+return{MOVES,SKILLS,DAYS,BLOCKS,LOADS,PROFILE_NAMES,describeProgression,policyFor,availableProfiles,configureMovement,practiceEvidence,supportingMoves,requirementLabel,prerequisites,chooseCycle,loadOptions,selectLoad,retestPushup,validWorkingWeight,validateProgramming,validateDraft,validateBackup,records,successful,stateFor,prescription,minutesFor,timeBudget,plan,completeRecord,nextRest,deferredAfter,resolvePain,movementGap,movementDemands};
 });

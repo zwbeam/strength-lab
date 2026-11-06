@@ -1,173 +1,103 @@
 # Development status
 
-Updated 2026-11-05. Branch: `development/reconciliation`.
-Original main: `4cb58d8a4d30796246a83db752b8e420c8bc05c2`.
-All existing commits through `374967f` preserved; source-scoped engine checkpoint:
-`d387b81`; curriculum engine checkpoint: `9c70c0a`; curriculum application checkpoint: `2817a3f`.
-The development branch is pushed to origin. No merge, force-push, deployment or release package.
+Work continues on `development/reconciliation`. Preserve existing history and
+raw training data. No merge into main, force-push, release or APK is authorized.
 
-## Persistent recovery verified
+## Interrupted work recovered
 
-`development/reconciliation` is now stored on the existing GitHub repository,
-not solely in this workspace. Separate fresh checkouts recovered `fe744c4` and
-then `2817a3f`, passed Git object verification and the corresponding engine and
-research tests. See [PERSISTENCE.md](PERSISTENCE.md). Main remained at the original
-SHA. A fresh Codex task/cloud snapshot cannot be launched with available tools;
-that distinct restoration check remains unverified.
+Remote `b07a0e7` already contained `5bbae77` and `b07a0e7`: four get-up breakdowns,
+five single-arm club intermediate drills, explicit skill/recent-practice gates,
+unloaded hinge, push-up #609 and multiweek tests. Nothing committed was lost.
+Backup edits survived uncommitted; the proposed `tests/backup-restore.py` was
+absent. Those edits were reviewed, completed, tested and pushed at `6c3df46`.
+Expanded failure tests are at `c266c97`; ground foundations are at `da8af31`.
+Later normally pushed checkpoints are recorded in Git history and the log.
 
-## Training systems implemented
+## Implemented application
 
-- Source-grounded get-up 3–10 **total-minute** progression with separate side rep
-  counts, weak-side allowance, continuity and prerequisite checks.
-- Single-arm club inside/outside/shield 4–20×5 continuous foundation volume,
-  with between-movement rather than inter-set rest.
-- Shared movement/skill/block definitions feed library, teaching links, prerequisites
-  and generator. One-bout recovery reduces duration rather than leaving one set unchanged.
-- Optional source-scoped snatch EMOM volume/density and double-kettlebell strength blocks.
-- Explicit phase/load choices, owned-weight jump limits, matched pairs and skill gates.
-- Heavy/light waves constrained by the last completed light exposure's work.
-- Two-hand club timed profiles with editable bout length, set range and rest.
-- Configurable exposure gates, #259-inspired stall alternatives, optional deloads,
-  per-movement absence handling and explicit pain review/re-entry.
-- Numeric side-difference logging, self-reported round cadence, and clear separation
-  of performed work from progression evidence. Recovery adaptations do not claim
-  exact numeric support from the source example.
-- Program-specific deferred queues, whole-prescription duration fitting, overlap
-  spacing, rolling-week training-day limits and heavy-movement caps.
-- Actual Settings, workout and Progress integration; active-draft configuration guards.
-- New profile/parameter choices preserve raw history; unchanged ABC defaults retain
-  their original policy identity. Old V31/V32 data/interface remain available.
+- Shared movements, skills, profiles and blocks power the library, Settings,
+  prerequisites, workout generator, history and progression.
+- Existing ABC, snatch EMOM volume/density, double-kettlebell grinds, heavy/light
+  waves, two-hand club practice and matched-pair/load constraints remain intact.
+- Get-up alternating total-time goals plus floor press → elbow → hand → hip pass
+  practice; single-arm inside/outside/shield volume plus pendulums/pullovers.
+- Unloaded hinge and explicit baseline/restart push-up EMOM volume.
+- Ground block: two-hand → single-hand hip drops and bear-squat mobility.
+  Source teaching/timed examples are distinct from editable app practice doses.
+- Explicit self-confirmed skill review and recent clean parent evidence are both
+  required. Parent pain, load/policy changes, incomplete work and stale prerequisites
+  cannot be bypassed by prior descendant practice. Supporting practice is generated.
+- Movement-specific progression, absence/re-entry, low readiness, technique/pain
+  review, optional deloads, whole-prescription duration fitting and deferred queues.
+  Performed work and progression evidence are separate; incomplete work never promotes.
+- Recovery spacing includes ground work and applies across blocks, including partial
+  and recovery exposures. Missing prerequisites, pain, scheduling and equipment each
+  explain why training is unavailable; more time does not clear those holds.
+- Full overview, free set logging, integrated/rest timers, adjustable duration,
+  offline research library and saved history remain available. V31/V32 remain separate.
 
-[TRAINING-RULES.md](TRAINING-RULES.md) explains source support versus app defaults.
-[research/programming-rules.json](research/programming-rules.json) contains twenty-nine
-verified quotation anchors and transcript hashes. The mechanical reconciliation
-of 720 transcripts / 955,522 words remains intact; it is not a claim that all
-lessons have been interpreted or that the app is medically validated.
+## Backup and persistence
 
-[CURRICULUM-COVERAGE.md](CURRICULUM-COVERAGE.md) and the reproducible JSON inventory
-screen all 720 full texts across 23 scoped systems: four implemented scopes,
-twelve partial scopes and seven missing scopes. Candidate mentions are not
-interpreted rules; implementation boundaries are explicit.
+V33 JSON exports include the active draft, stage, set logs, confirmations, notes
+and clock. Old V33 backups without a draft remain supported. Validation precedes
+storage changes, including duplicate session/draft/movement rejection.
 
-## Verified
+History/draft changes use a write-ahead rollback journal. Caught save failures
+restore old keys; interrupted transactions recover before loading training data.
+If rollback fails, the old snapshot remains readable and saved writes are blocked
+until recovery succeeds. Workout-save failure retains the draft for safe retry.
+Import/reset/discard use the same paired transaction. These browser API guarantees
+do not establish physical storage durability or concurrent multi-tab isolation.
 
-- 22 programming tests, 10 curriculum tests, 13 recovery tests, 3 completion tests, 3 backup tests;
-  existing engine assertions and legacy smoke test also pass.
-- Full snatch volume and density histories; multiple-week double-grind, heavy/light
-  and club cycles; misses, incomplete work, technique correction/breakdown, pain,
-  imbalance, duration changes, configurable gates and backup roundtrip.
-- New actual HTTP histories: 16 successful get-up exposures plus five adverse/
-  recovery cases, and 34 successful three-movement club exposures plus one interrupted
-  case (102 successful club movement records). Time units, side imbalance, pain,
-  missed weeks, duration deferrals, rest structure, reload and earlier data were checked.
-- Actual HTTP app: 44 successful snatch exposures over about 19 simulated weeks,
-  then load choice, failures, pain review and a missed month, saved/reloaded in
-  actual browser storage. Phase citations are checked in the saved records.
-- Separate real UI histories: six ABC workouts with light/heavy prescriptions,
-  double-pair prerequisites and 20-minute carryover, custom club settings,
-  active-draft guards and invalid equipment rejection.
-- Six existing Chromium DOM suites and root/subpath offline browser tests pass.
-- Baseline `374967f` to current service-worker upgrade preserves saved keys/draft
-  byte-for-byte, reloads offline under mobile emulation and continues the old workout.
-- Sixteen provenance quote/hash checks, full-corpus matrix/registry checks, teaching-link/form checks, syntax and whitespace checks pass.
+## Verified in this resumed task
 
-Browser simulations verify software behavior using self-reported workout input;
-they do not establish physical training outcomes or technique competence.
+- 82 named Node tests, plus engine assertions and legacy smoke checks.
+- Real Chromium backup tests: paused/running clocks and completed sets restored;
+  malformed/duplicate imports rejected unchanged; journal-write, second-key and
+  discard/save removal failures; safe retry; interrupted commit and failed startup
+  rollback with blocked writes; later recovery; offline reload.
+- Actual generated histories: 42-exposure push-up wave; get-up breakdown and club
+  intermediate pathways; 15 new ground sessions, skill confirmation, short sessions,
+  equipment independence, stale-prerequisite requalification, pain and edited doses.
+- Existing histories: 44 snatch workouts over 19 simulated weeks; get-up 3–10-minute
+  progression; 34 successful three-movement club workouts; six ABC heavy/light
+  workouts, equipment/pair gates and duration carryover.
+- Six timer/focus/duration/library DOM suites; actual library/teaching links;
+  root/subpath offline workflows; baseline-to-current worker upgrade preserving
+  saved keys/draft byte-for-byte and continuing an old workout offline.
+- 29 quotation/hash anchors and all-720-source coverage/registry checks; syntax
+  and whitespace checks. Fault injection and self-reported workouts test software
+  behavior, not physical training outcomes or medical/technique competence.
+
+The 23-system curriculum matrix has four implemented scopes, twelve partial and
+seven missing. All 720 texts were mechanically inventoried; that does not mean
+all teaching has been interpreted. See CURRICULUM-COVERAGE.md and TRAINING-RULES.md.
+
+## Highest-impact remaining work
+
+1. Richer composition across programs and apparatus: current demand groups are
+   conservative app defaults, not an individualized fatigue model or complete Tetris.
+2. Reviewed foundational gaps: loaded hinge/deadlift, complete ground transitions,
+   traveling quadruped practice; then remaining intermediate club systems. Do not
+   add low-value variations simply to increase the movement count.
+3. Backup/import and concurrent-tab stress testing, broader accessibility and
+   release-readiness checks. Current storage transactions are single-tab recovery.
+4. Physical Android/installed-PWA verification. Keep relative static assets and pure
+   browser engine compatible with future Capacitor, but do not package an APK yet.
+5. Fresh Codex-task/environment restoration. Separate GitHub checkouts can be tested;
+   available tools cannot launch a genuinely fresh Codex task or verify its login.
 
 ## Reproduce
 
-From `/workspace/strength-lab`:
+Run all root `*.test.cjs` with Node, plus `node v31-smoke-test.cjs`.
+Run relevant `tests/*.py` with Python; browser suites require Playwright and
+`/usr/bin/chromium` (available here) and permitted local browser/socket access.
+Key suites: `tests/backup-restore.py`, `tests/ground-histories.py`,
+`tests/bodyweight-histories.py`, `tests/pathway-histories.py`,
+`tests/training-histories.py`, `tests/curriculum-histories.py`,
+`tests/programming-controls.py`, `tests/browser-smoke.py`,
+`tests/service-worker-upgrade.py`, `tests/research-provenance.py`,
+`tests/curriculum-coverage.py`, `tests/curriculum-library.py`.
+No dependency installation or build is required in this environment.
 
-```sh
-node v31-smoke-test.cjs
-node engine.test.cjs
-node completion.test.cjs
-node recovery.test.cjs
-node backup.test.cjs
-node programming.test.cjs
-node curriculum.test.cjs
-node --check app.js
-node --check engine.js
-node --check sw.js
-python3 tests/research-provenance.py
-python3 tests/curriculum-coverage.py
-python3 tests/curriculum-library.py
-python3 tests/curriculum-histories.py
-python3 tests/browser-smoke.py
-python3 tests/training-histories.py
-python3 tests/programming-controls.py
-python3 tests/service-worker-upgrade.py
-```
-
-Browser tests require Python Playwright and `/usr/bin/chromium`, present here.
-Local socket/browser operations may require the supported execution approval flow.
-The upgrade test uses a temporary copy of the committed baseline outside the repo.
-Original-text verification: `python3 scripts/audit-transcripts.py /path/to/Transcripts`.
-No dependency installation or application build is required.
-
-Server: `python3 -m http.server 8000 --bind 127.0.0.1 --directory /workspace/strength-lab`.
-
-## Highest-priority remaining work
-
-1. Expand coherent foundational coverage where valuable: loaded hinge, complete
-   ground transitions and traveling quadruped work. Hip drops and bear squats, get-up
-   breakdowns, pendulum/pullover practice, unloaded hinge and push-up #609 are implemented.
-2. Richer program composition than the current declared demand spacing; validate
-   movement/implement-specific overlap without claiming to measure individual fatigue.
-3. Other missing systems in the coverage matrix: competition jerk/long-cycle,
-   ladders, mace, bodyweight ground/quadruped/push-pull, slam-ball and related resistance.
-   Each requires source review and its own rules rather than borrowed snatch numbers.
-4. Physical Android / installed-PWA checks. Keep static relative assets and pure
-   browser engine compatible with eventual Capacitor packaging, but no APK or native
-   packaging should begin before the core application is release-ready.
-5. A genuinely fresh Codex task/snapshot test. Remote branch recovery is now proven;
-   future-task authentication and environment restoration are separate, untested claims.
-
-See NEXT-CONTINUATION.md for the exact next-task prompt. No user setup or
-additional authorization is currently needed. Selected foundation systems are
-implemented and tested; the complete curriculum remains unfinished.
-
-
-## Interrupted-work recovery and persistence checkpoint — 2026-11-06
-
-GitHub already contained `5bbae77` and `b07a0e7`, including the four get-up
-breakdowns, five club intermediate drills, explicit skill/evidence gates,
-unloaded hinge and push-up cycles. No committed work was lost. Backup changes
-were uncommitted; `tests/backup-restore.py` did not exist and was recreated after
-code review. Existing history was preserved.
-
-V33 JSON backups now include active drafts, set logs, stage, notes and timer.
-Drafts are validated before any storage changes. A write-ahead recovery journal
-protects history/draft replacement and workout completion: caught failures roll
-back; an interrupted transaction rolls back on reload. If rollback itself fails,
-the previous snapshot remains readable and writes are blocked until recovery.
-Failed workout saves retain the draft for retry; saved records identify their
-source draft. Discard/reset/import use the same paired transaction. Existing
-V33 backups without a draft remain supported; V31/V32 storage stays separate.
-
-75 named Node tests pass, plus existing engine and legacy assertions. Actual
-Chromium backup tests pass: malformed import rejection, paused timer/set restore,
-second-write failure, failed-save retry without duplicates, interrupted-transaction
-reload, failed startup recovery with blocked writes, and offline reload.
-Browser fault injection tests software behavior, not hardware storage durability.
-
-
-## Ground curriculum checkpoint — 2026-11-06
-
-Added two-hand hip drops, single-hand hip drops and bear-squat practice to the
-shared library/skills/engine/generator/settings. Recent clean two-hand evidence
-and explicit skill review gate single-hand selection. App-default rep practice,
-set ranges/rest and recovery gates are distinct from source teaching and timed
-examples. Settings support dose changes without reusing incompatible evidence.
-
-80 named Node tests now pass, plus engine/legacy assertions. Five new engine
-cases cover generated multiweek histories, incomplete/imbalanced/poor-technique
-work, recovery, missed weeks, equipment independence, pain and policy changes.
-The real UI passed 15 generated ground sessions with explicit skill review,
-shortened duration, missed-month re-entry/requalification, parent pain, offline
-history and edited practice dose. The coverage matrix remains 23 scopes: four
-implemented, twelve partial, seven missing. Twenty-nine source quotes/hashes verify.
-
-Full release readiness, advanced specialty curricula, richer program composition,
-physical Android/PWA testing and fresh Codex-task restoration remain unfinished.
-No APK, release or main merge was produced.
+Read DEVELOPMENT-LOG.md and NEXT-CONTINUATION.md before the next changes.

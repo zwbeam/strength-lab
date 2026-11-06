@@ -215,3 +215,10 @@ movements. Short sessions fit entire prescriptions and defer remaining work.
 Advanced ground transitions, spinal rocking, leg-thread get-ups and crawling
 remain separate source-review/implementation gaps. Quote/hash anchors for
 #84/#98/#100 are included in the 29-entry provenance manifest.
+
+Ground patterns share conservative lower-body/shoulder demand groups for optional
+cross-block recovery spacing. Partial and low-readiness work still count as demand
+without earning progression credit. All demand groups and day thresholds are app
+defaults; #548 supports considering implement-specific demands, not this exact
+mapping. Duplicate workout/draft identities or repeated movements within one
+imported session are rejected instead of multiplying progression evidence.

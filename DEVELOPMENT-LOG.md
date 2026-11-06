@@ -171,3 +171,26 @@ offline reload. Integration testing caught and corrected a missing shared
 settings-control condition before commit. All 80 named Node tests pass alongside
 engine and legacy assertions; provenance now verifies 29 quotation/hash anchors.
 The matrix was regenerated against all 720 sources and the runtime registry.
+
+## 2026-11-06 — Cross-program recovery and import integrity
+
+After the ground checkpoint, found that the new ground family lacked shared
+recovery demands. Added conservative lower-body/shoulder overlap so configured
+spacing also respects ground work across other blocks, including partial and
+recovery sessions. Every registered movement now has a demand mapping. These are
+app scheduling defaults, not source-specific fatigue measurements. Close-read
+#548/#561 for composition/recovery context without importing personal injury
+examples as a universal rehabilitation protocol.
+
+Fixed unavailable-workout guidance: pain, paused training, prerequisites, scheduling
+and missing equipment no longer misleadingly suggest extra time/lower readiness as
+a cure. Duplicate session IDs, originating draft IDs and movements are rejected
+on backup import, preserving prior data and preventing multiplied evidence.
+
+82 named Node tests pass. Real browser fault injection also covers running-timer
+roundtrip, failed discard, journal-write failure and duplicate-history rejection.
+The generated ground UI verifies spacing and proper blocked-workout guidance.
+Recovered bodyweight/pathway histories, original snatch/get-up/club histories,
+programming controls, all six timer/focus/library DOM suites, offline root/subpath
+and worker upgrade checks passed in this task. Remaining limitations and priorities
+are consolidated in DEVELOPMENT-STATUS.md.

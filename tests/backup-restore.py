@@ -76,6 +76,8 @@ try:
   page.locator('#save-workout').click();assert page.evaluate('state.sessions.length')==1
   settings();saved=snapshot();duplicate=page.evaluate('JSON.parse(JSON.stringify(state))');duplicate['workoutDraft']=draft
   import_file(duplicate,'already-saved-draft.json');page.wait_for_function('testAlerts.some(m=>m.includes("already saved"))');assert snapshot()==saved
+  duplicate_history=page.evaluate('JSON.parse(JSON.stringify(state))');duplicate_history['sessions'].append(duplicate_history['sessions'][0])
+  import_file(duplicate_history,'duplicated-history.json');page.wait_for_function('testAlerts.some(m=>m.includes("Duplicate workout"))');assert snapshot()==saved
   page.evaluate('navigator.serviceWorker.ready.then(()=>true)');page.context.set_offline(True);page.reload()
   assert page.evaluate('state.sessions.length')==1
   assert not errors,errors

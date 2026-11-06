@@ -65,6 +65,10 @@ try:
   page.locator('[data-intermediate-reps="bearSquat"]').select_option('90');page.locator('[data-intermediate-start="bearSquat"]').fill('1');page.locator('[data-intermediate-end="bearSquat"]').fill('3');page.locator('#save-programming').click();train()
   assert page.evaluate('currentPlan().items.find(rx=>rx.id==="bearSquat").reps')==90
   assert page.evaluate('state.sessions.length')==15
+  next_day(1);settings();page.get_by_text('Recovery and scheduling defaults',exact=True).click();page.locator('#training-minGapDays').select_option('2');page.locator('#save-programming').click();train()
+  assert page.locator('#start').count()==0 and 'Select a longer session' not in page.get_by_role('status').inner_text()
+  assert 'bearSquat' in page.evaluate('currentPlan().scheduled')
+  next_day(2);assert 'bearSquat' in ids()
   page.evaluate('navigator.serviceWorker.ready.then(()=>true)');page.context.set_offline(True);page.reload();assert page.evaluate('state.sessions.length')==15
   assert not errors,errors
   print('PASS: 15 generated ground sessions: partial work, explicit skill gate, multiweek advancement, short duration, no equipment, stale prerequisites/requalification, parent pain hold and offline history',flush=True)

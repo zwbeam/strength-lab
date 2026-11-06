@@ -182,3 +182,15 @@ from #543 and shared prerequisite definitions. Actual application histories cove
 The complete get-up/club advanced curricula remain incomplete. Android packaging
 was intentionally not started. Fresh Git recovery is not a fresh Codex snapshot
 restoration test; the latter is still unavailable with current tools.
+
+## Interrupted development recovery — 2026-11-06
+
+Inspected local status, history and the GitHub development ref. `5bbae77` and
+`b07a0e7` survived and were already pushed after `6269cab`; no reconstruction or
+history rewriting was needed. Backup implementation edits remained uncommitted,
+while the intended browser test did not exist. Reviewed those files, completed
+validation/transaction recovery and verified real-browser failure paths before
+normally committing/pushing `6c3df46`. Later ground curriculum and regression work
+continue on the same development branch. Original research and earlier data were
+preserved; no main merge or release was performed. See DEVELOPMENT-LOG.md for
+verified follow-up work and PERSISTENCE.md for recovery limits.
