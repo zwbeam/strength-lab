@@ -117,12 +117,16 @@ Read DEVELOPMENT-LOG.md and NEXT-CONTINUATION.md before editing.
 
 ## Current user priority — development web preview
 
-Preview publication takes precedence over further training/curriculum work.
-The separate DEV builder and Android-sized coexistence tests are prepared; see
-PREVIEW.md. Representative engine and root/subpath browser tests pass. Production
-source files/main/deployment are unchanged. Public deployment is blocked until
-network access to `api.github.com` and `zwbeam.github.io` is applied: a saved
-environment draft requires user review/save and Publish. Pages settings and the
-actual URL cannot yet be verified. Do not claim the preview is live or that a
-development push updates the installed PWA. Finish hosting inspection and actual
-HTTPS verification before resuming other development.
+Preview publication takes precedence over curriculum work. Network access is now
+working and original Pages is verified as main/root at the existing app URL.
+A separate free Pages repository is needed to leave that deployment/main untouched.
+The guarded publisher is committed; see PREVIEW.md. GitHub rejected repository
+creation with integration HTTP 403. The owner must create an empty public
+zwbeam/strength-lab-preview repository at https://github.com/new; the Codex connector
+already has all-repository access. Do not ask for network settings again.
+
+Android-sized local coexistence tests pass, as do four publisher safety guards.
+The existing live app's index/app/worker/manifest hashes, main SHA and Pages settings
+are verified unchanged. No public preview link has been verified yet. After the
+owner creates the repo, run the publisher, wait for Pages and test the actual HTTPS
+URL before reporting success. No production release/APK or main change was made.

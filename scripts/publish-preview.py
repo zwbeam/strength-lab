@@ -38,13 +38,20 @@ def publish(ref,create=False):
  target=api(f'repos/{TARGET}',missing_ok=True)
  if target is None:
   if not create:raise ValueError('Preview repository does not exist; use --create-repository for first publication')
-  target=api('user/repos','POST',{'name':'strength-lab-preview','description':'Isolated Strength Lab development preview; not a production release','private':False,'auto_init':False,'has_issues':False,'has_projects':False,'has_wiki':False})
+  try:
+   target=api('user/repos','POST',{'name':'strength-lab-preview','description':'Isolated Strength Lab development preview; not a production release','private':False,'auto_init':False,'has_issues':False,'has_projects':False,'has_wiki':False})
+  except RuntimeError as error:
+   if 'Resource not accessible by integration' in str(error):
+    raise RuntimeError('The GitHub connection cannot create repositories. The owner must create an empty public zwbeam/strength-lab-preview repository and grant this connection access; then rerun without --create-repository. The existing application was not changed.') from error
+   raise
  if target['full_name']!=TARGET or target['private']:raise ValueError('Unexpected preview repository identity/visibility')
  branches=api(f'repos/{TARGET}/branches?per_page=100')
  if branches and BRANCH not in [b['name'] for b in branches]:raise ValueError('Existing repository is not the expected preview deployment; nothing was overwritten')
  pages=api(f'repos/{TARGET}/pages',missing_ok=True)
  if pages and (pages.get('build_type')!='legacy' or pages.get('source')!={'branch':BRANCH,'path':'/'} or pages.get('cname')):
   raise ValueError('Preview Pages settings differ from the expected isolated deployment')
+ if ref=='origin/development/reconciliation':
+  subprocess.run(['git','fetch','origin','refs/heads/development/reconciliation:refs/remotes/origin/development/reconciliation'],cwd=ROOT,check=True)
  spec=importlib.util.spec_from_file_location('preview_builder',ROOT/'scripts/build-preview.py')
  builder=importlib.util.module_from_spec(spec);spec.loader.exec_module(builder)
  with tempfile.TemporaryDirectory(prefix='strength-lab-publish-') as tmp:
@@ -85,4 +92,5 @@ if __name__=='__main__':
  parser.add_argument('--ref',default='origin/development/reconciliation')
  parser.add_argument('--create-repository',action='store_true')
  args=parser.parse_args()
- print(json.dumps(publish(args.ref,args.create_repository),indent=2))
+ try:print(json.dumps(publish(args.ref,args.create_repository),indent=2))
+ except (RuntimeError,ValueError) as error:raise SystemExit('Publication blocked: '+str(error))

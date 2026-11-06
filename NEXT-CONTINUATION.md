@@ -6,13 +6,20 @@ checkpoint d5603e8 was verified; preview tooling reads committed runtime assets,
 uses separate DEV identity/storage/lock/cache and has a real Android-sized local
 coexistence test. Main and live deployment have not been changed.
 
-The environment blocked api.github.com and zwbeam.github.io. A draft allowing
-those two domains was saved but requires the user to review/save and Publish the
-environment. Verify actual network readiness after that, then inspect GitHub Pages
-settings/permissions and choose an additive preview publication route preserving
-the live app and its update mechanism. Do not infer that pushing development
-publishes Pages. Run tests/preview-url.py against the actual HTTPS URL and expected
-SHA before reporting a live link. Document the confirmed publication/update route.
+Network settings are applied and GitHub/Pages access works. Existing Pages serves
+main/root at https://zwbeam.github.io/strength-lab/; leave it unchanged. The separate
+preview repository publication route is prepared in scripts/publish-preview.py.
+GitHub returned integration HTTP 403 for repository creation. Required owner action:
+create an empty public zwbeam/strength-lab-preview repository (no README/license/
+gitignore). The chatgpt-codex-connector installation has all-repository selection.
+Do not repeat the completed network-setting request.
+
+Once the repo exists, run the guarded publisher, wait for Pages, then run
+`python3 tests/preview-url.py --url https://zwbeam.github.io/strength-lab-preview/
+--commit SOURCE_SHA` against the actual site. Do not claim the expected address is
+live until it passes. Document verified source/deployment commits and update steps.
+Preserve existing live file hashes, Pages settings and source main. The publisher
+only writes the separate preview repository and normally pushes its preview branch.
 
 The general development instructions below apply after that user objective is met.
 

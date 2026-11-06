@@ -370,3 +370,22 @@ repository, zwbeam/strength-lab-preview, on its own preview branch. It writes no
 source-main or source-Pages settings and validates ownership/configuration/managed
 files before updates. Actual publication and public verification are the next steps;
 this entry does not claim a live preview yet.
+
+## 2026-11-06 — Preview publication blocked by repository-creation permission
+
+The isolated Android-sized coexistence suite passes again. Pushed publisher
+checkpoint `e795c65` normally to source development. Actual creation through
+POST user/repos returned GitHub HTTP 403: Resource not accessible by integration.
+No preview deployment was claimed. Queried installed applications: the active
+chatgpt-codex-connector has all-repository selection, so the owner only needs to
+create an empty public strength-lab-preview repository; no repeated network setup
+or credential sharing is required. Existing Pages/main stayed untouched.
+
+Improved the publisher to fetch its default source tracking ref before building
+(explicit development pushes can leave local tracking refs stale), and explain
+the owner action clearly on integration creation denial. Four mocked guard tests
+pass for creation permission failure, wrong owner, private target and unfamiliar
+branch; they verify stopping without source writes. Rechecked real live asset
+fingerprints and source Pages/main after the failed attempt: all unchanged.
+Updated preview/status/continuation docs with the precise next action and the
+separate free hosting route. Actual public HTTPS verification remains pending.

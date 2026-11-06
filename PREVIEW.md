@@ -6,20 +6,29 @@
 The user authorized a separate web preview, not a production release or APK.
 Do not claim that pushing development updates the existing installed PWA.
 
-Verified development/source checkpoint: `d5603e8` at the start of this task.
-Remote main remains `4cb58d8`. Neither branch contained a deployment workflow;
-main contains the older V32 static app. The repository had no CNAME/deployment
-instructions. Git access works, but the current execution network blocked
-`api.github.com` and `zwbeam.github.io` with proxy 403 responses. Therefore Pages
-settings, actual hosting mode, account permissions and public URL remain unverified.
-No Pages settings or live deployment have been changed.
+GitHub/network access now works. The existing public app is verified at
+https://zwbeam.github.io/strength-lab/, with Pages configured to serve `main` at
+`/` (legacy branch deployment). Its index/app/worker/manifest fingerprints and
+main SHA `4cb58d8` were checked before and after the attempted publication and
+remain unchanged. No existing Pages settings were changed.
 
-A configuration draft allowing those two exact domains was saved successfully.
-It requires the user to review/save and **Publish** the environment; saving the
-draft does not activate access. Once that is applied, inspect `gh api
-repos/zwbeam/strength-lab/pages`, repository metadata and any current workflows
-before choosing the publication route. The private repo may have Pages/account
-restrictions; do not assume them or request credentials until checked.
+To keep both main and the existing deployment untouched, publication uses a
+**separate free GitHub Pages repository**, `zwbeam/strength-lab-preview`, on its
+own `preview` branch. The publisher is prepared at scripts/publish-preview.py.
+The authenticated account is zwbeam, but creating the new repository returned
+`Resource not accessible by integration` (HTTP 403). This is a GitHub App
+permission limit, not a network failure. No public preview URL has been verified.
+
+The installed app is `chatgpt-codex-connector` and its repository selection is
+`all`, so no additional repository-access configuration should be necessary once
+the owner creates the repository. The required owner action is:
+
+1. Open https://github.com/new while signed in as zwbeam.
+2. Create a **Public**, empty repository named **strength-lab-preview**. Leave
+   README, .gitignore and license initialization off.
+3. Return to Codex and say **Preview repository created; finish publication.**
+
+Do not ask the user to publish network settings again; that prerequisite is done.
 
 ## Isolated build
 
@@ -54,16 +63,27 @@ Locally verified path: `/strength-lab/dev-preview/`. This is a test-server path,
 **not evidence that an equivalent public address is live**. Use one stable preview
 channel/path; multiple preview channels need their own namespace before publishing.
 
-## Hosting decision still required
+## Publication route
 
-Prefer a dedicated subpath only if the actual existing Pages deployment can add
-it without replacing the live content or changing main. Preserve the current live
-root and its update mechanism. A main-root branch deployment cannot be assumed to
-publish development-branch files. Do not switch Pages source or replace a Pages
-artifact based only on this proposed path. Inspect the actual settings first.
-If additive publication is unavailable under the existing configuration, prepare
-the concrete alternative and any required user authorization before changing it.
-No paid hosting or new external service is required by this build.
+The original repo's Pages source is main/root. A subpath there would require
+changing main or the existing deployment. The separate preview repository keeps
+the live app and its update mechanism unchanged and uses only free GitHub hosting.
+Once the owner creates the empty repository, run:
+
+```sh
+python3 scripts/publish-preview.py
+```
+
+The publisher fetches the latest source development ref, builds its exact committed
+SHA, normally commits/pushes generated assets to the preview repository, enables
+Pages only there, and checks original main/Pages settings remain unchanged. It
+refuses unexpected/private repositories, unfamiliar branches/files or changed
+preview hosting settings. It never force-pushes. It requires verification of the
+actual resulting HTTPS URL before calling publication complete. No production
+release or Android APK is made.
+
+Expected preview address: `https://zwbeam.github.io/strength-lab-preview/`.
+This is **not yet live/verified**; do not hand it to the user as a working app link.
 
 ## Browser verification
 
@@ -83,21 +103,20 @@ The second suite is for the **actual HTTPS URL** only. It verifies metadata/expe
 SHA before exercising fresh preview data, assets, Android-sized layout, timers,
 logging, Progress/Settings/library and offline reload. Do not report publication
 success until this succeeds against the real address. It has not run yet because
-network/hosting access is blocked.
+repository creation is blocked by the GitHub integration permission.
 
 ## Future preview updates
 
-After the hosting route is confirmed and documented here:
+After first publication, `python3 scripts/publish-preview.py` fetches the latest
+development branch, builds its exact committed SHA and commits normally to the
+separate preview repository. Then run the actual-URL verifier with that source SHA.
+No change to main or the existing site's settings is part of this process. A push
+to the source development branch alone does not automatically publish the preview;
+ask Codex to publish the latest preview after verified changes. No paid hosting or
+automatic workflow is enabled.
 
-1. Fetch/test the latest development branch and build its exact committed SHA.
-2. Publish only the isolated preview output to the confirmed preview location,
-   preserving live files/settings/update mechanism and main.
-3. Run `tests/preview-url.py` against that HTTPS URL with the expected source SHA.
-4. Record the verified URL/SHA in this document and the development log. Existing
-   preview test data persists through ordinary preview updates; no live data is read.
-
-No automatic publishing workflow is enabled yet. A Git push alone currently makes
-no promise about the version shown in any installed PWA. Once live, open the verified
-HTTPS link in Chrome on Android; optionally choose Chrome's menu → Add to home screen
-(or Install app) and confirm the name includes DEV. Keep the normal Strength Lab
-installation separate.
+Record the final verified URL and source/deployment commits here after publication.
+Preview test data survives normal updates and never reads live history. Once live,
+open the verified link in Chrome on Android; optionally choose menu → Add to home
+screen (or Install app) and confirm the name includes DEV. Keep the normal Strength
+Lab installation separate.
