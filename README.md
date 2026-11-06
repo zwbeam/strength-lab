@@ -19,3 +19,7 @@ See [TRAINING-RULES.md](TRAINING-RULES.md) for the source/support boundaries.
 See [DEVELOPMENT-STATUS.md](DEVELOPMENT-STATUS.md) for commands and remaining work,
 and [RECONCILIATION-AUDIT.md](RECONCILIATION-AUDIT.md) for input provenance,
 implementation decisions and validation scope. No release package has been created.
+
+For the isolated Android-friendly development preview tooling, publication status,
+network prerequisite and update/verification procedure, see [PREVIEW.md](PREVIEW.md).
+The prepared preview is not yet a verified public deployment.

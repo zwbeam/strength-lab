@@ -1,5 +1,21 @@
 # Exact next continuation prompt
 
+**Current priority: finish publishing the isolated Android-friendly web preview.**
+Read PREVIEW.md first. Do not add training features during this task. Source
+checkpoint d5603e8 was verified; preview tooling reads committed runtime assets,
+uses separate DEV identity/storage/lock/cache and has a real Android-sized local
+coexistence test. Main and live deployment have not been changed.
+
+The environment blocked api.github.com and zwbeam.github.io. A draft allowing
+those two domains was saved but requires the user to review/save and Publish the
+environment. Verify actual network readiness after that, then inspect GitHub Pages
+settings/permissions and choose an additive preview publication route preserving
+the live app and its update mechanism. Do not infer that pushing development
+publishes Pages. Run tests/preview-url.py against the actual HTTPS URL and expected
+SHA before reporting a live link. Document the confirmed publication/update route.
+
+The general development instructions below apply after that user objective is met.
+
 Continue Strength Lab from the latest `origin/development/reconciliation`.
 First verify that shell execution, GitHub and a representative browser test work;
 environment status alone previously reported running while the executor was unusable.

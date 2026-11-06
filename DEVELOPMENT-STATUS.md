@@ -114,3 +114,15 @@ Run `tests/research-provenance.py` and `tests/curriculum-coverage.py` for resear
 Python Playwright and `/usr/bin/chromium` are available; browser/socket commands
 use the supported execution permission flow. No build/dependency install is needed.
 Read DEVELOPMENT-LOG.md and NEXT-CONTINUATION.md before editing.
+
+## Current user priority — development web preview
+
+Preview publication takes precedence over further training/curriculum work.
+The separate DEV builder and Android-sized coexistence tests are prepared; see
+PREVIEW.md. Representative engine and root/subpath browser tests pass. Production
+source files/main/deployment are unchanged. Public deployment is blocked until
+network access to `api.github.com` and `zwbeam.github.io` is applied: a saved
+environment draft requires user review/save and Publish. Pages settings and the
+actual URL cannot yet be verified. Do not claim the preview is live or that a
+development push updates the installed PWA. Finish hosting inspection and actual
+HTTPS verification before resuming other development.

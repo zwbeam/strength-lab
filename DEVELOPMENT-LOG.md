@@ -322,3 +322,36 @@ No partial implementation is being left behind. Further workload/coverage tests,
 accessibility/release reliability and reviewed foundational ground/quadruped or
 intermediate club pathways are next. No user setup is required; no main merge,
 force-push, release or APK was produced.
+
+## 2026-11-06 — Isolated Android-friendly preview preparation
+
+Verified HEAD/origin at `d5603e8` and main `4cb58d8`. Read status/log/continuation
+and inspected both branch trees: no deployment workflows, CNAME or documented
+hosting route. Existing main contains the older V32 static application. GitHub API
+and the likely Pages hostname returned proxy 403; actual Pages settings, account
+permissions and public URL cannot yet be verified. Saved a narrowly scoped network
+draft for api.github.com and zwbeam.github.io; backend confirmed saved and requires
+user review/save/Publish. No Pages source, live deployment or main change was made.
+
+Implemented a deterministic preview builder reading committed runtime assets.
+Generated output has a DEV banner/SHA, distinct manifest identity, V33 and legacy
+storage keys, writer lock and worker cache prefix/scope. The live app's broad
+strength-lab-* cleanup cannot delete sl-dev-preview-* caches. The builder rejects
+nonempty/inside-checkout destinations and changed isolation contracts. Production
+app.js/engine.js/training features remain unchanged. Added public-URL verification
+tooling, intentionally not claimed as run because no deployed URL is accessible.
+
+Passed all 98 named existing Node tests plus engine/legacy assertions; representative
+root/subpath browser smoke; and Pixel 5-emulated preview coexistence at
+/strength-lab/dev-preview/ with 76 assets, version/manifest, no horizontal overview
+overflow, settings/library/progress, timers/logging, offline source reading and
+separate live data/locks/caches. Both preview and live worker upgrades preserve
+isolation; preview test history survives its update. Original main runtime files
+and seeded live storage remain unchanged. This is local mobile emulation, not a
+physical Android test or proof of public deployment.
+
+PREVIEW.md and continuation/status now identify the concrete remaining action:
+apply the saved network draft, inspect actual hosting settings, publish through a
+route preserving the live app/update mechanism, then verify the real HTTPS URL
+with tests/preview-url.py before handing the user a phone link. No release/APK,
+force-push, main merge or automatic deployment workflow was created.
