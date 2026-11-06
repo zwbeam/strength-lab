@@ -467,3 +467,22 @@ skip/idle assertions reflect the requested behavior. Upgrade fixtures copy the
 actual new runtime HTML/module assets. USER-EXPERIENCE-REVIEW.md records approved
 requirements, the diagnosis/test gap and review checkpoints. GitHub publication
 remains dependent on refreshing the existing connection; no credential sharing.
+
+## 2026-11-06 — UX review 1: Learn milestone
+
+Replaced primary Atlas/archive navigation with Exercises and focused Pathways,
+both derived from the 31-movement registry. Practical source-reviewed outlines
+include setup, steps, bracing, corrections and explicit coverage limitations.
+29 movements have one/two exact corpus video mappings; suitcase carry and front
+squat remain unmapped. Get-up/push-up programming videos and partial technique
+coverage are labeled honestly. No timestamps were invented; external playback on
+a physical phone has not been verified. Provenance checks validate 29 exact quotes
+and 36 source hashes against the indexed corpus.
+
+Maps separate enforced practice prerequisites from educational complexity and
+combination links. Four statuses use actual eligibility/history or explicit user
+familiarity confirmation; repetition never certifies mastery. Blocked lessons stay
+readable, including in read-only tabs. Familiarity does not bypass programming.
+Volume/density/load explanations preserve the existing engine and distinguish app
+defaults. The complete offline corpus remains secondary evidence, not primary UI.
+This is a review candidate, not a claim of complete instruction or programming.

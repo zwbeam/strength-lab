@@ -19,6 +19,15 @@ if proxy_url:
  if proxy.username:config['username']=unquote(proxy.username)
  if proxy.password:config['password']=unquote(proxy.password)
  network_options['proxy']=config
+def open_hinge_source(page):
+ if page.locator('[data-learn-move="deadlift"]').count():
+  page.locator('[data-learn-move="deadlift"]').first.click()
+  page.locator('.source-coverage summary').click()
+  page.locator('#movement-instruction [data-open-source="704"]').first.click()
+ else:
+  movement=page.locator('details').filter(has=page.get_by_text('Unloaded hip-hinge practice',exact=True))
+  movement.locator('summary').click();movement.locator('[data-open-source="704"]').first.click()
+
 with sync_playwright() as p:
  browser=p.chromium.launch(executable_path='/usr/bin/chromium',args=['--no-sandbox'])
  context=browser.new_context(**p.devices['Pixel 5'],**network_options);page=context.new_page();errors=[]
@@ -45,10 +54,10 @@ with sync_playwright() as p:
  for _ in range(2):page.get_by_role('button',name='Complete next set').click()
  page.get_by_role('button',name='Finish main work · cooldown').click();page.locator('#save-workout').click()
  assert page.evaluate('state.sessions.length')==1 and page.get_by_text('Movement cycles',exact=True).count()==1
- page.locator('[data-tab="learn"]').click();assert page.locator('details').count()>20
+ page.locator('[data-tab="learn"]').click();assert page.locator('[data-learn-move]').count()>=31
  page.evaluate('navigator.serviceWorker.ready.then(()=>true)');page.wait_for_function('(base)=>navigator.serviceWorker.controller?.scriptURL===base+"sw.js"',arg=base)
  context.set_offline(True);page.reload();page.wait_for_function('storageReady && storageWritable');assert page.evaluate('state.sessions.length')==1
- page.locator('[data-tab="learn"]').click();movement=page.locator('details').filter(has=page.get_by_text('Unloaded hip-hinge practice',exact=True));movement.locator('summary').click();movement.locator('[data-open-source="704"]').first.click();page.locator('#transcript-dialog').wait_for(state='visible')
+ page.locator('[data-tab="learn"]').click();open_hinge_source(page);page.locator('#transcript-dialog').wait_for(state='visible')
  assert 'two hand deadlift' in page.locator('#transcript-body').inner_text().lower()
  assert not errors,errors
  print(json.dumps({'result':'PASS','verified_https_url':base,'source_commit':metadata['source_commit'],'assets_verified':len(assets),'mobile_testing':'Pixel 5 Chromium emulation, not physical Android','checks':['manifest/identity','isolated data/lock','mobile layout','full overview','timers/logging','progress/settings/library','offline reload/source reader']},indent=2))

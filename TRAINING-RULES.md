@@ -293,3 +293,17 @@ training frequency, add catch-up volume or override recovery. The sample thresho
 56-day window and formula are original app heuristics, not transcript-supported
 numbers or physiological predictions. The panel also distinguishes clean-exposure
 goals, reduced practice without credit, and completed cycles needing review.
+
+## UX review 1: pacing and educational boundaries
+
+Manual (default), Automatic and Hybrid control pacing only. No timer completion
+logs a set, confirms technique or grants progression. New drafts snapshot the
+preference; older drafts retain automatic behavior. Rep-based timing estimates
+are app defaults. Continuous club bouts do not acquire invented inter-set rests.
+
+Learn derives eligibility and practice gates from the shared engine. Explicit
+"learned" familiarity flags are self-report only. Educational complexity and
+combination links never add or remove training prerequisites. All 31 lessons are
+readable regardless eligibility; 29 have exact corpus video links, two have
+explicit mapping gaps. Sources without reliable timestamps remain untimed.
+The programming philosophy and movement curriculum remain incomplete.

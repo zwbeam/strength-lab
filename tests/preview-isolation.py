@@ -7,6 +7,15 @@ from pathlib import Path
 from threading import Thread
 from urllib.parse import urljoin
 from playwright.sync_api import sync_playwright
+def open_hinge_source(page):
+ if page.locator('[data-learn-move="deadlift"]').count():
+  page.locator('[data-learn-move="deadlift"]').first.click()
+  page.locator('.source-coverage summary').click()
+  page.locator('#movement-instruction [data-open-source="704"]').first.click()
+ else:
+  movement=page.locator('details').filter(has=page.get_by_text('Unloaded hip-hinge practice',exact=True))
+  movement.locator('summary').click();movement.locator('[data-open-source="704"]').first.click()
+
 ROOT=Path(__file__).resolve().parents[1]
 spec=importlib.util.spec_from_file_location('preview_builder',ROOT/'scripts/build-preview.py')
 builder=importlib.util.module_from_spec(spec);spec.loader.exec_module(builder)
@@ -57,7 +66,7 @@ with tempfile.TemporaryDirectory(prefix='strength-preview-test-') as tmp:
    page.get_by_role('button',name='Complete next set').click();assert page.locator('[data-check="0:0"]').inner_text()=='✓'
    page.get_by_role('button',name='Complete next set').click();page.get_by_role('button',name='Finish main work · cooldown').click();page.locator('#save-workout').click()
    assert page.evaluate('state.sessions.length')==1
-   page.locator('[data-tab="learn"]').click();movement=page.locator('details').filter(has=page.get_by_text('Unloaded hip-hinge practice',exact=True));movement.locator('summary').click();movement.locator('[data-open-source="704"]').first.click();page.locator('#transcript-dialog').wait_for(state='visible')
+   page.locator('[data-tab="learn"]').click();open_hinge_source(page);page.locator('#transcript-dialog').wait_for(state='visible')
    assert 'two hand deadlift' in page.locator('#transcript-body').inner_text().lower();page.get_by_role('button',name='Close',exact=True).click()
    # Update only the generated preview; saved preview data and the live cache survive.
    updated=Path(tmp)/'updated-preview';new_metadata=builder.build(updated)
@@ -75,7 +84,7 @@ with tempfile.TemporaryDirectory(prefix='strength-preview-test-') as tmp:
    assert page.evaluate('caches.keys().then(keys=>keys.some(k=>k.startsWith("sl-dev-preview-cache-")))')
    context.set_offline(True);page.reload();page.wait_for_function('storageReady && storageWritable')
    assert page.evaluate('state.sessions.length')==1 and page.locator('#development-preview').count()==1
-   page.locator('[data-tab="learn"]').click();movement=page.locator('details').filter(has=page.get_by_text('Unloaded hip-hinge practice',exact=True));movement.locator('summary').click();movement.locator('[data-open-source="704"]').first.click();page.locator('#transcript-dialog').wait_for(state='visible')
+   page.locator('[data-tab="learn"]').click();open_hinge_source(page);page.locator('#transcript-dialog').wait_for(state='visible')
    assert 'two hand deadlift' in page.locator('#transcript-body').inner_text().lower()
    root.reload();assert 'Development Preview' not in root.title()
    after=root.evaluate('Object.fromEntries(Object.keys(localStorage).map(k=>[k,localStorage.getItem(k)]))')

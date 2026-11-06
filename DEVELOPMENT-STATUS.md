@@ -3,6 +3,17 @@
 Continue on `development/reconciliation`; preserve commits, research and raw
 training data. No main merge, force-push, release or APK is authorized.
 
+## UX review 1 milestone (2026-11-06)
+
+Timer repair checkpoint: `2d97220`. Learn now provides registry-backed Exercises,
+focused Pathways, practical instruction, eligibility/history statuses and exact
+video metadata links. All 31 movements are represented; 29 have video mappings,
+carry/front squat remain explicit gaps. Existing training cycles are preserved.
+Manual timer mode is the new-session default; Automatic/Hybrid are available.
+See USER-EXPERIENCE-REVIEW.md before further major interface work. Automated tests
+are evidence of behavior, not user approval. Pause for Android user review after
+publication; programming coverage and physical-device testing remain incomplete.
+
 ## Current recovery checkpoint
 
 The executor was restored on 2026-11-06. Shell, GitHub, Node and real Chromium

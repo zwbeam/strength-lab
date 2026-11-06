@@ -363,6 +363,7 @@ function retestPushup(s,baseline){const current=s.programming?.pushup||{};return
 function validateProgramming(s){
  const object=x=>x&&typeof x==='object'&&!Array.isArray(x);
  for(const [id,weight] of Object.entries({...s.weights,...s.nextWeights}))if(MOVES[id]?.bodyweight&&weight!==0)throw Error('Bodyweight profiles use zero external load');
+ if(s.learnedMovements!==undefined&&(!object(s.learnedMovements)||Object.entries(s.learnedMovements).some(([id,value])=>!Object.hasOwn(MOVES,id)||typeof value!=='boolean')))throw Error('Invalid learning confirmation');
  if(s.timerMode!==undefined&&!['manual','automatic','hybrid'].includes(s.timerMode))throw Error('Invalid workout timer preference');
  if(s.programComposition!==undefined)validateComposition(s.programComposition);
  if(s.programBlock!==undefined&&!Object.hasOwn(BLOCKS,s.programBlock))throw Error('Invalid program block');

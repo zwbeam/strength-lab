@@ -44,17 +44,18 @@ with sync_playwright() as playwright:
                 for tab in ['today', 'progress', 'learn', 'settings']:
                     page.locator(f'[data-tab="{tab}"]').click()
                     assert len(page.locator('#app').inner_text()) > 50, tab
-                # A body-only phrase must find a source even when its title does not match.
+                # The corpus remains available behind instruction evidence, not a primary archive.
                 page.locator('[data-tab="learn"]').click()
-                page.locator('[data-learn="atlas"]').click()
-                page.wait_for_function('sourceData !== null')
-                page.locator('#source-search').fill('old idea an absolutely savage')
-                page.locator('#search-full').click()
-                page.locator('[data-open-source="0"]').wait_for()
-                page.locator('[data-open-source="0"]').click()
-                assert 'Secret Service snatch test' in page.locator('#transcript-body').inner_text()
+                page.locator('[data-learn-move="deadlift"]').click()
+                page.locator('.source-coverage summary').click()
+                page.locator('#movement-instruction [data-open-source="704"]').first.click()
+                page.locator('#transcript-dialog').wait_for(state='visible')
+                assert 'two hand deadlift' in page.locator('#transcript-body').inner_text().lower()
                 page.get_by_role('button', name='Close', exact=True).click()
+                # Internal full-text corpus search remains usable for research verification.
+                assert page.evaluate("""async()=>{await loadSources();search='old idea an absolutely savage';await searchTranscriptBodies();return fullMatches.has(0);}""")
                 page.locator('[data-tab="settings"]').click()
+                page.locator('#timer-mode').select_option('automatic');page.locator('#save-timer-mode').click()
                 for move, weight in [('squat','12'),('press','8'),('row','12')]:
                     page.locator(f'[data-weight="{move}"]').fill(weight)
                 page.locator('#save-weights').click()

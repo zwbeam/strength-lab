@@ -20,7 +20,7 @@ try:
   def settings(tab):tab.locator('[data-tab="settings"]').click()
   def raw(tab):return tab.evaluate('({state:localStorage.getItem(KEY),draft:localStorage.getItem(DRAFT),journal:localStorage.getItem(JOURNAL)})')
   owner=page();assert owner.evaluate('storageWritable');settings(owner)
-  owner.locator('#program-block').select_option('hingePractice');owner.get_by_text('Prerequisite skills',exact=True).click();owner.locator('[data-skill="hingePattern"]').check();owner.locator('#save-programming').click()
+  owner.locator('#timer-mode').select_option('automatic');owner.locator('#save-timer-mode').click();owner.locator('#program-block').select_option('hingePractice');owner.get_by_text('Prerequisite skills',exact=True).click();owner.locator('[data-skill="hingePattern"]').check();owner.locator('#save-programming').click()
   reader=page();assert not reader.evaluate('storageWritable');assert 'read-only' in reader.locator('#storage-notice').inner_text()
   # A reader opening during an unfinished paired write must not roll it back.
   before=raw(owner)

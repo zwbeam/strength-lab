@@ -33,3 +33,15 @@ All 720 records have an inventory entry, including those with no title matches. 
 The runtime library, prerequisite checklist and generator share `MOVES`, `SKILLS` and `BLOCKS` in `engine.js`. Tests validate those links. The matrix is not a claim that every matched title has been interpreted.
 
 Highest next priorities: richer program composition, reviewed remaining foundational bodyweight/ground systems, and release-readiness validation before advanced specialty variants. Mace, slam-ball, bodyweight and competition methods require their own models, not reused kettlebell numbers.
+
+## UX review 1 educational coverage
+
+Exercises/Pathways cover all 31 current canonical movements without expanding
+training-system coverage above. `research/movement-instruction.json` records
+reviewed practical outlines, exact supporting quotes and partial/gap labels.
+29 movements have exact video metadata mappings; carry and front squat do not.
+36 source hashes validate teaching/prerequisite metadata. Focused maps distinguish
+actual training gates from educational complexity/combination connections.
+Full get-up and push-up video coverage is partly programming rather than a
+complete technical tutorial. This interface milestone does not close missing
+curriculum systems or claim a complete Wildman philosophy.
