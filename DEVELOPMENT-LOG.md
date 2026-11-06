@@ -355,3 +355,18 @@ apply the saved network draft, inspect actual hosting settings, publish through 
 route preserving the live app/update mechanism, then verify the real HTTPS URL
 with tests/preview-url.py before handing the user a phone link. No release/APK,
 force-push, main merge or automatic deployment workflow was created.
+
+## 2026-11-06 — Preview hosting access restored
+
+The newly published environment allows api.github.com and zwbeam.github.io.
+Verified source HEAD/origin `1a02f2d`, GitHub owner zwbeam, and existing Pages at
+https://zwbeam.github.io/strength-lab/ serving main at repository root. GitHub
+metadata reports this source repository is public (earlier private-repo assumptions
+were not verified). Captured live index/app/worker/manifest SHA-256 fingerprints.
+
+An additive preview under that branch source would require changing main or the
+existing deployment. Prepared a guarded publisher for a separate free GitHub Pages
+repository, zwbeam/strength-lab-preview, on its own preview branch. It writes no
+source-main or source-Pages settings and validates ownership/configuration/managed
+files before updates. Actual publication and public verification are the next steps;
+this entry does not claim a live preview yet.
