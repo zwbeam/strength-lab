@@ -214,7 +214,7 @@ is not required; zero external load is valid only for declared bodyweight
 movements. Short sessions fit entire prescriptions and defer remaining work.
 Advanced ground transitions, spinal rocking, leg-thread get-ups and crawling
 remain separate source-review/implementation gaps. Quote/hash anchors for
-#84/#98/#100 are included in the 29-entry provenance manifest.
+#84/#98/#100 are included in the 30-entry provenance manifest.
 
 Ground patterns share conservative lower-body/shoulder demand groups for optional
 cross-block recovery spacing. Partial and low-readiness work still count as demand
@@ -276,3 +276,20 @@ configured jump cap. Short sessions fit whole prescriptions. Incomplete, correct
 painful or reduced work never earns normal progression credit. Existing swing/ABC
 cycles are preserved; deadlift completion does not auto-certify a swing or advanced
 unilateral/stance hinge variation.
+
+
+## Observed program cadence (Strength Lab planning feedback)
+
+After at least four distinct training days within the past 56 days, the decision
+panel estimates a return interval: mean spacing between those recorded days times
+the number of selected blocks, rounded up to whole days. Empty sessions do not
+count, and multiple workouts on one day count as one training day. Earlier/future
+entries and backup array order cannot distort the observed chronological spacing.
+Partial or reduced actual work counts as a training day, never as progression.
+
+If that estimate exceeds the configurable absence window, the panel suggests
+fewer active blocks. It does not shorten a prescription, certify a skill, increase
+training frequency, add catch-up volume or override recovery. The sample threshold,
+56-day window and formula are original app heuristics, not transcript-supported
+numbers or physiological predictions. The panel also distinguishes clean-exposure
+goals, reduced practice without credit, and completed cycles needing review.

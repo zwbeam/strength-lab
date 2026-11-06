@@ -19331,7 +19331,7 @@
         578
       ],
       "implemented_movement_ids": [],
-      "boundary": "Opt-in history-driven multi-block rotation, independent cycles, scoped unfinished queues, foundation support and recovery/time eligibility exist; complete Tetris and individualized fatigue models remain unfinished."
+      "boundary": "Opt-in history-driven multi-block rotation, independent cycles, scoped unfinished queues, foundation support, recovery/time eligibility and observed-cadence feedback exist; complete Tetris and individualized fatigue models remain unfinished."
     }
   ],
   "sources": [

@@ -287,3 +287,21 @@ Equipment loss/return, revoked/reconfirmed skills, pain, missed-month re-entry,
 independent cycles, saved state and offline reload pass. Real multi-tab and backup
 fault-injection suites also pass in the recovered executor. `8e35d01` was pushed
 normally; the three prior reported commits are confirmed on origin.
+
+## 2026-11-06 — Manageable rotation feedback
+
+Added observed-cadence feedback to the existing expandable decision panel. With
+at least four training days in a 56-day sample, the app compares estimated block
+return time with the configured absence threshold and suggests fewer active blocks
+when the selection is likely to keep returning through re-entry. This is explicitly
+an app planning heuristic; it changes no prescription, gate or progression credit.
+The panel now explains normal clean-exposure goals, reduced non-progressing work
+and cycle endpoints, with a concise rotation-review summary when needed.
+
+Two additional engine tests and a four-workout real-browser workflow pass. The
+workflow checks the 24-day estimate, actual reduced re-entry, preserved same-day
+recovery spacing, normal clean-exposure feedback, and a 12-day estimate/no warning
+after reducing to two blocks without altering history. All 98 named Node tests,
+engine/legacy assertions, 30 provenance anchors and the 720-source registry check
+pass. Offline worker upgrade, timer lifecycle and free set logging also pass in
+this restored executor. Earlier small increments were pushed separately.

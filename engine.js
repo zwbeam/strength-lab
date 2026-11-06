@@ -305,12 +305,17 @@ function plan(s,opts={}){
  const intensity=p.items.some(x=>x.track==='heavy'||x.profile==='grind'||x.mode==='density');
  const emphasis=recovery?'Recovery':skill?'Skill practice':intensity?'Intensity':'Volume';
  const pending=s.deferredByBlock?.[p.block]||[];
+ // Observed cadence is planning feedback, never a progression or medical rule.
+ const trainingDays=[...new Set(history.filter(x=>day-calendarDay(x.date)<56&&(x.items||[]).some(y=>y.actualSets>0)).map(x=>calendarDay(x.date)))].sort((a,b)=>a-b);
+ const estimatedReturnDays=trainingDays.length>=4?Math.ceil((trainingDays.at(-1)-trainingDays[0])/(trainingDays.length-1)*c.blocks.length):null;
+ const absenceDays=s.trainingDefaults?.reentryDays??14;
+ const cadence={sampleDays:trainingDays.length,estimatedReturnDays,absenceDays,warning:estimatedReturnDays!==null&&estimatedReturnDays>absenceDays?'At your recent training frequency, revisiting every selected block may take longer than the absence window. Consider fewer active blocks; do not add catch-up work.':null};
  const reason=!p.items.length?'All selected blocks are currently blocked or do not fit. Review the reasons below.':
   (chosen.last<0?'This selected block has not yet been practiced.':'This is the least recently practiced selected block that is ready and fits today.')+
   (pending.length?' Unfinished movements are considered first within this block.':'')+
   (p.support.length?' Supporting foundation practice is included to regain eligibility.':'');
  const status=x=>x.p.items.length?'Ready':x.p.paused?'Paused':x.p.held.length?'Pain review':x.p.scheduled.length?'Recovery schedule':x.p.prerequisite.length?'Prerequisites':x.p.unavailable.length?'Equipment':'Needs more time';
- return {...p,composition:{emphasis,reason,hardRecent,candidates:candidates.map(x=>({block:x.block,status:status(x)})),sourceIds:[548,578],provenance:'Block selection, spacing and priority are configurable Strength Lab defaults; source methods remain independent.'}};
+ return {...p,composition:{emphasis,reason,hardRecent,cadence,candidates:candidates.map(x=>({block:x.block,status:status(x)})),sourceIds:[548,578],provenance:'Block selection, spacing and priority are configurable Strength Lab defaults; source methods remain independent.'}};
 }
 function validateComposition(c){
  if(!c||typeof c!=='object'||Array.isArray(c)||typeof c.enabled!=='boolean'||!Array.isArray(c.blocks)||!c.blocks.length||c.blocks.length>Object.keys(BLOCKS).length||new Set(c.blocks).size!==c.blocks.length||c.blocks.some(id=>!Object.hasOwn(BLOCKS,id)))throw Error('Select unique known training blocks');
