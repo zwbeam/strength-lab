@@ -440,3 +440,30 @@ original Pages main/root configuration remain unchanged. No release, APK, force
 push or main merge was created. All owner setup is complete. Updated preview,
 status and continuation docs with the verified link, exact version and normal
 future publishing procedure. No additional user authorization/setup is needed.
+
+## 2026-11-06 — UX review 1 timer repair, local milestone
+
+Read the pasted UX request and current status/log/continuation/coverage/rules.
+Public GitHub API confirms source checkpoint fb3db7f; authenticated Git/CLI access
+now returns invalid credentials/401, so no remote-write success is claimed.
+Reproduced the reported rendered timer failure with Pixel 5 touch: work entry
+cleared clock to null/00:00, exposed no Start control, and +30 silently did nothing.
+Earlier tests first started warmup or logged sets and missed this idle state.
+
+Added a pacing-only session timer with Manual default, Automatic intervals and
+Hybrid exercise confirmations. The display is an actual touch control; explicit
+primary controls and +30/skip remain available, expiry rerenders controls, and the
+nonsticky panel preserves the full overview/free logging. Wall-clock deadlines
+handle frozen pages/resume. Each new draft captures its mode; preference changes
+only affect later workouts. Continuous club bouts avoid inter-set rest; timers
+never fabricate completed sets or cadence/skill confirmations. V33 validation
+accepts the new preference/draft fields while preserving old drafts.
+
+Seven new controller tests and actual touch workflows for all three modes pass,
+including timer changes, background freeze/resume, preference snapshots and offline
+reload/logging. Existing Node suites pass. Existing timer fixtures now load the new
+runtime module; old automatic-rest tests explicitly select Automatic while Manual
+skip/idle assertions reflect the requested behavior. Upgrade fixtures copy the
+actual new runtime HTML/module assets. USER-EXPERIENCE-REVIEW.md records approved
+requirements, the diagnosis/test gap and review checkpoints. GitHub publication
+remains dependent on refreshing the existing connection; no credential sharing.

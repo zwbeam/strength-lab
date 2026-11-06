@@ -39,7 +39,7 @@ with TemporaryDirectory(prefix='strength-upgrade-') as tmp:
             legacy='{"version":1,"sessions":[],"drafts":{}}'
             page.evaluate('(value)=>localStorage.setItem("strengthlab-data-v31",value)',legacy)
             before=page.evaluate('Object.fromEntries(["strengthlab-data-v31","strengthlab-data-v33","strengthlab-draft-v33"].map(key=>[key,localStorage.getItem(key)]))')
-            for name in ['app.js','engine.js','sw.js']:shutil.copy2(ROOT/name,target/name)
+            for name in ['index.html','app.js','engine.js','session-timer.js','styles.css','interface-polish.css','sw.js']:shutil.copy2(ROOT/name,target/name)
             page.evaluate('navigator.serviceWorker.getRegistration().then(registration=>registration.update()).then(()=>true)')
             page.wait_for_function('(name)=>caches.keys().then(keys=>keys.includes(name))',arg=CACHE_NAME)
             page.reload()

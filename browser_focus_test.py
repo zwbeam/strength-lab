@@ -3,7 +3,7 @@ from pathlib import Path
 from playwright.sync_api import sync_playwright
 base=Path(__file__).parent
 html=(base/'index.html').read_text()
-html=html.replace('<script src="engine.js"></script>','').replace('<script src="app.js" defer></script>','')
+html=html.replace('<script src="engine.js"></script>','').replace('<script src="app.js" defer></script>','').replace('<script src="session-timer.js"></script>','')
 with sync_playwright() as p:
  browser=p.chromium.launch(headless=True,executable_path='/usr/bin/chromium',args=['--no-sandbox'])
  page=browser.new_page(viewport={'width':390,'height':844})
@@ -16,6 +16,7 @@ with sync_playwright() as p:
  page.add_style_tag(content=(base/'interface-polish.css').read_text())
  page.add_script_tag(content="const __store={};Object.defineProperty(window,'localStorage',{value:{getItem:k=>__store[k]??null,setItem:(k,v)=>{__store[k]=String(v)},removeItem:k=>{delete __store[k]}}});")
  page.add_script_tag(content=(base/'engine.js').read_text())
+ page.add_script_tag(content=(base/'session-timer.js').read_text())
  page.add_script_tag(content=(base/'app.js').read_text())
  page.get_by_role('button',name='Start workout').click()
  page.get_by_role('button',name='Warmup complete · start work').click()

@@ -21,7 +21,7 @@ try:
   def import_file(payload,name):
    page.evaluate('testAlerts=[]')
    page.locator('#import').set_input_files({'name':name,'mimeType':'application/json','buffer':json.dumps(payload).encode()})
-  settings();page.locator('#program-block').select_option('hingePractice');page.get_by_text('Prerequisite skills',exact=True).click();page.locator('[data-skill="hingePattern"]').check();page.locator('#save-programming').click()
+  settings();page.locator('#timer-mode').select_option('automatic');page.locator('#save-timer-mode').click();page.locator('#program-block').select_option('hingePractice');page.get_by_text('Prerequisite skills',exact=True).click();page.locator('[data-skill="hingePattern"]').check();page.locator('#save-programming').click()
   page.locator('[data-tab="today"]').click();page.locator('#start').click();page.get_by_role('button',name='Warmup complete · start work').click();page.get_by_role('button',name='Complete next set').click();page.get_by_role('button',name='Pause',exact=True).click()
   settings()
   with page.expect_download() as download:page.locator('#export').click()
