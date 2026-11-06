@@ -115,18 +115,19 @@ Python Playwright and `/usr/bin/chromium` are available; browser/socket commands
 use the supported execution permission flow. No build/dependency install is needed.
 Read DEVELOPMENT-LOG.md and NEXT-CONTINUATION.md before editing.
 
-## Current user priority — development web preview
+## Development web preview — live
 
-The owner-created preview repo is accessible and the complete isolated application
-is uploaded on zwbeam/strength-lab-preview's preview branch. Source checkpoint
-613c408 was uploaded initially at deployment f482bac; normal updates may follow.
-The original public app's index/app/worker/manifest hashes, Pages settings and main
-SHA remain unchanged. Android-sized coexistence tests and four publisher guards pass.
+Public URL: https://zwbeam.github.io/strength-lab-preview/
+Verified source e62542b3d5f81923bf7a9025f72243972e300121, deployment
+08b6544f29885370ee3f03f08e038271534b2c33. The owner enabled Pages on the separate
+preview repo/branch. Actual public HTTPS tests pass in Pixel 5 Chromium emulation:
+76 assets, version/manifest/storage identity, mobile layout, full overview,
+timers/logging, progress/settings/library and offline reload/source reading.
+Not physically tested on Android. No further user setup is required.
 
-The connector lacks Pages/administration permission. Enabling Pages returned HTTP
-403, and official action documentation confirms normal GITHUB_TOKEN cannot enable
-it initially. One owner step remains: open the preview repo's Settings → Pages,
-choose Deploy from a branch → preview → /(root) → Save. Network access and repo
-creation are done; do not repeat those requests. Once enabled, verify the actual
-HTTPS URL with tests/preview-url.py before claiming it is live. See PREVIEW.md.
-No production release/APK or original main/deployment change was made.
+The original live app's assets, Pages/main-root settings and main SHA remain
+unchanged. No production release or APK was made. Future updates use the guarded
+scripts/publish-preview.py, followed by tests/preview-url.py against the expected
+source SHA; development pushes alone do not auto-publish. See PREVIEW.md for phone
+access/update instructions. Later test/doc/tool-only commits do not change the
+app version until explicitly published.

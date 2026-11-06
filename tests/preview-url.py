@@ -1,15 +1,27 @@
 """Verify the actual HTTPS development preview (Pixel 5 emulation, not a device)."""
-import argparse,json,re
-from urllib.parse import urljoin,urlsplit
+import argparse,json,re,os
+from urllib.parse import urljoin,urlsplit,unquote
 from playwright.sync_api import sync_playwright
 parser=argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--url',required=True)
 parser.add_argument('--commit',help='Expected source commit or prefix')
 args=parser.parse_args();base=args.url.rstrip('/')+'/'
 if urlsplit(base).scheme!='https':raise SystemExit('The deployed preview must use HTTPS')
+# Browser/API requests must use the managed environment's normal HTTPS proxy.
+# Preserve TLS verification and inherit the configured CA rather than bypassing it.
+if not os.environ.get('NODE_EXTRA_CA_CERTS') and os.environ.get('SSL_CERT_FILE'):
+ os.environ['NODE_EXTRA_CA_CERTS']=os.environ['SSL_CERT_FILE']
+proxy_url=os.environ.get('HTTPS_PROXY') or os.environ.get('HTTP_PROXY')
+network_options={}
+if proxy_url:
+ proxy=urlsplit(proxy_url)
+ config={'server':f'{proxy.scheme}://{proxy.hostname}:{proxy.port or 80}'}
+ if proxy.username:config['username']=unquote(proxy.username)
+ if proxy.password:config['password']=unquote(proxy.password)
+ network_options['proxy']=config
 with sync_playwright() as p:
  browser=p.chromium.launch(executable_path='/usr/bin/chromium',args=['--no-sandbox'])
- context=browser.new_context(**p.devices['Pixel 5']);page=context.new_page();errors=[]
+ context=browser.new_context(**p.devices['Pixel 5'],**network_options);page=context.new_page();errors=[]
  page.on('pageerror',lambda error:errors.append(str(error)));page.on('dialog',lambda dialog:dialog.accept())
  response=page.request.get(base+'preview-build.json');assert response.status==200,('Preview metadata unavailable',response.status)
  metadata=response.json();assert metadata['channel']=='development-preview' and metadata['storage_namespace']=='sl-dev-preview'

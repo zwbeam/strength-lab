@@ -419,3 +419,24 @@ passed invariance checks. Corrected the managed-file guard to include sw.js itse
 which is intentionally not in its own precache inventory. The real repeat update
 succeeded without force-push or lost deployment history. Pages remains disabled;
 owner enablement in the preview repo settings is still the only required action.
+
+## 2026-11-06 — Public Android-friendly preview verified live
+
+The owner enabled Pages on the separate preview repo/preview branch. GitHub build
+08b6544f29885370ee3f03f08e038271534b2c33 completed and the public metadata returns
+source e62542b3d5f81923bf7a9025f72243972e300121. Live HTTPS URL:
+https://zwbeam.github.io/strength-lab-preview/.
+
+The first browser probe attempted direct DNS, unavailable in the managed proxy
+network. Updated only the public verifier to inherit HTTPS proxy and configured
+CA trust, leaving TLS verification enabled. The rerun passed against the actual
+public URL: all 76 assets, SHA/banner/manifest identity, isolated storage/lock,
+Android-sized layout without overflow, complete workout overview, timer pause/
+resume, set logging, saved Progress, Settings/library and offline reload/source
+reader. This is Pixel 5 Chromium emulation, not physical Android testing.
+
+Original live app index/app/worker/manifest fingerprints, main SHA 4cb58d8 and
+original Pages main/root configuration remain unchanged. No release, APK, force
+push or main merge was created. All owner setup is complete. Updated preview,
+status and continuation docs with the verified link, exact version and normal
+future publishing procedure. No additional user authorization/setup is needed.

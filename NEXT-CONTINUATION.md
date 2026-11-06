@@ -1,31 +1,24 @@
 # Exact next continuation prompt
 
-**Current priority: finish publishing the isolated Android-friendly web preview.**
-Read PREVIEW.md first. Do not add training features during this task. Source
-checkpoint d5603e8 was verified; preview tooling reads committed runtime assets,
-uses separate DEV identity/storage/lock/cache and has a real Android-sized local
-coexistence test. Main and live deployment have not been changed.
+The Android-friendly development preview is LIVE and publicly verified:
+https://zwbeam.github.io/strength-lab-preview/
 
-Network access and repository creation are complete. The isolated application is
-uploaded to zwbeam/strength-lab-preview on preview; its first deployment f482bac
-used source 613c408. Later content commits may follow. The original app at
-https://zwbeam.github.io/strength-lab/ still serves unchanged source main/root.
+Read PREVIEW.md. Source e62542b3d5f81923bf7a9025f72243972e300121 is deployed at
+08b6544f29885370ee3f03f08e038271534b2c33 in the separate preview repository/branch.
+The owner completed all network/repository/Pages setup. Do not repeat those asks.
+Public Pixel 5 Chromium emulation passed all 76 assets, mobile layout, manifest,
+separate data/lock, full overview, timers/logging, progress/settings/library and
+offline reload/source reader. Physical Android testing remains unverified.
 
-One owner-only step remains: open
-https://github.com/zwbeam/strength-lab-preview/settings/pages, choose Deploy from
-a branch, select preview and /(root), then Save. The connector has no Pages or
-administration permission; API enablement returned 403, and the official action
-requires a different token for enablement. Do not attempt a token workaround or
-ask again for network/repository creation. No credentials need to be shared.
+The existing app/main/Pages settings are unchanged. After future verified app
+changes, use scripts/publish-preview.py for normal content publication, wait for
+Pages, then run tests/preview-url.py with the actual URL/expected source SHA.
+That test now honors the managed HTTPS proxy and CA with TLS verification enabled.
+Source development pushes alone do not publish the preview. Record verified new
+source/deployment commits in PREVIEW.md and the log. Do not merge main, force-push,
+create releases/APKs or alter the original deployment.
 
-After the owner enables Pages, inspect status, run the publisher only if a source
-update is needed, and verify the actual HTTPS URL with tests/preview-url.py and
-the uploaded metadata SHA. Do not claim the expected address is live until tested.
-Document the final URL/source/deployment commits and simple Android instructions.
-Normal content pushes to preview update the enabled site; the publisher no longer
-changes default-branch/Pages settings or explicitly requests a privileged rebuild.
-
-The general development instructions below apply after that user objective is met.
+The preview objective is complete; continue with the next user-directed development task.
 
 Continue Strength Lab from the latest `origin/development/reconciliation`.
 First verify that shell execution, GitHub and a representative browser test work;
