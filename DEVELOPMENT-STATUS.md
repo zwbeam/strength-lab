@@ -5,6 +5,10 @@ training data. No main merge, force-push, release or APK is authorized.
 
 ## UX review 1 milestone (2026-11-06)
 
+Published review source: `7c6f2c0` at
+https://zwbeam.github.io/strength-lab-preview/ (deployment `2b5e4a7`).
+Actual HTTPS Pixel 5 emulation passed 79 assets and the repaired idle-work
+countdown. Original live app fingerprints and main remain unchanged.
 Timer repair checkpoint: `2d97220`. Learn now provides registry-backed Exercises,
 focused Pathways, practical instruction, eligibility/history statuses and exact
 video metadata links. All 31 movements are represented; 29 have video mappings,

@@ -1,58 +1,34 @@
-# Exact next continuation prompt
+# UX review 1: user-review checkpoint
 
-The Android-friendly development preview is LIVE and publicly verified:
-https://zwbeam.github.io/strength-lab-preview/
+Continue from the latest origin/development/reconciliation. Preserve all history.
+Timer milestone: 2d97220. Learn milestone: 7c6f2c0. The separate preview build
+uses source 7c6f2c0070840db3da4a1c813ae57e1bb8411e92; see PREVIEW.md for verification.
 
-Read PREVIEW.md. Source e62542b3d5f81923bf7a9025f72243972e300121 is deployed at
-08b6544f29885370ee3f03f08e038271534b2c33 in the separate preview repository/branch.
-The owner completed all network/repository/Pages setup. Do not repeat those asks.
-Public Pixel 5 Chromium emulation passed all 76 assets, mobile layout, manifest,
-separate data/lock, full overview, timers/logging, progress/settings/library and
-offline reload/source reader. Physical Android testing remains unverified.
+Read USER-EXPERIENCE-REVIEW.md and the latest DEVELOPMENT-LOG.md before acting.
+The user requires build → test → preview → user review → refinement. Do not begin
+another major interface redesign before user feedback. Implement feedback in
+small verified increments; do not mistake automated tests for UX approval.
 
-The existing app/main/Pages settings are unchanged. After future verified app
-changes, use scripts/publish-preview.py for normal content publication, wait for
-Pages, then run tests/preview-url.py with the actual URL/expected source SHA.
-That test now honors the managed HTTPS proxy and CA with TLS verification enabled.
-Source development pushes alone do not publish the preview. Record verified new
-source/deployment commits in PREVIEW.md and the log. Do not merge main, force-push,
-create releases/APKs or alter the original deployment.
+Manual is the new-session default; existing drafts and preference snapshots remain
+compatible. Timer-only events cannot log sets or grant progression. Exercises and
+Pathways share the registry, actual eligibility and history. Learned is explicit
+self-reported familiarity, never mastery or a prerequisite bypass. All 31 lessons
+remain readable; 29 have corpus metadata video mappings, carry/front squat have
+explicit gaps. Some videos cover programming rather than full technique. No
+verified timestamps or physical Android playback claim exists.
 
-The preview objective is complete; continue with the next user-directed development task.
+First inspect Git status, compare/fetch remote and preserve newer commits. GitHub
+credentials briefly returned 401 during this task but later recovered; never ask
+for raw tokens. Use the existing gh credential helper per command if required.
+Run node test files individually plus tests/timer-review.py, tests/learn-review.py,
+tests/learning-provenance.py, tests/backup-restore.py, tests/multi-tab.py and relevant
+history/upgrade regressions when changes warrant them.
 
-Continue Strength Lab from the latest `origin/development/reconciliation`.
-First verify that shell execution, GitHub and a representative browser test work;
-environment status alone previously reported running while the executor was unusable.
-Fetch origin, compare HEAD/status, preserve newer commits and inspect any uncommitted
-work before applying it. Never reset or rewrite history.
+Normal development pushes do not deploy Pages. After verified application changes,
+use scripts/publish-preview.py for the separate preview repository; wait for Pages
+and run tests/preview-url.py with the expected source commit and actual HTTPS URL.
+Preserve the original app/main/Pages, saved history, full overview, free set logging,
+relative assets and offline research. No main merge, force push, release or APK.
 
-Read DEVELOPMENT-STATUS.md, DEVELOPMENT-LOG.md, CURRICULUM-COVERAGE.md,
-TRAINING-RULES.md and PERSISTENCE.md. Confirm ancestry of `b05b82c` (coordinated
-programming), `ea80b41` (exclusive writer), `a68b180` (loaded hinge), `8e35d01`
-(chronological selection), `1280712` (36-workout adverse histories) and `7e4a049`
-(cadence feedback), or inspect newer work first. Later documentation commits may follow.
-
-The interrupted local work was recovered and verified. The browser extension's
-failure was a test assumption: a full advanced target does not fit a 15-minute
-session. Preserve the corrected refusal/reduced-work checks. Do not reintroduce
-that failing expectation or silently shrink targets for advancement credit.
-
-Run relevant tests, especially `node composition.test.cjs`,
-`node hinge-pathway.test.cjs`, `python3 tests/composition-feedback.py`,
-`python3 tests/multi-tab.py`, `python3 tests/backup-restore.py` and source checks.
-The repository has 98 named Node tests, engine/legacy checks and longer realistic
-histories. Preserve the complete overview, free set logging, timers, adjustable
-duration, offline library, saved data and all existing movement cycles.
-
-Continue with high-impact composition/workload verification, accessibility and
-release reliability; then source-reviewed complete ground/traveling quadruped or
-intermediate club pathways. Read full relevant teaching sources before encoding
-rules. Numeric programming, cadence, spacing and exposure app defaults must not
-be attributed to transcripts without support. No automatic skill certification.
-
-Use small independently tested commits and push each completed increment normally
-to the existing development branch. Update status/log/coverage/rules and this prompt.
-Do not merge main, force-push, publish a release or build an APK. Preserve relative
-static assets and pure browser architecture for future Capacitor packaging.
-If execution fails, stop dependent work, report the last successful pushed commit
-and any uncommitted files, and give exact recovery steps without claiming tests ran.
+Next task: collect Android feedback on timer interaction/mode clarity, finding
+lessons, focused maps and external video opening. Refine only after that review.

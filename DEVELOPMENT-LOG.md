@@ -486,3 +486,45 @@ readable, including in read-only tabs. Familiarity does not bypass programming.
 Volume/density/load explanations preserve the existing engine and distinguish app
 defaults. The complete offline corpus remains secondary evidence, not primary UI.
 This is a review candidate, not a claim of complete instruction or programming.
+
+### UX review 1 publication and verification
+
+GitHub credentials recovered without replacing tokens or repeating owner setup.
+Fetched remote fb3db7f and pushed timer 2d97220 and Learn 7c6f2c0 normally.
+GitHub API confirms 7c6f2c0070840db3da4a1c813ae57e1bb8411e92 on development.
+Published that source to preview deployment
+2b5e4a71c1b62ae8287c2edb1625a358af809f05. Pages completed; actual HTTPS
+https://zwbeam.github.io/strength-lab-preview/ passed Pixel 5 Chromium emulation
+with all 79 assets, identity/storage separation, layout, full overview, timers,
+logging, progress, Learn, Settings and offline source reading. Initial public
+check correctly rejected the stale previous build while Pages was still building.
+Original main and Pages configuration were verified unchanged by the publisher.
+
+All 111 named Node tests plus engine and V31 smoke checks pass. Browser tests
+passed for all six existing DOM workflows, timer touch modes/frozen resume,
+Learn/status/map/video targets, curriculum links, root and subpath smoke,
+programming controls, backup rollback/retry, multi-tab writer protection,
+service-worker upgrades and preview isolation. Exact source hashes/quotes pass.
+Video URLs are verified against corpus metadata; no physical Android or external
+YouTube playback verification is claimed. Pause for user feedback before another
+major interface redesign, as requested. See USER-EXPERIENCE-REVIEW.md.
+
+The strengthened public verifier also tapped the active-work timer face, observed
+real elapsed countdown, paused it and verified that pacing logged no sets. The
+original live root/index/app/worker/manifest SHA-256 fingerprints are unchanged.
+Long histories passed: 44 source-cycle sessions/19 weeks, 36 coordinated workouts
+across multiple months, get-up and club pathways, the full 42-exposure push-up
+wave, 15 ground sessions and 13 unloaded/loaded hinge sessions. Coverage includes
+partial work, technique/pain, missed months, equipment changes, skill gates,
+short sessions, requalification, backup and offline persistence.
+
+Final regression follow-up: the old club test expected an idle 00:00 display after
+the first logged set. The repaired timer deliberately retains a continuous work
+interval. Replaced that assertion with the actual invariant: one continuous work
+entry, no inter-set rest, and a two-minute break only between movements. The full
+34-exposure club history and get-up history pass. No engine rule was changed to
+satisfy the test. Research checks pass all 30 existing rule quotes/hashes and the
+720-record/23-system coverage inventory. Four preview-publisher tests pass.
+Generated learning assets reproduce byte-identically. Final notes and public
+countdown/pathway regression are a documentation/testing follow-up; the deployed
+application source remains 7c6f2c0. No unfinished implementation remains locally.

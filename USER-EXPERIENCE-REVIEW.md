@@ -79,3 +79,13 @@ readable, including in read-only tabs. Familiarity does not bypass programming.
 Volume/density/load explanations preserve the existing engine and distinguish app
 defaults. The complete offline corpus remains secondary evidence, not primary UI.
 This is a review candidate, not a claim of complete instruction or programming.
+
+## Published review candidate
+
+Source 7c6f2c0 is live at https://zwbeam.github.io/strength-lab-preview/.
+The authenticated GitHub connection recovered and both local milestones were
+pushed normally. Public HTTPS/mobile-emulation checks passed all 79 assets,
+workout flow, Learn and offline reading. Earlier 401 notes describe the temporary
+blocker, not the final publication status. No physical Android testing or user
+approval of the new interface has occurred. Awaiting feedback on the questions
+above; do not start a new major redesign before that review.

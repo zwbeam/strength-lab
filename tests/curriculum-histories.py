@@ -44,7 +44,7 @@ try:
      if(total)for(const [field,value] of [['leftReps',imbalance?2:4],['rightReps',3]]){const el=document.querySelector(`[data-set="${index}:${field}"]`);el.value=String(value);el.dispatchEvent(new Event('change',{bubbles:true}));}
      for(const field of ['bothSides','continuous']){const el=document.querySelector(`[data-set="${index}:${field}"]`);if(el){el.checked=field==='continuous'?continuous:true;el.dispatchEvent(new Event('change',{bubbles:true}));}}
      document.querySelector(`[data-check="${index}"]`).click();
-     if(checkRest&&i===0&&j===0)noRestWithin=document.querySelector('#clock').textContent==='00:00';
+     if(checkRest&&i===0&&j===0)noRestWithin=draft.clock.kind==='work'&&draft.clock.item===0&&SessionTimer.queue(draft).filter(entry=>entry.item===0&&entry.kind==='work').length===1;
      if(checkRest&&i===0&&draft.items[0].sets.every(set=>set.done))breakBetween=document.querySelector('#timer-label').textContent.startsWith('Rest between movements')&&document.querySelector('#clock').textContent==='02:00';
     }
     if(pain){const el=document.querySelector('[data-pain="0"]');el.checked=true;el.dispatchEvent(new Event('change',{bubbles:true}));}
