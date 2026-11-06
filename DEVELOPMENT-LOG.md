@@ -275,3 +275,15 @@ Nine composition and five hinge tests plus 30 provenance checks pass. The extend
 browser test remains under review; its first failure assumes a whole advanced
 bear-squat prescription fits a 15-minute session. No unverified test is committed
 with this small recovery increment.
+
+## 2026-11-06 — Recovered adverse composition histories verified
+
+The surviving browser extension is now reviewed and passes 36 real generated
+workouts. Its failing expectation was a test error: the full four-bout bear-squat
+target does not fit seven main-work minutes in a 15-minute session. The corrected
+sequence verifies that refusal, deliberately selects low readiness for reduced
+non-progressing work, then restores 45 minutes before checking full weighted work.
+Equipment loss/return, revoked/reconfirmed skills, pain, missed-month re-entry,
+independent cycles, saved state and offline reload pass. Real multi-tab and backup
+fault-injection suites also pass in the recovered executor. `8e35d01` was pushed
+normally; the three prior reported commits are confirmed on origin.

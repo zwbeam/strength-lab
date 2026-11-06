@@ -65,12 +65,27 @@ try:
   assert page.evaluate('currentPlan().estimated<=currentPlan().cap')
   r=record(pain_id=ids()[0]);assert not r[0]['completed'];train()
   pain_id=r[0]['id'];assert pain_id not in ids()
-  count=page.evaluate('state.sessions.length');page.reload();assert page.evaluate('state.sessions.length')==count
+  # Changing equipment and skills must select from the remaining eligible blocks.
+  settings();page.locator('[data-equipment="kb"]').fill('');page.locator('[data-equipment="club"]').fill('');page.locator('#save-equipment').click();train()
+  assert page.evaluate('currentPlan().items.every(rx=>rx.bodyweight)')
+  settings();page.get_by_text('Prerequisite skills',exact=True).click()
+  for skill in ['hipDropTwoHand','hipDropSingleHand','bearSquat']:page.locator(f'[data-skill="{skill}"]').uncheck()
+  page.locator('#save-programming').click();train();assert page.locator('#start').count()==0
+  assert 'No workout is ready' in page.get_by_role('status').inner_text()
+  settings();page.get_by_text('Prerequisite skills',exact=True).click();page.locator('[data-skill="bearSquat"]').check();page.locator('#save-programming').click();train()
+  assert ids()==[] # the full 4-bout prescription does not fit the remaining 7 main-work minutes
+  next_day();page.locator('[data-ready="low"]').click();assert ids()==['bearSquat']
+  assert not any(r['completed'] for r in record())
+  train();page.locator('[data-ready="normal"]').click()
+  settings();page.locator('[data-equipment="kb"]').fill('8,12');page.locator('[data-equipment="club"]').fill('5');page.locator('#save-equipment').click();train();next_day();page.locator('#today-minutes').select_option('45')
+  assert page.evaluate('currentPlan().items.some(rx=>!rx.bodyweight)')
+  assert not any(r['completed'] for r in record()) # reduced return after absence, not a free advancement
+  count=page.evaluate('state.sessions.length');page.reload();page.wait_for_function('storageReady');assert page.evaluate('state.sessions.length')==count
   assert page.evaluate('state.programComposition.enabled')
-  page.evaluate('navigator.serviceWorker.ready.then(()=>true)');page.context.set_offline(True);page.reload()
-  assert page.evaluate('state.sessions.length')==34
+  page.evaluate('navigator.serviceWorker.ready.then(()=>true)');page.context.set_offline(True);page.reload();page.wait_for_function('storageReady')
+  assert page.evaluate('state.sessions.length')==36
   assert not errors,errors
-  print('PASS: 34 real coordinated workouts across four blocks / multiple months, independent cycles, partial work, missed month, short duration, pain, decision UI and offline history',flush=True)
+  print('PASS: 36 real coordinated workouts across four blocks / multiple months, independent cycles, partial work, missed month, short duration, pain, equipment loss/return, skill regression, low readiness, decision UI and offline history',flush=True)
   browser.close()
 finally:
  server.shutdown();server.server_close();thread.join()
