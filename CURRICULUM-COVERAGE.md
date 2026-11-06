@@ -18,8 +18,8 @@ All 720 records have an inventory entry, including those with no title matches. 
 | Single-arm pendulums / pullovers / mills / swipes | partial | #578, #260, #265, #269, #624 | Pendulum/pullover teaching with app-default volume and practice/skill gates exists; mills and swipes remain missing. |
 | Rotational footwork / pivots / staggered combinations | missing | #487, #489, #582 | No stance/pivot competency model or automatic complex combinations. |
 | Mace 360, flows, leverage and complexity | missing | #485, #553, #607 | Mace is not treated as an interchangeable club load; no mace generator. |
-| Bodyweight get-ups / ground transitions | missing | #84, #98, #102 | Not replaced by the loaded get-up goal. |
-| Quadruped / crawling / bear patterns | missing | #87, #100, #554 | No dedicated quadruped curriculum. |
+| Bodyweight get-ups / ground transitions | partial | #84, #98, #102 | Two-hand to single-hand hip-drop practice with skill/evidence gates; rocking leg-thread and complete get-up transitions remain missing. |
+| Quadruped / crawling / bear patterns | partial | #87, #100, #554 | Bear-squat controlled mobility practice exists; traveling bear/cat crawls and flow transitions remain missing. |
 | Push-up / pull-up / core progression | partial | #608, #609, #717 | Method #609 push-up EMOM wave is implemented; method #608, pull-ups and other core progressions remain missing. |
 | Slam-ball cycles and levels | missing | #25, #252, #266 | No slam-ball equipment or prescription model. |
 | Sandbag / dumbbell / barbell integration | missing | #482, #514, #703 | Discussed in the collection; no interchangeable-load assumptions or generator. |

@@ -9,8 +9,10 @@ CURRICULUM-COVERAGE.md and PERSISTENCE.md.
 Get-up breakdowns, single-arm club pendulum/pullover practice, unloaded hinge and
 push-up #609 are implemented. Active-draft backup/recovery tests are in
 `tests/backup-restore.py`. Read the latest development log for subsequent work.
-The next curriculum priority is reviewed foundational bodyweight ground/quadruped
-practice, then coherent program composition and release reliability. Read full
+Two-hand/single-hand hip drops and bear-squat practice are also implemented; run
+`node ground.test.cjs` and `python3 tests/ground-histories.py`. The next priorities
+are coherent program composition and release reliability, then reviewed loaded
+hinge, complete ground transitions and traveling quadruped practice. Read full
 relevant transcripts and distinguish teaching from app-default numeric rules.
 
 Implement the highest-priority reviewed pathway in the actual application;

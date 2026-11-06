@@ -355,6 +355,51 @@
         "clean-exposure gate",
         "retest revision and recovery rules"
       ]
+    },
+    {
+      "rule": "two-hand-hip-drop",
+      "source_id": 84,
+      "title": "Body Weight training - the 2 hand Hip Drop - fundamental getup movement for martial artists",
+      "url": "https://www.youtube.com/watch?v=ugp8XuBIbRE",
+      "normalized_text_sha256": "7f07d0cb01ddb36cd81ab07043adb931990228f01eae6ecf93cf22daec77b87c",
+      "quote": "two hands flat on the ground",
+      "supported_scope": "Two-hand hip-drop technique; 30-second timed example is discussed, but the app uses labeled rep practice.",
+      "app_defaults_not_claimed_as_source_rules": [
+        "set range and rest",
+        "hip-drop rep dose",
+        "evidence recency and clean-exposure gates",
+        "recovery reductions"
+      ]
+    },
+    {
+      "rule": "single-hand-hip-drop",
+      "source_id": 98,
+      "title": "Bodyweight getup basics - single arm Hip Drop",
+      "url": "https://www.youtube.com/watch?v=wfszVa3YpNc",
+      "normalized_text_sha256": "463b6292da054f214b6e813b987c7ea4eb484efa5df6cfc69a0cace5e4b4b848",
+      "quote": "this single hand version is a slightly more advanced version of the two-hand version",
+      "supported_scope": "Single-hand hip-drop builds from two-hand support. No numeric progression threshold is prescribed.",
+      "app_defaults_not_claimed_as_source_rules": [
+        "set range and rest",
+        "hip-drop rep dose",
+        "evidence recency and clean-exposure gates",
+        "recovery reductions"
+      ]
+    },
+    {
+      "rule": "bear-squat",
+      "source_id": 100,
+      "title": "Bodyweight training - Bear Squat - building the foundation for fighters getups",
+      "url": "https://www.youtube.com/watch?v=7nP5m_8ig-A",
+      "normalized_text_sha256": "0169534d972db7ef896dffe24b4e888b2127b95cfd8c21317537d9a2eca49fe1",
+      "quote": "you could set a timer for 60 seconds or 90 seconds",
+      "supported_scope": "Bear-squat moving mobility practice and timed examples; no source-specified set progression.",
+      "app_defaults_not_claimed_as_source_rules": [
+        "set range and rest",
+        "hip-drop rep dose",
+        "evidence recency and clean-exposure gates",
+        "recovery reductions"
+      ]
     }
   ]
 }

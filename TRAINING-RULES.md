@@ -189,3 +189,29 @@ or failed work earns no additional credit. A failed save rolls history and draft
 back together and can be retried. A recovery journal rolls back interrupted
 paired writes before training decisions load. This is application data protection,
 not a transcript-derived programming principle.
+
+
+## Foundational bodyweight ground practice
+
+The ground block shares the movement registry and evidence system with the other
+programs. #84 teaches two-hand hip drops with quiet step-step transitions, stable
+hand/foot placement and a stand before/after each set. #98 explicitly describes
+the single-hand version as more advanced than the two-hand version. The app
+requires explicit confirmation of both skills plus recent clean two-hand practice;
+it never treats ground practice as loaded get-up certification. Parent pain,
+changed policy, incomplete work or stale evidence prevents premature selection.
+
+Hip-drop **rep practice** defaults to 2–4×3 per side, with 60-second rests. Those
+numbers are Strength Lab choices, distinct from #84's 30-second timed example.
+Start/end sets and reps are editable, and both-side confirmation/balanced reps
+are required for progression. #100 teaches moving bear-squat mobility and offers
+60/90-second examples. The app defaults to 2–4×60 seconds, allows a 30-second
+regression, and labels the set range/rest/gates as app defaults. It does not
+convert this into a traveling bear crawl or prescribe speed under fatigue.
+
+Low readiness/re-entry/deload reduce sets with no progression credit. Equipment
+is not required; zero external load is valid only for declared bodyweight
+movements. Short sessions fit entire prescriptions and defer remaining work.
+Advanced ground transitions, spinal rocking, leg-thread get-ups and crawling
+remain separate source-review/implementation gaps. Quote/hash anchors for
+#84/#98/#100 are included in the 29-entry provenance manifest.

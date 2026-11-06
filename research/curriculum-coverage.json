@@ -13107,7 +13107,7 @@
     {
       "id": "bodyweight-ground",
       "system": "Bodyweight get-ups / ground transitions",
-      "status": "missing",
+      "status": "partial",
       "screening_pattern": "body.?weight.*get.?up|hip drop|leg thread",
       "candidate_title_ids": [
         84,
@@ -13366,13 +13366,16 @@
         98,
         102
       ],
-      "implemented_movement_ids": [],
-      "boundary": "Not replaced by the loaded get-up goal."
+      "implemented_movement_ids": [
+        "hipDropTwoHand",
+        "hipDropSingleHand"
+      ],
+      "boundary": "Two-hand to single-hand hip-drop practice with skill/evidence gates; rocking leg-thread and complete get-up transitions remain missing."
     },
     {
       "id": "quadruped",
       "system": "Quadruped / crawling / bear patterns",
-      "status": "missing",
+      "status": "partial",
       "screening_pattern": "quadruped|crawl|bear squat",
       "candidate_title_ids": [
         82,
@@ -13508,8 +13511,10 @@
         100,
         554
       ],
-      "implemented_movement_ids": [],
-      "boundary": "No dedicated quadruped curriculum."
+      "implemented_movement_ids": [
+        "bearSquat"
+      ],
+      "boundary": "Bear-squat controlled mobility practice exists; traveling bear/cat crawls and flow transitions remain missing."
     },
     {
       "id": "push-pull-core",
@@ -31876,6 +31881,93 @@
           "Use the configured conservative baseline; the app does not ask for daily maximum attempts."
         ],
         "avoid": "Do not turn incomplete or poor-technique reps into progression credit."
+      },
+      "hipDropTwoHand": {
+        "name": "Two-hand hip-drop practice",
+        "gear": "bodyweight",
+        "bodyweight": true,
+        "unit": "bodyweight",
+        "family": "ground",
+        "reps": 3,
+        "start": 2,
+        "end": 4,
+        "rest": 60,
+        "sec": 36,
+        "repSeconds": 6,
+        "side": 2,
+        "defaultProfile": "ground",
+        "requires": [
+          "hipDropTwoHand"
+        ],
+        "teachingSources": [
+          84
+        ],
+        "cues": [
+          "Start standing, lower under control and finish by standing again.",
+          "Keep both hands flat, knees close to wrists and use quiet step-step transitions.",
+          "Lower the hip and thigh to the ground; keep the supporting shoulder controlled."
+        ],
+        "avoid": "Do not jump, buck the hips or let the feet creep away from the hands."
+      },
+      "hipDropSingleHand": {
+        "name": "Single-hand hip-drop practice",
+        "gear": "bodyweight",
+        "bodyweight": true,
+        "unit": "bodyweight",
+        "family": "ground",
+        "reps": 3,
+        "start": 2,
+        "end": 4,
+        "rest": 60,
+        "sec": 36,
+        "repSeconds": 6,
+        "side": 2,
+        "defaultProfile": "ground",
+        "requires": [
+          "hipDropTwoHand",
+          "hipDropSingleHand"
+        ],
+        "practicePrereqs": [
+          "hipDropTwoHand"
+        ],
+        "teachingSources": [
+          98,
+          84
+        ],
+        "cues": [
+          "Use the familiar two-hand setup; return the free hand to the same spot.",
+          "Sit the hip and thigh down, bring the free elbow toward the belly and look at the hand.",
+          "Keep the supporting shoulder away from the ear; exhale on the hip touch and practice both sides."
+        ],
+        "avoid": "Do not lift into an unsupported advanced variation or continue with shoulder pain."
+      },
+      "bearSquat": {
+        "name": "Bear-squat mobility practice",
+        "gear": "bodyweight",
+        "bodyweight": true,
+        "unit": "bodyweight",
+        "family": "ground",
+        "reps": 60,
+        "start": 2,
+        "end": 4,
+        "rest": 60,
+        "sec": 60,
+        "side": 1,
+        "timed": true,
+        "defaultProfile": "ground",
+        "requires": [
+          "bearSquat"
+        ],
+        "teachingSources": [
+          100,
+          554
+        ],
+        "cues": [
+          "Find hand distance from a comfortable kneeling position.",
+          "Move from knees down toward straight legs with stable hands and feet.",
+          "Keep elbows straight and move deliberately within comfortable range; return to the same knee position."
+        ],
+        "avoid": "Do not force range, speed or an endurance target after control deteriorates."
       }
     },
     "skills": {
@@ -32035,9 +32127,41 @@
         "sources": [
           609
         ]
+      },
+      "hipDropTwoHand": {
+        "name": "Familiar two-hand hip drop with stable support and quiet steps",
+        "sources": [
+          84
+        ]
+      },
+      "hipDropSingleHand": {
+        "name": "Familiar single-hand hip drop with controlled supporting shoulder",
+        "sources": [
+          98
+        ]
+      },
+      "bearSquat": {
+        "name": "Familiar bear squat with comfortable support and controlled knee movement",
+        "sources": [
+          100
+        ]
       }
     },
     "blocks": {
+      "groundPractice": {
+        "name": "Bodyweight ground foundations",
+        "days": [
+          {
+            "name": "Ground support and transitions",
+            "focus": "Controlled hip drops and bear squats; no equipment needed",
+            "ids": [
+              "hipDropTwoHand",
+              "hipDropSingleHand",
+              "bearSquat"
+            ]
+          }
+        ]
+      },
       "hingePractice": {
         "name": "Unloaded hinge foundation",
         "days": [

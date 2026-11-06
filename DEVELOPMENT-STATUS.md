@@ -39,14 +39,14 @@ that distinct restoration check remains unverified.
   their original policy identity. Old V31/V32 data/interface remain available.
 
 [TRAINING-RULES.md](TRAINING-RULES.md) explains source support versus app defaults.
-[research/programming-rules.json](research/programming-rules.json) contains twenty-six
+[research/programming-rules.json](research/programming-rules.json) contains twenty-nine
 verified quotation anchors and transcript hashes. The mechanical reconciliation
 of 720 transcripts / 955,522 words remains intact; it is not a claim that all
 lessons have been interpreted or that the app is medically validated.
 
 [CURRICULUM-COVERAGE.md](CURRICULUM-COVERAGE.md) and the reproducible JSON inventory
 screen all 720 full texts across 23 scoped systems: four implemented scopes,
-ten partial scopes and nine missing scopes. Candidate mentions are not
+twelve partial scopes and seven missing scopes. Candidate mentions are not
 interpreted rules; implementation boundaries are explicit.
 
 ## Verified
@@ -109,8 +109,9 @@ Server: `python3 -m http.server 8000 --bind 127.0.0.1 --directory /workspace/str
 
 ## Highest-priority remaining work
 
-1. Reviewed foundational bodyweight ground/quadruped pathways; dedicated get-up
-   breakdowns, pendulum/pullover practice, unloaded hinge and push-up #609 are now implemented.
+1. Expand coherent foundational coverage where valuable: loaded hinge, complete
+   ground transitions and traveling quadruped work. Hip drops and bear squats, get-up
+   breakdowns, pendulum/pullover practice, unloaded hinge and push-up #609 are implemented.
 2. Richer program composition than the current declared demand spacing; validate
    movement/implement-specific overlap without claiming to measure individual fatigue.
 3. Other missing systems in the coverage matrix: competition jerk/long-cycle,
@@ -149,3 +150,24 @@ Chromium backup tests pass: malformed import rejection, paused timer/set restore
 second-write failure, failed-save retry without duplicates, interrupted-transaction
 reload, failed startup recovery with blocked writes, and offline reload.
 Browser fault injection tests software behavior, not hardware storage durability.
+
+
+## Ground curriculum checkpoint — 2026-11-06
+
+Added two-hand hip drops, single-hand hip drops and bear-squat practice to the
+shared library/skills/engine/generator/settings. Recent clean two-hand evidence
+and explicit skill review gate single-hand selection. App-default rep practice,
+set ranges/rest and recovery gates are distinct from source teaching and timed
+examples. Settings support dose changes without reusing incompatible evidence.
+
+80 named Node tests now pass, plus engine/legacy assertions. Five new engine
+cases cover generated multiweek histories, incomplete/imbalanced/poor-technique
+work, recovery, missed weeks, equipment independence, pain and policy changes.
+The real UI passed 15 generated ground sessions with explicit skill review,
+shortened duration, missed-month re-entry/requalification, parent pain, offline
+history and edited practice dose. The coverage matrix remains 23 scopes: four
+implemented, twelve partial, seven missing. Twenty-nine source quotes/hashes verify.
+
+Full release readiness, advanced specialty curricula, richer program composition,
+physical Android/PWA testing and fresh Codex-task restoration remain unfinished.
+No APK, release or main merge was produced.

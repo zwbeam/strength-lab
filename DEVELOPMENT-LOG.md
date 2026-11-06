@@ -151,3 +151,23 @@ timer restoration, malformed and already-saved draft rejection, second-key write
 failure, save removal failure, safe retry, simulated interrupted commit, failed
 startup rollback, successful later recovery, and offline reload. Corrected the
 bodyweight history restore test to wait for the actual asynchronous import.
+
+
+## 2026-11-06 — Ground foundations after the persistence checkpoint
+
+Pushed and verified backup checkpoint `6c3df46`; main remained `4cb58d8`.
+Close-read #84/#98/#100 and the ground/quadruped context in #102/#554. Added
+2-hand to 1-hand hip-drop practice and bear-squat mobility, using shared explicit
+skills, recent supporting evidence, source teaching links, selectable block,
+editable practice doses and existing recovery/complete-work rules. Numeric hip-drop
+rep practice and set/rest/exposure choices are labeled app defaults; source-timed
+examples are not misrepresented as universal prescriptions. No loaded get-up,
+crawl or complex flow competency is inferred.
+
+Five new engine tests and 15 actual generated UI sessions pass, covering
+incomplete work, explicit review, successful progression, short duration, no
+equipment, stale prerequisite requalification, parent pain, edited doses and
+offline reload. Integration testing caught and corrected a missing shared
+settings-control condition before commit. All 80 named Node tests pass alongside
+engine and legacy assertions; provenance now verifies 29 quotation/hash anchors.
+The matrix was regenerated against all 720 sources and the runtime registry.
