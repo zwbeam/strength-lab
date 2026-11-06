@@ -101,3 +101,7 @@ Key suites: `tests/backup-restore.py`, `tests/ground-histories.py`,
 No dependency installation or build is required in this environment.
 
 Read DEVELOPMENT-LOG.md and NEXT-CONTINUATION.md before the next changes.
+
+Independent GitHub recovery was repeated at `d99a153`: fresh clone/object checks,
+all Node suites, provenance/coverage, and actual backup/ground browser tests pass.
+See PERSISTENCE.md. Fresh Codex-task restoration is still unavailable to test.

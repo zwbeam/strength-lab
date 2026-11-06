@@ -28,3 +28,10 @@ packaging before the core is release-ready. Verify fresh Codex task restoration
 only if the environment can actually launch a fresh task; distinguish it from
 Git checkout and browser reload tests. Report remaining gaps and any required
 user action plainly.
+
+Latest verified application checkpoint from this resumed task: `d99a153` (later
+documentation commits may follow). Backup protection, ground foundations and
+cross-block ground spacing are complete. An independent GitHub clone passed the
+Node, research, backup and ground-history suites. No uncommitted partial feature
+was left at handoff. Next, inspect composition and release reliability, including
+concurrent-tab storage behavior; current rollback transactions are single-tab.

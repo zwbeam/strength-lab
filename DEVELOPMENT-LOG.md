@@ -194,3 +194,18 @@ Recovered bodyweight/pathway histories, original snatch/get-up/club histories,
 programming controls, all six timer/focus/library DOM suites, offline root/subpath
 and worker upgrade checks passed in this task. Remaining limitations and priorities
 are consolidated in DEVELOPMENT-STATUS.md.
+
+## 2026-11-06 — Independent remote recovery checkpoint
+
+Normally pushed `d99a153` and verified the GitHub ref; main remains `4cb58d8`.
+A separate clone recovered that exact development commit and passed Git object
+verification, all Node suites, 29 quote/hash anchors, the 720-source registry
+check, and real Chromium backup and ground-history tests. No working-tree files
+were copied into the clone. Fresh Codex-task creation is unavailable; its actual
+environment restoration/authentication cannot be claimed. See PERSISTENCE.md.
+
+No partially implemented changes are being left behind. The next priorities are
+richer cross-program composition, broader release/accessibility/storage stress
+checks (including multi-tab concurrency), then reviewed remaining foundational
+pathways. Continue from the latest remote development branch using
+NEXT-CONTINUATION.md. No user setup is currently required.
