@@ -6,20 +6,24 @@ checkpoint d5603e8 was verified; preview tooling reads committed runtime assets,
 uses separate DEV identity/storage/lock/cache and has a real Android-sized local
 coexistence test. Main and live deployment have not been changed.
 
-Network settings are applied and GitHub/Pages access works. Existing Pages serves
-main/root at https://zwbeam.github.io/strength-lab/; leave it unchanged. The separate
-preview repository publication route is prepared in scripts/publish-preview.py.
-GitHub returned integration HTTP 403 for repository creation. Required owner action:
-create an empty public zwbeam/strength-lab-preview repository (no README/license/
-gitignore). The chatgpt-codex-connector installation has all-repository selection.
-Do not repeat the completed network-setting request.
+Network access and repository creation are complete. The isolated application is
+uploaded to zwbeam/strength-lab-preview on preview; its first deployment f482bac
+used source 613c408. Later content commits may follow. The original app at
+https://zwbeam.github.io/strength-lab/ still serves unchanged source main/root.
 
-Once the repo exists, run the guarded publisher, wait for Pages, then run
-`python3 tests/preview-url.py --url https://zwbeam.github.io/strength-lab-preview/
---commit SOURCE_SHA` against the actual site. Do not claim the expected address is
-live until it passes. Document verified source/deployment commits and update steps.
-Preserve existing live file hashes, Pages settings and source main. The publisher
-only writes the separate preview repository and normally pushes its preview branch.
+One owner-only step remains: open
+https://github.com/zwbeam/strength-lab-preview/settings/pages, choose Deploy from
+a branch, select preview and /(root), then Save. The connector has no Pages or
+administration permission; API enablement returned 403, and the official action
+requires a different token for enablement. Do not attempt a token workaround or
+ask again for network/repository creation. No credentials need to be shared.
+
+After the owner enables Pages, inspect status, run the publisher only if a source
+update is needed, and verify the actual HTTPS URL with tests/preview-url.py and
+the uploaded metadata SHA. Do not claim the expected address is live until tested.
+Document the final URL/source/deployment commits and simple Android instructions.
+Normal content pushes to preview update the enabled site; the publisher no longer
+changes default-branch/Pages settings or explicitly requests a privileged rebuild.
 
 The general development instructions below apply after that user objective is met.
 

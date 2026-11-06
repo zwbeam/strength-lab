@@ -117,16 +117,16 @@ Read DEVELOPMENT-LOG.md and NEXT-CONTINUATION.md before editing.
 
 ## Current user priority — development web preview
 
-Preview publication takes precedence over curriculum work. Network access is now
-working and original Pages is verified as main/root at the existing app URL.
-A separate free Pages repository is needed to leave that deployment/main untouched.
-The guarded publisher is committed; see PREVIEW.md. GitHub rejected repository
-creation with integration HTTP 403. The owner must create an empty public
-zwbeam/strength-lab-preview repository at https://github.com/new; the Codex connector
-already has all-repository access. Do not ask for network settings again.
+The owner-created preview repo is accessible and the complete isolated application
+is uploaded on zwbeam/strength-lab-preview's preview branch. Source checkpoint
+613c408 was uploaded initially at deployment f482bac; normal updates may follow.
+The original public app's index/app/worker/manifest hashes, Pages settings and main
+SHA remain unchanged. Android-sized coexistence tests and four publisher guards pass.
 
-Android-sized local coexistence tests pass, as do four publisher safety guards.
-The existing live app's index/app/worker/manifest hashes, main SHA and Pages settings
-are verified unchanged. No public preview link has been verified yet. After the
-owner creates the repo, run the publisher, wait for Pages and test the actual HTTPS
-URL before reporting success. No production release/APK or main change was made.
+The connector lacks Pages/administration permission. Enabling Pages returned HTTP
+403, and official action documentation confirms normal GITHUB_TOKEN cannot enable
+it initially. One owner step remains: open the preview repo's Settings → Pages,
+choose Deploy from a branch → preview → /(root) → Save. Network access and repo
+creation are done; do not repeat those requests. Once enabled, verify the actual
+HTTPS URL with tests/preview-url.py before claiming it is live. See PREVIEW.md.
+No production release/APK or original main/deployment change was made.

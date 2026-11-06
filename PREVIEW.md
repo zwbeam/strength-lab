@@ -2,7 +2,7 @@
 
 ## Publication status
 
-**Prepared and tested locally; not deployed or publicly verified yet.**
+**Preview files uploaded; owner must enable Pages once. Not yet publicly verified.**
 The user authorized a separate web preview, not a production release or APK.
 Do not claim that pushing development updates the existing installed PWA.
 
@@ -12,23 +12,26 @@ https://zwbeam.github.io/strength-lab/, with Pages configured to serve `main` at
 main SHA `4cb58d8` were checked before and after the attempted publication and
 remain unchanged. No existing Pages settings were changed.
 
-To keep both main and the existing deployment untouched, publication uses a
-**separate free GitHub Pages repository**, `zwbeam/strength-lab-preview`, on its
-own `preview` branch. The publisher is prepared at scripts/publish-preview.py.
-The authenticated account is zwbeam, but creating the new repository returned
-`Resource not accessible by integration` (HTTP 403). This is a GitHub App
-permission limit, not a network failure. No public preview URL has been verified.
+To keep both main and the existing deployment untouched, publication uses the
+separate public repository `zwbeam/strength-lab-preview` on its `preview` branch.
+The owner created it and the complete isolated app was uploaded successfully.
+The first deployment commit was `f482bac`, built from source `613c408`; subsequent
+normal updates are recorded in Git. No source-main or original Pages change occurred.
 
-The installed app is `chatgpt-codex-connector` and its repository selection is
-`all`, so no additional repository-access configuration should be necessary once
-the owner creates the repository. The required owner action is:
+The connector has contents/workflows write but no administration/Pages permission.
+Enabling Pages through the API returned integration HTTP 403. The official
+configure-pages action confirms first-time enablement requires a different token;
+normal GITHUB_TOKEN cannot perform that owner step. No workflow/token workaround
+was attempted. The required one-time owner action is:
 
-1. Open https://github.com/new while signed in as zwbeam.
-2. Create a **Public**, empty repository named **strength-lab-preview**. Leave
-   README, .gitignore and license initialization off.
-3. Return to Codex and say **Preview repository created; finish publication.**
+1. Open https://github.com/zwbeam/strength-lab-preview/settings/pages.
+2. Under Build and deployment, choose **Deploy from a branch**.
+3. Select **preview** and **/(root)**, then **Save**.
+4. Return and say **Pages enabled; verify the preview.**
 
-Do not ask the user to publish network settings again; that prerequisite is done.
+Network access and repository creation are complete; do not ask to repeat them.
+No credential sharing is needed. After Pages is enabled, ordinary preview-branch
+content pushes can publish updates without changing repository settings.
 
 ## Isolated build
 
@@ -68,15 +71,17 @@ channel/path; multiple preview channels need their own namespace before publishi
 The original repo's Pages source is main/root. A subpath there would require
 changing main or the existing deployment. The separate preview repository keeps
 the live app and its update mechanism unchanged and uses only free GitHub hosting.
-Once the owner creates the empty repository, run:
+To upload/update the isolated preview assets, run:
 
 ```sh
 python3 scripts/publish-preview.py
 ```
 
 The publisher fetches the latest source development ref, builds its exact committed
-SHA, normally commits/pushes generated assets to the preview repository, enables
-Pages only there, and checks original main/Pages settings remain unchanged. It
+SHA, normally commits/pushes generated assets to the preview repository, and checks
+original main/Pages settings remain unchanged. Pages must be enabled once by the
+owner using the steps above; the publisher does not change Pages/default-branch
+settings or request administrative permission. It
 refuses unexpected/private repositories, unfamiliar branches/files or changed
 preview hosting settings. It never force-pushes. It requires verification of the
 actual resulting HTTPS URL before calling publication complete. No production
@@ -103,7 +108,7 @@ The second suite is for the **actual HTTPS URL** only. It verifies metadata/expe
 SHA before exercising fresh preview data, assets, Android-sized layout, timers,
 logging, Progress/Settings/library and offline reload. Do not report publication
 success until this succeeds against the real address. It has not run yet because
-repository creation is blocked by the GitHub integration permission.
+first-time Pages enablement is blocked by the GitHub integration permission.
 
 ## Future preview updates
 

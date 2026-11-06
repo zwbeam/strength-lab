@@ -77,15 +77,17 @@ def publish(ref,create=False):
    subprocess.run(['git','-c','user.name=Codex','-c','user.email=codex@openai.com','commit','-m',f"Preview source {metadata['source_commit']}"],cwd=checkout,check=True)
    subprocess.run(['git','push','origin',f'HEAD:refs/heads/{BRANCH}'],cwd=checkout,check=True)
   deployment=run('git','rev-parse','HEAD',cwd=checkout)
- if target['default_branch']!=BRANCH:api(f'repos/{TARGET}','PATCH',{'default_branch':BRANCH})
- if pages is None:
-  pages=api(f'repos/{TARGET}/pages','POST',{'build_type':'legacy','source':{'branch':BRANCH,'path':'/'}})
- else:api(f'repos/{TARGET}/pages/builds','POST',{})
- if pages['html_url']!=EXPECTED_URL:raise ValueError('Unexpected Pages URL; verify hosting before proceeding')
+ # First push normally selects preview as the default branch. No repository
+ # administration or Pages-write permission is needed for content updates.
+ # Pages must be enabled once by the owner; the connector lacks that permission.
+ pages=api(f'repos/{TARGET}/pages',missing_ok=True)
+ if pages and pages['html_url']!=EXPECTED_URL:raise ValueError('Unexpected Pages URL; verify hosting before proceeding')
  assert api(f'repos/{SOURCE}/git/ref/heads/main')['object']['sha']==source_before,'Source main changed during publication'
  after=api(f'repos/{SOURCE}/pages')
  assert {k:after.get(k) for k in ['build_type','source','cname','html_url']}=={k:source_pages.get(k) for k in ['build_type','source','cname','html_url']},'Source Pages settings changed'
- return {'status':'publication requested; public URL verification still required','preview_url':EXPECTED_URL,'source_commit':metadata['source_commit'],'deployment_commit':deployment,'source_main_unchanged':source_before}
+ result={'status':'content uploaded; public URL verification still required' if pages else 'content uploaded; owner must enable GitHub Pages','expected_preview_url':EXPECTED_URL,'source_commit':metadata['source_commit'],'deployment_commit':deployment,'source_main_unchanged':source_before}
+ if pages is None:result.update(setup_url=f'https://github.com/{TARGET}/settings/pages',required_action='Deploy from a branch; select preview and /(root); Save')
+ return result
 
 if __name__=='__main__':
  parser=argparse.ArgumentParser(description=__doc__)

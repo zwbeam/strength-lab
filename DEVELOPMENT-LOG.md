@@ -389,3 +389,23 @@ branch; they verify stopping without source writes. Rechecked real live asset
 fingerprints and source Pages/main after the failed attempt: all unchanged.
 Updated preview/status/continuation docs with the precise next action and the
 separate free hosting route. Actual public HTTPS verification remains pending.
+
+## 2026-11-06 — Preview uploaded; owner Pages setting required
+
+The owner created the public preview repo. Verified access and empty branch list,
+then uploaded all 77 generated files on preview as f482bac, built from source
+613c408. First push automatically set the preview default branch. The original
+publisher unnecessarily tried to reassert that setting using stale metadata and
+received 403; removed that administrative write. Direct first-time Pages enablement
+also returned integration 403. Installation permissions confirm contents/workflows
+write but no administration/pages access. The official configure-pages action
+explicitly says normal GITHUB_TOKEN cannot enable Pages, so no token workaround
+or new workflow was attempted. Owner Settings → Pages → Deploy from branch →
+preview / (root) → Save is the one remaining setup action.
+
+The publisher now uploads/updates content without any administration/Pages-write
+calls, reports an explicit owner setup requirement when disabled, and retains
+source-main/Pages invariance checks. Four publisher guard tests pass. Android-sized
+coexistence tests passed again. Rechecked actual live index/app/worker/manifest
+fingerprints: unchanged. Public HTTPS preview verification still awaits enablement;
+network and repository creation must not be requested again.
