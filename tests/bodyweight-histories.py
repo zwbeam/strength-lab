@@ -64,9 +64,9 @@ try:
   advance();record(pain=True);train();assert page.locator('#start').count()==0
   page.locator('[data-tab="progress"]').click();review=page.locator('details').filter(has=page.locator('[data-resolve-pain="pushup"]'));review.locator('summary').click();page.locator('[data-resolve-pain="pushup"]').click()
   advance(28);assert '7 × 4' in page.locator('.list-item').inner_text();r=record();assert r['mode']=='reentry' and not r['completed']
-  settings();before=page.evaluate('JSON.stringify(state)')
-  page.locator('#import').set_input_files({'name':'bodyweight-history.json','mimeType':'application/json','buffer':before.encode()})
-  page.wait_for_function('draft===null');page.reload()
+  settings();before=page.evaluate('JSON.stringify(state)');payload=json.loads(before);payload['sessions'][0]['notes']='restored-bodyweight-history'
+  page.locator('#import').set_input_files({'name':'bodyweight-history.json','mimeType':'application/json','buffer':json.dumps(payload).encode()})
+  page.wait_for_function('state.sessions[0].notes === "restored-bodyweight-history"');page.reload()
   assert page.evaluate('state.sessions.filter(s=>s.block==="hingePractice").length')==5
   assert page.evaluate('state.sessions.some(s=>s.items.some(r=>r.id==="pushup"&&r.bodyweight&&r.weight===0))')
   page.evaluate('navigator.serviceWorker.ready.then(()=>true)');page.context.set_offline(True);page.reload();assert page.locator('#app').inner_text()

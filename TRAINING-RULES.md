@@ -177,3 +177,15 @@ One-set breakdown recovery reduces reps. `performed` and progression eligibility
 remain separate: even fully logged work with technique corrections cannot earn a
 clean-exposure promotion. UI readiness, source links and generated prescriptions
 all use the same movement/prerequisite registry and evidence functions.
+
+
+## Backup and interrupted-work evidence
+
+An active draft is not a completed training exposure. JSON backup/restore retains
+its current stage, set confirmations, side counts, clock and prescription. Draft
+validation occurs before replacing saved data. Completing a restored workout
+uses the original prescription and the same completion/quality rules; incomplete
+or failed work earns no additional credit. A failed save rolls history and draft
+back together and can be retried. A recovery journal rolls back interrupted
+paired writes before training decisions load. This is application data protection,
+not a transcript-derived programming principle.

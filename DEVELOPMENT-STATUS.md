@@ -39,14 +39,14 @@ that distinct restoration check remains unverified.
   their original policy identity. Old V31/V32 data/interface remain available.
 
 [TRAINING-RULES.md](TRAINING-RULES.md) explains source support versus app defaults.
-[research/programming-rules.json](research/programming-rules.json) contains sixteen
+[research/programming-rules.json](research/programming-rules.json) contains twenty-six
 verified quotation anchors and transcript hashes. The mechanical reconciliation
 of 720 transcripts / 955,522 words remains intact; it is not a claim that all
 lessons have been interpreted or that the app is medically validated.
 
 [CURRICULUM-COVERAGE.md](CURRICULUM-COVERAGE.md) and the reproducible JSON inventory
 screen all 720 full texts across 23 scoped systems: four implemented scopes,
-seven partial scopes and twelve missing scopes. Candidate mentions are not
+ten partial scopes and nine missing scopes. Candidate mentions are not
 interpreted rules; implementation boundaries are explicit.
 
 ## Verified
@@ -109,9 +109,8 @@ Server: `python3 -m http.server 8000 --bind 127.0.0.1 --directory /workspace/str
 
 ## Highest-priority remaining work
 
-1. Dedicated get-up breakdown workouts and advanced get-up pathways (#658), then
-   single-arm club pendulum/pullover/mill/swipe teaching and prerequisites. The new
-   foundation blocks do not implement those later curricula automatically.
+1. Reviewed foundational bodyweight ground/quadruped pathways; dedicated get-up
+   breakdowns, pendulum/pullover practice, unloaded hinge and push-up #609 are now implemented.
 2. Richer program composition than the current declared demand spacing; validate
    movement/implement-specific overlap without claiming to measure individual fatigue.
 3. Other missing systems in the coverage matrix: competition jerk/long-cycle,
@@ -126,3 +125,27 @@ Server: `python3 -m http.server 8000 --bind 127.0.0.1 --directory /workspace/str
 See NEXT-CONTINUATION.md for the exact next-task prompt. No user setup or
 additional authorization is currently needed. Selected foundation systems are
 implemented and tested; the complete curriculum remains unfinished.
+
+
+## Interrupted-work recovery and persistence checkpoint — 2026-11-06
+
+GitHub already contained `5bbae77` and `b07a0e7`, including the four get-up
+breakdowns, five club intermediate drills, explicit skill/evidence gates,
+unloaded hinge and push-up cycles. No committed work was lost. Backup changes
+were uncommitted; `tests/backup-restore.py` did not exist and was recreated after
+code review. Existing history was preserved.
+
+V33 JSON backups now include active drafts, set logs, stage, notes and timer.
+Drafts are validated before any storage changes. A write-ahead recovery journal
+protects history/draft replacement and workout completion: caught failures roll
+back; an interrupted transaction rolls back on reload. If rollback itself fails,
+the previous snapshot remains readable and writes are blocked until recovery.
+Failed workout saves retain the draft for retry; saved records identify their
+source draft. Discard/reset/import use the same paired transaction. Existing
+V33 backups without a draft remain supported; V31/V32 storage stays separate.
+
+75 named Node tests pass, plus existing engine and legacy assertions. Actual
+Chromium backup tests pass: malformed import rejection, paused timer/set restore,
+second-write failure, failed-save retry without duplicates, interrupted-transaction
+reload, failed startup recovery with blocked writes, and offline reload.
+Browser fault injection tests software behavior, not hardware storage durability.

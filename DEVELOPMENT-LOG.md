@@ -133,3 +133,21 @@ maintenance and transitive pain holds. The bodyweight UI passed a complete
 technique/pain/re-entry and offline checks. Twenty-six rule quotations/hashes
 match the original verified transcript corpus. Coverage remains scoped rather
 than claiming a complete interpretation of 720 lessons.
+
+
+## 2026-11-06 — Recover interrupted work and protect active-workout backups
+
+Confirmed remote development HEAD `b07a0e7` includes both interrupted movement
+commits; retained all history. The backup changes survived uncommitted, while
+the proposed browser test was absent. Reviewed the implementation before testing.
+Completed draft validation/export/import, stable session/draft identities,
+rollback/retry and a write-ahead journal for interrupted paired writes. Added
+blocked-write recovery mode when storage also fails during rollback. Discard,
+reset and restore preserve the previous data on transaction failure.
+
+Passed all 75 named Node tests and existing engine/legacy assertions. Created
+and passed real Chromium `tests/backup-restore.py`, including active sets/paused
+timer restoration, malformed and already-saved draft rejection, second-key write
+failure, save removal failure, safe retry, simulated interrupted commit, failed
+startup rollback, successful later recovery, and offline reload. Corrected the
+bodyweight history restore test to wait for the actual asynchronous import.

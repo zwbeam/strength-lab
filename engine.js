@@ -318,6 +318,32 @@ function validateProgramming(s){
  if(s.equipment?.pairs!==undefined&&(!Array.isArray(s.equipment.pairs)||s.equipment.pairs.some(w=>!Number.isFinite(w)||w<=0||!s.equipment.kb.includes(w))))throw Error('Matched pairs must be owned kettlebell weights');
  return s;
 }
+function validateDraft(d,s){
+ if(d===undefined||d===null)return null;
+ const object=x=>x&&typeof x==='object'&&!Array.isArray(x),number=x=>typeof x==='number'&&Number.isFinite(x)&&x>=0;
+ if(!object(d)||!['warmup','work','cooldown'].includes(d.stage)||typeof d.date!=='string'||!/^\d{4}-\d{2}-\d{2}$/.test(d.date)||typeof d.started!=='string'||!Number.isFinite(Date.parse(d.started))||!object(d.plan)||!object(d.plan.day)||typeof d.plan.day.name!=='string'||!object(d.plan.budget)||!number(d.plan.cap)||!Array.isArray(d.plan.items)||!d.plan.items.length||!Array.isArray(d.items)||d.items.length!==d.plan.items.length)throw Error('Invalid workout draft');
+ timeBudget(d.plan.budget.total);
+ for(const key of ['warmup','cooldown','main'])if(!number(d.plan.budget[key]))throw Error('Invalid draft budget');
+ if(d.id!==undefined&&typeof d.id!=='string')throw Error('Invalid draft identity');
+ if(d.id&&(s.sessions||[]).some(session=>session.draftId===d.id))throw Error('This draft is already saved as a workout');
+ if(d.notes!==undefined&&typeof d.notes!=='string')throw Error('Invalid draft notes');
+ if(d.plan.block!==undefined&&!Object.hasOwn(BLOCKS,d.plan.block))throw Error('Invalid draft block');
+ for(let i=0;i<d.items.length;i++){
+  const rx=d.plan.items[i],item=d.items[i],m=MOVES[rx?.id];
+  if(!object(rx)||!Object.hasOwn(MOVES,rx.id)||rx.name!==m.name||rx.unit!==m.unit||rx.side!==m.side||!Number.isInteger(rx.sets)||rx.sets<1||rx.sets>200||!Number.isInteger(rx.reps)||rx.reps<1||!number(rx.weight)||!number(rx.rest)||!object(item)||item.id!==rx.id||!['clean','minor','hard','breakdown','pain'].includes(item.quality)||typeof item.pain!=='boolean'||!Array.isArray(item.sets)||item.sets.length!==rx.sets)throw Error('Invalid draft prescription');
+  if(m.bodyweight&&rx.weight!==0)throw Error('Invalid bodyweight draft');
+  if(rx.profile!==undefined&&!availableProfiles(rx.id).includes(rx.profile))throw Error('Invalid draft profile');
+  if(rx.profile!==undefined){const policy=policyFor(rx.id,s);if(rx.profile!==policy.profile||rx.policyKey!==undefined&&rx.policyKey!==policy.key||!!rx.bodyweight!==!!m.bodyweight||!!rx.continuous!==policy.continuous||(rx.durationScope||null)!==policy.durationScope||(rx.roundSeconds||null)!==policy.roundSeconds)throw Error('Draft does not match its programming');}
+  if(rx.sourceIds!==undefined&&(!Array.isArray(rx.sourceIds)||rx.sourceIds.some(id=>!Number.isInteger(id)||id<0||id>719)))throw Error('Invalid draft sources');
+  for(const set of item.sets){
+   if(!object(set)||!number(set.weight)||!Number.isInteger(set.reps)||set.reps<0||typeof set.done!=='boolean'||m.bodyweight&&set.weight!==0)throw Error('Invalid draft set');
+   for(const key of ['bothSides','continuous','timingValid'])if(set[key]!==undefined&&typeof set[key]!=='boolean')throw Error('Invalid draft confirmation');
+   for(const key of ['leftReps','rightReps'])if(set[key]!==undefined&&(!Number.isInteger(set[key])||set[key]<0))throw Error('Invalid draft side counts');
+  }
+ }
+ if(d.clock!==undefined&&d.clock!==null&&(!object(d.clock)||typeof d.clock.label!=='string'||typeof d.clock.running!=='boolean'||!number(d.clock.remaining)||d.clock.running&&!number(d.clock.endAt)))throw Error('Invalid draft clock');
+ return d;
+}
 function validateBackup(input){
  const object=x=>x&&typeof x==='object'&&!Array.isArray(x);
  if(!object(input)||input.version!==33||!Array.isArray(input.sessions)||!object(input.weights)||!object(input.equipment))throw Error('Not a V33 backup');
@@ -340,7 +366,8 @@ function validateBackup(input){
   for(const [id,review] of Object.entries(input.painResolutions))if(!Object.hasOwn(MOVES,id)||!object(review)||!Array.isArray(review.painKeys)||review.painKeys.some(key=>typeof key!=='string'))throw Error('Invalid movement review');
  }
  validateProgramming(input);
- return {...input,nextWeights:input.nextWeights||{},defaultMinutes:input.defaultMinutes??45,deferredIds:input.deferredIds||[]};
+ const workoutDraft=validateDraft(input.workoutDraft,input);
+ return {...input,workoutDraft,nextWeights:input.nextWeights||{},defaultMinutes:input.defaultMinutes??45,deferredIds:input.deferredIds||[]};
 }
-return{MOVES,SKILLS,DAYS,BLOCKS,LOADS,PROFILE_NAMES,describeProgression,policyFor,availableProfiles,configureMovement,practiceEvidence,supportingMoves,requirementLabel,prerequisites,chooseCycle,loadOptions,selectLoad,retestPushup,validWorkingWeight,validateProgramming,validateBackup,records,successful,stateFor,prescription,minutesFor,timeBudget,plan,completeRecord,nextRest,deferredAfter,resolvePain,movementGap};
+return{MOVES,SKILLS,DAYS,BLOCKS,LOADS,PROFILE_NAMES,describeProgression,policyFor,availableProfiles,configureMovement,practiceEvidence,supportingMoves,requirementLabel,prerequisites,chooseCycle,loadOptions,selectLoad,retestPushup,validWorkingWeight,validateProgramming,validateDraft,validateBackup,records,successful,stateFor,prescription,minutesFor,timeBudget,plan,completeRecord,nextRest,deferredAfter,resolvePain,movementGap};
 });

@@ -6,13 +6,12 @@ existing tests, stored workout data and research documentation. Read
 DEVELOPMENT-STATUS.md, DEVELOPMENT-LOG.md, TRAINING-RULES.md,
 CURRICULUM-COVERAGE.md and PERSISTENCE.md.
 
-The next curriculum priorities are dedicated get-up breakdown practice and the
-single-arm club pendulum/pullover/mill/swipe pathways. Read the relevant complete
-bundled transcripts before encoding progression or prerequisite rules. Keep
-transcript-supported parameters distinct from configurable app defaults. Use the
-shared movement/skill/block registry consistently in the library, settings,
-engine and generator. Do not automatically unlock a complex skill from a volume
-milestone alone.
+Get-up breakdowns, single-arm club pendulum/pullover practice, unloaded hinge and
+push-up #609 are implemented. Active-draft backup/recovery tests are in
+`tests/backup-restore.py`. Read the latest development log for subsequent work.
+The next curriculum priority is reviewed foundational bodyweight ground/quadruped
+practice, then coherent program composition and release reliability. Read full
+relevant transcripts and distinguish teaching from app-default numeric rules.
 
 Implement the highest-priority reviewed pathway in the actual application;
 expand multiweek engine and HTTP UI histories for equipment limits, incomplete
