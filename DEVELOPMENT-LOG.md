@@ -209,3 +209,21 @@ richer cross-program composition, broader release/accessibility/storage stress
 checks (including multi-tab concurrency), then reviewed remaining foundational
 pathways. Continue from the latest remote development branch using
 NEXT-CONTINUATION.md. No user setup is currently required.
+
+## 2026-11-06 — Coordinated programming checkpoint
+
+Verified clean local and remote `86985ee`, read current status/rules/coverage and
+close-read #548/#288/#578. Audited the single-block planner: movement cycles and
+scoped carryover existed but no multi-block coordination. Added opt-in selection
+across existing blocks using least-recent actual work, eligibility, whole-target
+time fitting, supporting practice, shared demand spacing and global hard-work
+spacing. Policies, source-specific rest and progression remain independent.
+Added Settings controls and a compact decision panel; saved sessions identify
+coordinated versus manual programming. All scheduling choices are labeled app
+defaults, distinct from the reviewed sources.
+
+Eight new engine tests pass, including 48 generated workouts across four families
+and multiple months. Actual Chromium passed 34 saved workouts across four blocks,
+partial work, missed-month re-entry, shorter sessions, pain, decision explanations,
+reload/offline and independent history. Existing programming-control browser suite
+and all 90 named Node tests pass. Multi-tab reliability is the next active task.

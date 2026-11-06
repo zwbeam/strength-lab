@@ -222,3 +222,33 @@ without earning progression credit. All demand groups and day thresholds are app
 defaults; #548 supports considering implement-specific demands, not this exact
 mapping. Duplicate workout/draft identities or repeated movements within one
 imported session are rejected instead of multiplying progression evidence.
+
+## Coordinated long-term program (opt-in)
+
+Settings can coordinate selected existing blocks across workouts. #548 discusses
+separate kettlebell, two-hand and single-arm club days and their different demands;
+#578 keeps single-arm volume/intensity/complexity choices distinct. The app does
+not reproduce #548's unimplemented 70-movement club program, equate club and bell
+loads, or insert its exercises as substitutes. Bodyweight/skill blocks may join
+this app's rotation but are not falsely attributed to that source template.
+
+The **Strength Lab selection rule** chooses the least recently practiced block
+that is eligible and fits today, in selected order on ties. Only recorded actual
+work counts as an attempt, including partial or reduced work. Each block retains
+its own movement policies, cycles and unfinished queue. Partial work does not
+promote a movement or repeatedly monopolize the schedule. Missed days create no
+extra volume. Supporting foundation practice comes from the shared prerequisite
+system. A whole prescription that does not fit is deferred, never silently reduced
+for normal progression credit. A shorter eligible block can be selected instead.
+
+Coordinated defaults are one calendar day between overlapping demands and two
+between heavy/density workouts; both are editable 0–7 days. Stronger general
+spacing still applies. A heavy/density attempt, including partial work, defers
+other hard work until its interval passes. Ordinary volume/skill work may remain
+eligible. Pain, weekly limits, prerequisites and equipment are mandatory gates.
+These thresholds and the least-recent priority are original app choices, not
+source-defined recovery calculations. No individualized fatigue score is claimed.
+
+The compact "Why this workout?" panel explains emphasis, selection, supporting
+practice and each selected block's eligibility. Volume/intensity/skill/recovery
+labels describe the prescriptions, not measured physiological intensity.

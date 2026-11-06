@@ -105,3 +105,13 @@ Read DEVELOPMENT-LOG.md and NEXT-CONTINUATION.md before the next changes.
 Independent GitHub recovery was repeated at `d99a153`: fresh clone/object checks,
 all Node suites, provenance/coverage, and actual backup/ground browser tests pass.
 See PERSISTENCE.md. Fresh Codex-task restoration is still unavailable to test.
+
+## Coordinated programming update
+
+Optional coordinated selection now rotates user-selected blocks from recorded
+actual work, availability, time and recovery. Each movement's cycle and each
+block's unfinished queue remain independent. Settings and a compact decision panel
+are integrated. Eight engine cases (including 48 multi-family sessions) and 34
+actual generated/saved browser workouts pass; all 90 named Node tests pass.
+The 23-system composition row remains partial: no complete Tetris club curriculum
+or individualized fatigue model is claimed. Multi-tab protection is next.

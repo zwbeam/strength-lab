@@ -253,7 +253,7 @@ const BLOCKS={
 const DEMANDS={ground:['lower','shoulder'],getup:['lower','shoulder','grip'],hinge:['lower','grip'],squat:['lower'],press:['shoulder','grip'],pull:['shoulder','grip'],carry:['grip'],rotation:['shoulder','grip']};
 function movementDemands(id){return [...(DEMANDS[MOVES[id]?.family]||[])];}
 function calendarDay(value){const text=typeof value==='string'&&/^\d{4}-\d{2}-\d{2}$/.test(value)?value:new Date(value??Date.now()).toLocaleDateString('sv-SE');return Date.parse(text+'T12:00:00Z')/86400000;}
-function plan(s,opts={}){
+function blockPlan(s,opts={}){
  const block=s.programBlock||'abc';if(!BLOCKS[block])throw Error('Unknown program block');
  const days=BLOCKS[block].days,slot=(s.sessions||[]).filter(x=>x.slot!==undefined&&(x.block||'abc')===block).length%days.length,day=days[slot];
  const budget=timeBudget(opts.minutes??s.defaultMinutes??45),defaults=s.trainingDefaults||{};
@@ -275,12 +275,42 @@ function plan(s,opts={}){
   const demands=movementDemands(id);
   const recent=history.some(x=>today-calendarDay(x.date)<(defaults.minGapDays??0)&&(x.items||[]).some(y=>y.actualSets>0&&MOVES[y.id]&&movementDemands(y.id).some(d=>demands.includes(d))));
   const isHard=rx.track==='heavy'||rx.profile==='grind'||rx.mode==='density';
-  if(restDay||recent||(isHard&&hard>=(defaults.maxHardMovements??3))){scheduled.push(id);deferred.push(id);continue;}
+  if(restDay||recent||(isHard&&opts.avoidHard)||(isHard&&hard>=(defaults.maxHardMovements??3))){scheduled.push(id);deferred.push(id);continue;}
   const cost=minutesFor(rx)+(items.length?(items.at(-1).betweenExercises||0)/60:0);
   if(used+cost>budget.main+1e-8){deferred.push(id);continue;}
   items.push(rx);used+=cost;if(isHard)hard++;
  }
  return{block,slot,day,support,items,deferred,held,unavailable,prerequisite,requirements,scheduled,restDay,paused:!!s.paused,estimated:Math.ceil(used),total:Math.ceil(used)+budget.warmup+budget.cooldown,reentry:items.some(x=>x.mode==='reentry'),cap:budget.main,budget};
+}
+// Coordinate independent blocks across workouts; never blend their numeric protocols.
+function plan(s,opts={}){
+ const c=s.programComposition;
+ if(!c?.enabled)return blockPlan(s,opts);
+ validateComposition(c);
+ const day=calendarDay(opts.now),history=(s.sessions||[]).filter(x=>calendarDay(x.date)<=day);
+ const hardRecent=history.some(x=>day-calendarDay(x.date)<(c.hardGapDays??2)&&(x.items||[]).some(y=>y.actualSets>0&&(y.track==='heavy'||y.profile==='grind'||y.mode==='density')));
+ const defaults={...s.trainingDefaults,minGapDays:Math.max(s.trainingDefaults?.minGapDays??0,c.minGapDays??1)};
+ const candidates=c.blocks.map((block,order)=>{
+  const last=history.findLastIndex(x=>(x.block||'abc')===block&&(x.items||[]).some(y=>y.actualSets>0));
+  const p=blockPlan({...s,programBlock:block,trainingDefaults:defaults},{...opts,avoidHard:hardRecent});
+  return {block,order,last,p};
+ }).sort((a,b)=>a.last-b.last||a.order-b.order);
+ const chosen=candidates.find(x=>x.p.items.length)||candidates[0],p=chosen.p;
+ const recovery=p.items.some(x=>['recovery','reentry','rebuild','deload'].includes(x.mode));
+ const skill=p.support.length>0||['getupPractice','clubIntermediate','groundPractice','hingePractice'].includes(p.block);
+ const intensity=p.items.some(x=>x.track==='heavy'||x.profile==='grind'||x.mode==='density');
+ const emphasis=recovery?'Recovery':skill?'Skill practice':intensity?'Intensity':'Volume';
+ const pending=s.deferredByBlock?.[p.block]||[];
+ const reason=!p.items.length?'All selected blocks are currently blocked or do not fit. Review the reasons below.':
+  (chosen.last<0?'This selected block has not yet been practiced.':'This is the least recently practiced selected block that is ready and fits today.')+
+  (pending.length?' Unfinished movements are considered first within this block.':'')+
+  (p.support.length?' Supporting foundation practice is included to regain eligibility.':'');
+ const status=x=>x.p.items.length?'Ready':x.p.paused?'Paused':x.p.held.length?'Pain review':x.p.scheduled.length?'Recovery schedule':x.p.prerequisite.length?'Prerequisites':x.p.unavailable.length?'Equipment':'Needs more time';
+ return {...p,composition:{emphasis,reason,hardRecent,candidates:candidates.map(x=>({block:x.block,status:status(x)})),sourceIds:[548,578],provenance:'Block selection, spacing and priority are configurable Strength Lab defaults; source methods remain independent.'}};
+}
+function validateComposition(c){
+ if(!c||typeof c!=='object'||Array.isArray(c)||typeof c.enabled!=='boolean'||!Array.isArray(c.blocks)||!c.blocks.length||c.blocks.length>Object.keys(BLOCKS).length||new Set(c.blocks).size!==c.blocks.length||c.blocks.some(id=>!Object.hasOwn(BLOCKS,id)))throw Error('Select unique known training blocks');
+ for(const key of ['minGapDays','hardGapDays'])if(c[key]!==undefined&&(!Number.isInteger(c[key])||c[key]<0||c[key]>7))throw Error('Composition spacing must be 0–7 days');
 }
 function deferredAfter(plan,records){const pending=new Set(plan.deferred||[]);for(const record of records){if(!(record.performed??record.completed))pending.add(record.id);else pending.delete(record.id);}return [...pending];}
 function completeRecord(rx,actual,quality,pain){
@@ -323,6 +353,7 @@ function retestPushup(s,baseline){const current=s.programming?.pushup||{};return
 function validateProgramming(s){
  const object=x=>x&&typeof x==='object'&&!Array.isArray(x);
  for(const [id,weight] of Object.entries({...s.weights,...s.nextWeights}))if(MOVES[id]?.bodyweight&&weight!==0)throw Error('Bodyweight profiles use zero external load');
+ if(s.programComposition!==undefined)validateComposition(s.programComposition);
  if(s.programBlock!==undefined&&!Object.hasOwn(BLOCKS,s.programBlock))throw Error('Invalid program block');
  if(s.programming!==undefined){if(!object(s.programming))throw Error('Invalid programming settings');for(const id of Object.keys(s.programming)){if(!object(s.programming[id]))throw Error('Invalid movement settings');policyFor(id,s);}}
  if(s.skills!==undefined&&(!object(s.skills)||Object.values(s.skills).some(x=>typeof x!=='boolean')))throw Error('Invalid prerequisite confirmations');

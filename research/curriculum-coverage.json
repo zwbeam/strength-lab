@@ -19330,7 +19330,7 @@
         578
       ],
       "implemented_movement_ids": [],
-      "boundary": "Block-specific queues and demand spacing exist; complete Tetris/skill/individual-fatigue models remain unfinished."
+      "boundary": "Opt-in history-driven multi-block rotation, independent cycles, scoped unfinished queues, foundation support and recovery/time eligibility exist; complete Tetris and individualized fatigue models remain unfinished."
     }
   ],
   "sources": [

@@ -28,7 +28,7 @@ ROWS=[
  ('volume','Fixed-intensity volume programming','implemented',r'volume cycle|nerd math',[666,411,366,578],['snatch','doublePress','doubleSquat','clubInside'],'Implemented only within declared movement profiles, not a universal prescription.'),
  ('intensity','Density, heavy/light and intensity methods','partial',r'density|heavy.?light|light.?heavy|intensity',[410,228,403],['snatch','press'],'Snatch density and configurable waves exist; other apparatus-specific intensity methods require review.'),
  ('ladders','Ladders / reverse ladders / pyramids','missing',r'ladder|pyramid',[518,520],[],'No automatic ladder or work-equivalence planner.'),
- ('composition','Program composition / recovery / skill sequencing','partial',r'program design|tetris|recover|order of operation',[548,561,288,578],[],'Block-specific queues and demand spacing exist; complete Tetris/skill/individual-fatigue models remain unfinished.'),
+ ('composition','Program composition / recovery / skill sequencing','partial',r'program design|tetris|recover|order of operation',[548,561,288,578],[],'Opt-in history-driven multi-block rotation, independent cycles, scoped unfinished queues, foundation support and recovery/time eligibility exist; complete Tetris and individualized fatigue models remain unfinished.'),
 ]
 records=sorted([r for p in ROOT.glob('sources-*.json') for r in json.loads(p.read_text())],key=lambda r:r['id'])
 assert len(records)==len({r['id'] for r in records})==720

@@ -28,7 +28,7 @@ All 720 records have an inventory entry, including those with no title matches. 
 | Fixed-intensity volume programming | implemented | #666, #411, #366, #578 | Implemented only within declared movement profiles, not a universal prescription. |
 | Density, heavy/light and intensity methods | partial | #410, #228, #403 | Snatch density and configurable waves exist; other apparatus-specific intensity methods require review. |
 | Ladders / reverse ladders / pyramids | missing | #518, #520 | No automatic ladder or work-equivalence planner. |
-| Program composition / recovery / skill sequencing | partial | #548, #561, #288, #578 | Block-specific queues and demand spacing exist; complete Tetris/skill/individual-fatigue models remain unfinished. |
+| Program composition / recovery / skill sequencing | partial | #548, #561, #288, #578 | Opt-in history-driven multi-block rotation, independent cycles, scoped unfinished queues, foundation support and recovery/time eligibility exist; complete Tetris and individualized fatigue models remain unfinished. |
 
 The runtime library, prerequisite checklist and generator share `MOVES`, `SKILLS` and `BLOCKS` in `engine.js`. Tests validate those links. The matrix is not a claim that every matched title has been interpreted.
 
