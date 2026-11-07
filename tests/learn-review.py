@@ -38,9 +38,9 @@ try:
   page.locator('[data-confirm-learned="squat"]').tap();assert page.locator('#movement-instruction > .status-learned').count()==1
   assert page.evaluate('state.sessions.length')==0
   page.locator('[data-confirm-learned="squat"]').tap();assert page.locator('#movement-instruction > .status-available').count()==1
-  page.locator('[data-tab="today"]').tap();page.locator('#start').tap();page.get_by_role('button',name='Warmup complete · start work').tap()
+  page.locator('[data-tab="today"]').tap();page.locator('#start').tap();page.get_by_role('button',name='Warmup complete · start work').tap();page.locator('[data-editor],details#workout-focus').evaluate_all('(els)=>els.forEach(el=>el.open=true)')
   page.locator('[data-set="0:0:weight"]').fill('8');page.locator('[data-set="0:0:weight"]').dispatch_event('change');page.locator('[data-check="0:0"]').tap()
-  page.get_by_role('button',name='Finish main work · cooldown').tap();page.locator('#save-workout').tap()
+  page.get_by_role('button',name='Finish main work · cooldown').tap();(page.locator('#finish-kind').select_option('partial') if page.locator('#finish-kind').count() else None);page.locator('#save-workout').tap()
   page.locator('[data-tab="learn"]').tap();assert page.locator('#movement-instruction > .status-practicing').count()==1
   assert page.evaluate('E.stateFor(state,"squat").streak')==0 and page.evaluate('state.sessions.length')==1
   # A reader cannot edit saved flags, but can browse lessons and pathway controls.

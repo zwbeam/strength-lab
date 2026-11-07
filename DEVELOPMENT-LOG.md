@@ -544,3 +544,37 @@ rebuild queues and clear stale pending load choices. Nine new tests and every
 existing Node suite passed. This is an architecture checkpoint: browser UI,
 correction import validation and deployment remain unfinished; continue directly
 with the commissioned interface and integration tests.
+
+### UX review 2 — integrated Train/history checkpoint
+
+Implemented ordered cycle inspection with navigable provisional lookahead and
+recent records; only the next recommended workout can be started. Upcoming
+prescriptions retain current evidence/loads, do not fabricate clean exposures or
+future dates, and changes from the prior saved outlook are explained. Warm-up
+and cooldown now contain explicit movements/doses, collapsible in preview/work.
+Reviewed #670 pattern priming; exact routines remain labeled app defaults.
+
+Train is a compact prefilled notebook with optional per-movement set editors,
+load/reps/seconds, sides, timing/rest, notes, add/remove and bulk performed/skip.
+Written, normal and adjusted plans are separate from actual results. Duration and
+Pretty beat use the existing whole-work/recovery rules; Feeling great adds no
+unearned work. Final confirmation records all non-skipped work, or only explicitly
+performed work for a partial finish. The partial choice survives renders/reloads;
+zero-work partials do not skip a programmed day. Timers never log work.
+
+The repaired countdown is now compact/sticky throughout the workout. Instruction
+opens in a dismissible overlay without changing draft or pacing. A rendered Pixel
+5 touch flow passed 45→30/Pretty beat adaptation, prep, timer elapsed time and
+scroll visibility, instruction return and one-save completion. A second complete
+flow passed final-set modification, immutable targets, history correction,
+replayed progression, reversible versions, backup/restore and offline reload.
+
+Injected final-save and correction failures passed rollback/retry and duplicate
+protection. Added/removed sets, partial draft reload, read-only second tab,
+offline historical correction and malformed audit rejection passed. Existing
+six DOM workflows, all three timer modes/frozen lifecycle, Learn, backup faults,
+Web Locks/stale writes and old-worker draft upgrade passed with explicit optional
+editor/partial-outcome actions. 44 source-cycle sessions and 36 coordinated
+workouts passed. Remaining long history regressions and preview publication are
+still running/pending; this checkpoint does not claim deployment or physical
+Android testing. Node tests now include 12 notebook cases plus existing suites.

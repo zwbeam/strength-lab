@@ -259,7 +259,7 @@ function movementDemands(id){return [...(DEMANDS[MOVES[id]?.family]||[])];}
 function calendarDay(value){const text=typeof value==='string'&&/^\d{4}-\d{2}-\d{2}$/.test(value)?value:new Date(value??Date.now()).toLocaleDateString('sv-SE');return Date.parse(text+'T12:00:00Z')/86400000;}
 function blockPlan(s,opts={}){
  const block=s.programBlock||'abc';if(!BLOCKS[block])throw Error('Unknown program block');
- const days=BLOCKS[block].days,slot=(s.sessions||[]).filter(x=>x.slot!==undefined&&(x.block||'abc')===block).length%days.length,day=days[slot];
+ const days=BLOCKS[block].days,slot=(s.sessions||[]).filter(x=>x.slot!==undefined&&(x.block||'abc')===block&&(x.notebookVersion!==1||(x.items||[]).some(y=>y.actualSets>0))).length%days.length,day=days[slot];
  const budget=timeBudget(opts.minutes??s.defaultMinutes??45),defaults=s.trainingDefaults||{};
  const blockIds=days.flatMap(x=>x.ids),support=supportingMoves(s,blockIds,opts);
  const allowed=new Set([...blockIds,...support]),pending=s.deferredByBlock?.[block]||(block==='abc'?s.deferredIds:[])||[];
@@ -323,7 +323,7 @@ function validateComposition(c){
 }
 function deferredAfter(plan,records){const pending=new Set(plan.deferred||[]);for(const record of records){if(!(record.performed??record.completed))pending.add(record.id);else pending.delete(record.id);}return [...pending];}
 function completeRecord(rx,actual,quality,pain){
- const sets=(actual||[]).filter(x=>x.done),totalTime=rx.durationScope==='total';
+ const sets=(actual||[]).filter(x=>x.done&&!x.skipped),totalTime=rx.durationScope==='total';
  const valid=x=>validWorkingWeight(rx.id,x.weight)&&Number.isInteger(Number(x.reps))&&Number(x.reps)>0;
  const reps=sets.length?Math.min(...sets.map(x=>totalTime?Number(x.reps)||0:rx.side===2?Math.min(Number(x.leftReps??x.reps)||0,Number(x.rightReps??x.reps)||0):Number(x.reps)||0)):0;
  const weight=sets.length?Number(sets[0].weight):Number(rx.weight),sameLoad=sets.every(x=>Number(x.weight)===weight);
@@ -385,6 +385,9 @@ function validateDraft(d,s){
  for(const key of ['warmup','cooldown','main'])if(!number(d.plan.budget[key]))throw Error('Invalid draft budget');
  if(d.id!==undefined&&typeof d.id!=='string')throw Error('Invalid draft identity');
  if(d.id&&(s.sessions||[]).some(session=>session.draftId===d.id))throw Error('This draft is already saved as a workout');
+ if(d.finishChoice!==undefined&&!['all','modified','partial'].includes(d.finishChoice))throw Error('Invalid finish choice');
+ if(d.originalPlan!==undefined){if(!object(d.originalPlan)||!Array.isArray(d.originalPlan.items)||d.originalPlan.items.length>Object.keys(MOVES).length||d.originalPlan.items.some(rx=>!object(rx)||!Number.isInteger(rx.sets)||rx.sets<1||rx.sets>200))throw Error('Invalid original plan');const original={...d,originalPlan:undefined,plan:d.originalPlan,items:d.originalPlan.items?.map(rx=>({id:rx.id,quality:'clean',pain:false,sets:Array.from({length:rx.sets},()=>({done:false,reps:rx.reps,weight:rx.weight}))}))};validateDraft(original,s);}
+ if(d.adjustments!==undefined&&(!object(d.adjustments)||!Array.isArray(d.adjustments.changes)||d.adjustments.changes.some(x=>typeof x!=='string')))throw Error('Invalid workout adjustment record');
  if(d.notes!==undefined&&typeof d.notes!=='string')throw Error('Invalid draft notes');
  if(d.plan.block!==undefined&&!Object.hasOwn(BLOCKS,d.plan.block))throw Error('Invalid draft block');
  for(let i=0;i<d.items.length;i++){
@@ -414,6 +417,20 @@ function validateDraft(d,s){
  }
  return d;
 }
+function validateNotebookRecord(item){
+ const rx=item.prescription,m=MOVES[item.id],num=x=>typeof x==='number'&&Number.isFinite(x)&&x>=0;
+ if(!rx||rx.id!==item.id||rx.name!==m.name||rx.unit!==m.unit||rx.side!==m.side||!Number.isInteger(rx.sets)||rx.sets<1||rx.sets>200||!Number.isInteger(rx.reps)||rx.reps<1||!num(rx.weight)||!num(rx.rest)||!Array.isArray(item.sets)||item.sets.length>200)throw Error('Invalid recorded notebook prescription');
+ if(rx.bodyweight!==undefined&&rx.bodyweight!==!!m.bodyweight||m.bodyweight&&rx.weight!==0)throw Error('Invalid notebook load');
+ if(rx.roundSeconds!==null&&rx.roundSeconds!==undefined&&!num(rx.roundSeconds))throw Error('Invalid recorded interval');
+ for(const set of item.sets){if(!set||typeof set!=='object'||typeof set.done!=='boolean'||!Number.isInteger(set.reps)||set.reps<0||!num(set.weight)||m.bodyweight&&set.weight!==0)throw Error('Invalid recorded actual set');
+  for(const k of ['done','bothSides','continuous','timingValid','skipped'])if(set[k]!==undefined&&typeof set[k]!=='boolean')throw Error('Invalid recorded confirmation');
+  for(const k of ['leftReps','rightReps'])if(set[k]!==undefined&&(!Number.isInteger(set[k])||set[k]<0))throw Error('Invalid recorded side count');
+  for(const k of ['restSeconds','roundSeconds'])if(set[k]!==undefined&&!num(set[k]))throw Error('Invalid recorded timing');
+ }
+ const derived=completeRecord(rx,item.sets,item.quality,item.pain);
+ for(const k of ['actualSets','actualReps','weight','targetSets','targetReps','rest','performed','completed'])if(item[k]!==derived[k])throw Error('Recorded actuals disagree with progression evidence');
+ if(item.note!==undefined&&typeof item.note!=='string')throw Error('Invalid movement note');
+}
 function validateBackup(input){
  const object=x=>x&&typeof x==='object'&&!Array.isArray(x);
  if(!object(input)||input.version!==33||!Array.isArray(input.sessions)||!object(input.weights)||!object(input.equipment))throw Error('Not a V33 backup');
@@ -425,10 +442,18 @@ function validateBackup(input){
  const sessionIds=new Set(),draftIds=new Set();
  for(const session of input.sessions){
   if(!object(session)||typeof session.id!=='string'||typeof session.title!=='string'||typeof session.date!=='string'||!/^\d{4}-\d{2}-\d{2}$/.test(session.date)||!Array.isArray(session.items))throw Error('Invalid training entry');
+  if(session.notebookVersion!==undefined&&session.notebookVersion!==1)throw Error('Unsupported notebook history');
+  if(session.finishOutcome!==undefined&&!['complete','partial'].includes(session.finishOutcome))throw Error('Invalid workout outcome');
+  if(session.corrections!==undefined){if(!Array.isArray(session.corrections)||session.corrections.length>1000)throw Error('Invalid correction history');for(const revision of session.corrections){
+   if(!object(revision)||typeof revision.at!=='string'||!Number.isFinite(Date.parse(revision.at))||typeof revision.reason!=='string'||!object(revision.before)||!Array.isArray(revision.before.items)||typeof revision.before.date!=='string'||!/^\d{4}-\d{2}-\d{2}$/.test(revision.before.date)||typeof revision.before.notes!=='string')throw Error('Invalid correction version');
+   if(revision.before.items.some(x=>!Object.hasOwn(MOVES,x?.id)))throw Error('Invalid correction movement');
+   validateBackup({...input,sessions:[{id:session.id,title:session.title,date:revision.before.date,items:revision.before.items}],workoutDraft:null});
+  }}
   if(sessionIds.has(session.id))throw Error('Duplicate workout identity');sessionIds.add(session.id);
   if(session.draftId!==undefined&&session.draftId!==null){if(typeof session.draftId!=='string'||!session.draftId||draftIds.has(session.draftId))throw Error('Duplicate or invalid workout draft identity');draftIds.add(session.draftId);}
   const movementIds=new Set();
   for(const item of session.items){
+   if(item?.prescription)validateNotebookRecord(item);
    if(movementIds.has(item?.id))throw Error('Duplicate movement in workout');movementIds.add(item?.id);
    if(MOVES[item?.id]?.bodyweight&&(item.bodyweight!==true||item.weight!==0))throw Error('Invalid bodyweight record');
    if(!object(item)||!Object.hasOwn(MOVES,item.id)||!Number.isFinite(item.weight)||item.weight<0||!Number.isInteger(item.actualSets)||item.actualSets<0||!Number.isFinite(item.actualReps)||item.actualReps<0||!Number.isInteger(item.targetSets)||item.targetSets<0||!Number.isFinite(item.targetReps)||item.targetReps<=0||!Number.isFinite(item.rest)||item.rest<0||!['clean','minor','hard','breakdown','pain'].includes(item.quality))throw Error('Invalid movement record');

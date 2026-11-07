@@ -20,7 +20,7 @@ try:
    page.goto(f'http://127.0.0.1:{server.server_port}/');page.wait_for_function('storageReady && storageWritable')
    page.locator('[data-tab="settings"]').tap();assert page.locator('#timer-mode').input_value()=='manual'
    page.locator('#timer-mode').select_option(mode);page.locator('#save-timer-mode').tap()
-   page.locator('[data-tab="today"]').tap();page.locator('#start').tap();page.get_by_role('button',name='Warmup complete · start work').tap()
+   page.locator('[data-tab="today"]').tap();page.locator('#start').tap();page.get_by_role('button',name='Warmup complete · start work').tap();page.locator('[data-editor],details#workout-focus').evaluate_all('(els)=>els.forEach(el=>el.open=true)')
    assert page.locator('#workout-overview').count()==1
    assert page.locator('#clock').evaluate('(e)=>e.tagName')=='BUTTON'
    if mode=='manual':
@@ -51,6 +51,7 @@ try:
    context.set_offline(True);page.reload();page.wait_for_function('storageReady && storageWritable')
    assert page.evaluate('draft.timerMode')==mode and page.evaluate('JSON.stringify(draft.clock)')==clock
    assert page.locator('#workout-overview').count()==1
+   page.locator('[data-edit-movement="active:0"]').tap()
    page.locator('[data-set="0:0:weight"]').fill('8');page.locator('[data-set="0:0:weight"]').dispatch_event('change')
    page.locator('[data-check="0:0"]').tap();assert page.evaluate('draft.items[0].sets[0].done')
    page.locator('[data-check="0:0"]').tap();assert not page.evaluate('draft.items[0].sets[0].done')
@@ -60,7 +61,7 @@ try:
    context.close()
   # Real wall time while the rendered page is frozen, without a simulated clock.
   context=browser.new_context(**p.devices['Pixel 5']);page=context.new_page();page.on('dialog',lambda d:d.accept());page.goto(f'http://127.0.0.1:{server.server_port}/')
-  page.locator('#start').tap();page.get_by_role('button',name='Warmup complete · start work').tap();page.locator('#clock').tap()
+  page.locator('#start').tap();page.get_by_role('button',name='Warmup complete · start work').tap();page.locator('[data-editor],details#workout-focus').evaluate_all('(els)=>els.forEach(el=>el.open=true)');page.locator('#clock').tap()
   before=page.locator('#clock').inner_text();session=context.new_cdp_session(page);session.send('Page.setWebLifecycleState',{'state':'frozen'})
   other=context.new_page();other.wait_for_timeout(1800);session.send('Page.setWebLifecycleState',{'state':'active'});page.bring_to_front()
   page.wait_for_function('(before)=>document.querySelector("#clock").textContent!==before',arg=before)

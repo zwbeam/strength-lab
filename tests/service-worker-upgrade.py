@@ -34,12 +34,12 @@ with TemporaryDirectory(prefix='strength-upgrade-') as tmp:
             page.locator('[data-tab="settings"]').click()
             page.locator('[data-weight="squat"]').fill('12');page.locator('#save-weights').click()
             page.locator('[data-tab="today"]').click();page.locator('#start').click()
-            page.get_by_role('button',name='Warmup complete · start work').click()
+            page.get_by_role('button',name='Warmup complete · start work').click();page.locator('[data-editor],details#workout-focus').evaluate_all('(els)=>els.forEach(el=>el.open=true)')
             page.locator('[data-check="0:0"]').click()
             legacy='{"version":1,"sessions":[],"drafts":{}}'
             page.evaluate('(value)=>localStorage.setItem("strengthlab-data-v31",value)',legacy)
             before=page.evaluate('Object.fromEntries(["strengthlab-data-v31","strengthlab-data-v33","strengthlab-draft-v33"].map(key=>[key,localStorage.getItem(key)]))')
-            for name in ['index.html','app.js','engine.js','session-timer.js','movement-instruction.js','learning.js','styles.css','interface-polish.css','sw.js']:shutil.copy2(ROOT/name,target/name)
+            for name in ['index.html','app.js','engine.js','session-timer.js','movement-instruction.js','learning.js','notebook.js','styles.css','interface-polish.css','sw.js']:shutil.copy2(ROOT/name,target/name)
             page.evaluate('navigator.serviceWorker.getRegistration().then(registration=>registration.update()).then(()=>true)')
             page.wait_for_function('(name)=>caches.keys().then(keys=>keys.includes(name))',arg=CACHE_NAME)
             page.reload()
@@ -48,7 +48,7 @@ with TemporaryDirectory(prefix='strength-upgrade-') as tmp:
             assert page.locator('[data-check="0:0"]').inner_text()=='✓'
             context.set_offline(True);page.reload()
             assert page.locator('[data-check="0:0"]').inner_text()=='✓'
-            page.get_by_role('button',name='Finish main work · cooldown').click();page.locator('#save-workout').click()
+            page.get_by_role('button',name='Finish main work · cooldown').click();(page.locator('#finish-kind').select_option('partial') if page.locator('#finish-kind').count() else None);page.locator('#save-workout').click()
             assert page.evaluate('state.sessions.length')==1
             assert page.evaluate('state.sessions[0].items[0].actualSets')==1
             page.locator('[data-tab="settings"]').click();assert page.locator('#save-programming').count()==1

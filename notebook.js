@@ -9,7 +9,8 @@ function cycle(s,opts={}){
  const count=s.sessions.length,rows=[],sim=copy(s),span=s.programComposition?.enabled?Math.max(3,s.programComposition.blocks.length):Math.max(3,E.BLOCKS[s.programBlock||'abc'].days.length);
  // Only sequence placeholders are projected: never fabricate successful training,
  // future skill confirmations, dates, load increases or progression evidence.
- for(let i=0;i<Math.min(12,span);i++){
+ const offset=Math.max(0,Math.min(90,Number(opts.offset)||0));
+ for(let i=0;i<offset+Math.min(12,span);i++){
   const p=E.plan(sim,{...opts,minutes:s.defaultMinutes||45,readiness:'normal'});
   rows.push({number:count+i+1,key:String(count+i+1),plan:p,provisional:i>0});
   if(sim.programComposition?.enabled){const ids=sim.programComposition.blocks,at=ids.indexOf(p.block);sim.programComposition.blocks=[...ids.slice(at+1),...ids.slice(0,at+1)];
@@ -19,7 +20,7 @@ function cycle(s,opts={}){
   }
   sim.sessions.push({id:'preview-only-'+i,block:p.block,slot:p.slot,date:'9999-12-31',items:[]});
  }
- return rows;
+ return rows.slice(offset);
 }
 function adjusted(s,opts={}){const original=E.plan(s,{minutes:s.defaultMinutes||45,readiness:'normal'}),plan=E.plan(s,{minutes:opts.minutes??s.defaultMinutes??45,readiness:opts.readiness==='low'?'low':'normal'});return{original,plan,adjustments:{normalMinutes:s.defaultMinutes||45,minutes:plan.budget.total,readiness:opts.readiness||'normal',changes:differences(original,plan)}};}
 function newItems(plan){return plan.items.map(rx=>({id:rx.id,sets:Array.from({length:rx.sets},()=>({done:false,reps:rx.reps,weight:rx.weight})),quality:'clean',pain:false}));}
@@ -27,15 +28,15 @@ function finishItems(d,choice){
  if(!['all','partial'].includes(choice))throw Error('Choose how this workout was completed');
  return d.items.map((item,i)=>{const rx=d.plan.items[i],actual=copy(item);actual.sets.forEach(set=>{
   if(set.skipped)set.done=false;
-  else if(choice==='all'){set.done=true;if(rx.side===2)set.bothSides=true;if(rx.continuous)set.continuous=true;if(rx.roundSeconds)set.timingValid=true;}
+  else if(choice==='all'){set.done=true;if(rx.side===2&&set.bothSides===undefined)set.bothSides=true;if(rx.continuous&&set.continuous===undefined)set.continuous=true;if(rx.roundSeconds&&set.timingValid===undefined)set.timingValid=true;}
   if(set.done&&(!E.validWorkingWeight(rx.id,set.weight)||!Number.isInteger(set.reps)||set.reps<=0))throw Error(`Enter actual load and reps/seconds for ${rx.name}, or mark the set skipped`);
   if(set.done&&rx.durationScope==='total'&&(!Number.isInteger(set.leftReps)||!Number.isInteger(set.rightReps)||set.leftReps<=0||set.rightReps<=0))throw Error('Record actual completed get-ups on each side; elapsed time cannot supply rep counts');
  });return actual;});
 }
 function records(plan,items){return plan.items.map((rx,i)=>({...E.completeRecord(rx,items[i].sets,items[i].quality,items[i].pain),prescription:copy(rx),note:items[i].note||''}));}
-function status(items){if(!items.some(x=>x.actualSets>0))return 'No work recorded';if(items.some(x=>!x.performed))return 'Partially completed';return items.every(x=>x.sets.filter(s=>s.done).length===x.targetSets&&x.sets.filter(s=>s.done).every(s=>s.reps===x.targetReps&&Number(s.weight)===Number(x.prescription?.weight??x.weight)&&s.restSeconds===undefined&&s.roundSeconds===undefined))?'Completed as prescribed':'Completed with modifications';}
+function status(items,outcome='complete'){if(!items.some(x=>x.actualSets>0))return 'No work recorded';if(outcome==='partial')return 'Partially completed';return items.every(x=>x.sets.filter(s=>s.done).length===x.targetSets&&x.sets.filter(s=>s.done).every(s=>s.reps===x.targetReps&&Number(s.weight)===Number(x.prescription?.weight??x.weight)&&s.restSeconds===undefined&&s.roundSeconds===undefined))?'Completed as prescribed':'Completed with modifications';}
 function prescription(record){if(record.prescription)return copy(record.prescription);const m=E.MOVES[record.id];return{...copy(record),name:m.name,unit:m.unit,sets:record.targetSets,reps:record.targetReps,weight:record.weight,side:m.side,timed:!!m.timed,bodyweight:!!m.bodyweight,rest:record.rest};}
-function historyDraft(session){if(session.items.some(x=>!Array.isArray(x.sets)))throw Error('This older record has no set-level data; export it before making a manual correction');return{plan:{...(session.plan||{}),items:session.items.map(prescription)},items:session.items.map(x=>({id:x.id,sets:copy(x.sets),quality:x.quality,pain:!!x.pain,note:x.note||''})),date:session.date,notes:session.notes||''};}
+function historyDraft(session){if(session.items.some(x=>!Array.isArray(x.sets)))throw Error('This older record has no set-level data; export it before making a manual correction');return{plan:{...(session.plan||{}),items:session.items.map(prescription)},items:session.items.map(x=>({id:x.id,sets:copy(x.sets),quality:x.quality,pain:!!x.pain,note:x.note||''})),date:session.date,notes:session.notes||'',outcome:session.finishOutcome||'complete'};}
 function reconcile(s,affected){
  // All progression/eligibility is replayed from history by E; no cached credits exist.
  // Rebuild unfinished queues chronologically, and withdraw pending load selections
@@ -48,16 +49,16 @@ function reconcile(s,affected){
 }
 function correct(s,id,edit,reason='User correction',at=new Date().toISOString()){
  const next=copy(s),session=next.sessions.find(x=>x.id===id);if(!session)throw Error('Workout no longer exists');
- if(!/^\d{4}-\d{2}-\d{2}$/.test(edit.date)||!Number.isFinite(Date.parse(edit.date+'T12:00:00Z')))throw Error('Enter an actual completion date');
- const before={date:session.date,items:copy(session.items),notes:session.notes||'',status:session.status||status(session.items)};
+ if(!/^\d{4}-\d{2}-\d{2}$/.test(edit.date)||(!Number.isFinite(Date.parse(edit.date+'T12:00:00Z'))||new Date(edit.date+'T12:00:00Z').toISOString().slice(0,10)!==edit.date))throw Error('Enter an actual completion date');
+ const before={date:session.date,items:copy(session.items),notes:session.notes||'',status:session.status||status(session.items),finishOutcome:session.finishOutcome||'complete'};
  const plan=historyDraft(session).plan,actual=records(plan,edit.items);
  if(actual.some(x=>x.pain||x.quality==='pain'))for(const x of actual.filter(x=>x.pain||x.quality==='pain'))if(!before.items.find(y=>y.id===x.id&&(y.pain||y.quality==='pain'))&&next.painResolutions)delete next.painResolutions[x.id];
- session.corrections=[...(session.corrections||[]),{at,reason,before}];session.date=edit.date;session.notes=edit.notes||'';session.items=actual;session.status=status(actual);session.lastEdited=at;
+ session.corrections=[...(session.corrections||[]),{at,reason,before}];session.date=edit.date;session.notes=edit.notes||'';session.items=actual;session.finishOutcome=edit.outcome==='partial'?'partial':'complete';session.status=status(actual,session.finishOutcome);session.lastEdited=at;
  return reconcile(next,actual.map(x=>x.id));
 }
 function undo(s,id,at=new Date().toISOString()){
  const session=s.sessions.find(x=>x.id===id),revision=session?.corrections?.at(-1);if(!revision)throw Error('No correction to restore');
- const next=copy(s),target=next.sessions.find(x=>x.id===id),before={date:target.date,items:copy(target.items),notes:target.notes||'',status:target.status||status(target.items)};
+ const next=copy(s),target=next.sessions.find(x=>x.id===id),before={date:target.date,items:copy(target.items),notes:target.notes||'',status:target.status||status(target.items),finishOutcome:target.finishOutcome||'complete'};
  Object.assign(target,copy(revision.before));target.lastEdited=at;target.corrections.push({at,reason:'Restore previous version',before});
  return reconcile(next,target.items.map(x=>x.id));
 }

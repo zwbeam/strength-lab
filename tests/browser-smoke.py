@@ -64,8 +64,8 @@ with sync_playwright() as playwright:
                 assert page.locator('#start').count() == 0
                 page.locator('#toggle-pause').click()
                 page.locator('#start').click()
-                page.get_by_role('button', name='Warmup complete · start work').click()
-                page.get_by_role('button', name='Complete next set').click()
+                page.get_by_role('button', name='Warmup complete · start work').click();page.locator('[data-editor],details#workout-focus').evaluate_all('(els)=>els.forEach(el=>el.open=true)')
+                page.locator('#workout-focus').evaluate('(el)=>el.open=true');page.get_by_role('button', name='Complete next set').click()
                 assert page.locator('[role="progressbar"]').get_attribute('aria-valuenow') == '1'
                 page.reload()
                 assert page.locator('[data-check="0:0"]').inner_text() == '✓'
@@ -78,20 +78,20 @@ with sync_playwright() as playwright:
                     if button.inner_text() != '✓':
                         button.click()
                 page.get_by_role('button', name='Finish main work · cooldown').click()
-                page.locator('#save-workout').click()
+                (page.locator('#finish-kind').select_option('partial') if page.locator('#finish-kind').count() else None);page.locator('#save-workout').click()
                 assert page.evaluate('state.sessions.length') == 1
                 assert page.evaluate('state.sessions[0].items.every(x=>x.completed)')
                 page.reload()
                 assert page.evaluate('state.sessions.length') == 1
                 assert page.evaluate('draft === null')
                 page.locator('#start').click()
-                page.get_by_role('button', name='Warmup complete · start work').click()
+                page.get_by_role('button', name='Warmup complete · start work').click();page.locator('[data-editor],details#workout-focus').evaluate_all('(els)=>els.forEach(el=>el.open=true)')
                 page.locator('[data-set="0:0:weight"]').fill('12')
                 page.locator('[data-set="0:0:weight"]').dispatch_event('change')
                 page.locator('[data-check="0:0"]').click()
                 page.locator('[data-pain="0"]').check()
                 page.get_by_role('button', name='Finish main work · cooldown').click()
-                page.locator('#save-workout').click()
+                (page.locator('#finish-kind').select_option('partial') if page.locator('#finish-kind').count() else None);page.locator('#save-workout').click()
                 assert page.evaluate('E.prescription(state,"swing").mode') == 'review'
                 review = page.locator('details').filter(has=page.locator('[data-resolve-pain="swing"]'))
                 review.locator('summary').click()

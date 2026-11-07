@@ -24,7 +24,7 @@ try:
         if details.get_attribute('open') is None:details.locator(':scope > summary').click()
     def save_program():page.locator('#save-programming').click()
     def perform():
-        page.locator('#start').click();page.get_by_role('button',name='Warmup complete · start work').click()
+        page.locator('#start').click();page.get_by_role('button',name='Warmup complete · start work').click();page.locator('[data-editor],details#workout-focus').evaluate_all('(els)=>els.forEach(el=>el.open=true)')
         page.evaluate('''()=>{
           const indexes=Array.from(document.querySelectorAll('[data-check]')).map(button=>button.dataset.check);
           for(const index of indexes){
@@ -32,7 +32,7 @@ try:
             document.querySelector(`[data-check="${index}"]`).click();
           }
         }''')
-        page.get_by_role('button',name='Finish main work · cooldown').click();page.locator('#save-workout').click()
+        page.get_by_role('button',name='Finish main work · cooldown').click();(page.locator('#finish-kind').select_option('partial') if page.locator('#finish-kind').count() else None);page.locator('#save-workout').click()
         assert page.evaluate('state.sessions.at(-1).items.every(item=>item.completed)')
     settings()
     for field in page.locator('[data-weight]').all():

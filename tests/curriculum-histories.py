@@ -31,7 +31,7 @@ try:
    for skill in skills:page.locator(f'[data-skill="{skill}"]').check()
    page.locator('#save-programming').click();train()
   def record(continuous=True,imbalance=False,pain=False,clock_check=False,check_rest=False):
-   page.locator('#start').click();page.get_by_role('button',name='Warmup complete · start work').click()
+   page.locator('#start').click();page.get_by_role('button',name='Warmup complete · start work').click();page.locator('[data-editor],details#workout-focus').evaluate_all('(els)=>els.forEach(el=>el.open=true)')
    if clock_check:
     page.locator('[data-movement-timer="0"]').click();assert page.locator('#clock').inner_text()=='03:00'
     page.get_by_role('button',name='Pause',exact=True).click();page.reload()
@@ -51,7 +51,7 @@ try:
     return {noRestWithin,breakBetween};
    }''',dict(continuous=continuous,imbalance=imbalance,pain=pain,checkRest=check_rest))
    if check_rest:assert result=={'noRestWithin':True,'breakBetween':True},result
-   page.get_by_role('button',name='Finish main work · cooldown').click();page.locator('#save-workout').click()
+   page.get_by_role('button',name='Finish main work · cooldown').click();(page.locator('#finish-kind').select_option('partial') if page.locator('#finish-kind').count() else None);page.locator('#save-workout').click()
    return page.evaluate('state.sessions.at(-1).items')
   settings()
   for id,weight in [('getup','8'),('clubInside','5'),('clubOutside','5'),('clubShield','5')]:page.locator(f'[data-weight="{id}"]').fill(weight)

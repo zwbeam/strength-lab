@@ -32,7 +32,7 @@ try:
   settings(reader);assert reader.locator('#save-programming').is_disabled()
   payload=owner.evaluate('JSON.stringify(state)')
   reader.locator('#import').set_input_files({'name':'blocked.json','mimeType':'application/json','buffer':payload.encode()});assert raw(owner)==before
-  owner.locator('[data-tab="today"]').click();owner.locator('#start').click();owner.get_by_role('button',name='Warmup complete · start work').click();owner.get_by_role('button',name='Complete next set').click();owner.get_by_role('button',name='Pause',exact=True).click()
+  owner.locator('[data-tab="today"]').click();owner.locator('#start').click();owner.get_by_role('button',name='Warmup complete · start work').click();owner.locator('[data-editor],details#workout-focus').evaluate_all('(els)=>els.forEach(el=>el.open=true)');owner.locator('#workout-focus').evaluate('(el)=>el.open=true');owner.get_by_role('button',name='Complete next set').click();owner.get_by_role('button',name='Pause',exact=True).click()
   reader.locator('[data-tab="today"]').click();reader.wait_for_function('draft?.items[0].sets[0].done===true && draft.clock?.running===false')
   identity=owner.evaluate('draft.id');remaining=owner.evaluate('draft.clock.remaining')
   assert reader.locator('[data-check="0:0"]').is_disabled()
@@ -41,7 +41,7 @@ try:
   owner.close();reader.reload();reader.wait_for_function('storageReady && storageWritable')
   assert reader.evaluate('draft.id')==identity and reader.evaluate('draft.clock.remaining')==remaining
   contender=page();assert not contender.evaluate('storageWritable')
-  reader.get_by_role('button',name='Complete next set').click();reader.get_by_role('button',name='Finish main work · cooldown').click();reader.locator('#save-workout').click()
+  reader.locator('#workout-focus').evaluate('(el)=>el.open=true');reader.get_by_role('button',name='Complete next set').click();reader.get_by_role('button',name='Finish main work · cooldown').click();(reader.locator('#finish-kind').select_option('partial') if reader.locator('#finish-kind').count() else None);reader.locator('#save-workout').click()
   contender.wait_for_function('state.sessions.length===1 && draft===null')
   assert reader.evaluate('state.sessions.length')==1
   contender.evaluate('saveWorkout()');reader.evaluate('saveWorkout()');assert reader.evaluate('state.sessions.length')==1

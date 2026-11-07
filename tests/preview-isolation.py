@@ -61,10 +61,10 @@ with tempfile.TemporaryDirectory(prefix='strength-preview-test-') as tmp:
    page.get_by_text('Prerequisite skills',exact=True).click();page.locator('[data-skill="hingePattern"]').check();page.locator('#save-programming').click()
    page.locator('[data-tab="today"]').click();page.locator('#today-minutes').select_option('15');page.locator('#start').click()
    page.get_by_role('button',name=re.compile(r'Start \d+-minute warmup')).click();page.get_by_role('button',name='Pause',exact=True).click();assert page.get_by_role('button',name='Resume',exact=True).count()==1
-   page.get_by_role('button',name='Warmup complete · start work').click();assert page.locator('#workout-overview').count()==1
+   page.get_by_role('button',name='Warmup complete · start work').click();page.locator('[data-editor],details#workout-focus').evaluate_all('(els)=>els.forEach(el=>el.open=true)');assert page.locator('#workout-overview').count()==1
    assert page.evaluate('document.documentElement.scrollWidth <= innerWidth+1'),'Workout overview overflows viewport'
-   page.get_by_role('button',name='Complete next set').click();assert page.locator('[data-check="0:0"]').inner_text()=='✓'
-   page.get_by_role('button',name='Complete next set').click();page.get_by_role('button',name='Finish main work · cooldown').click();page.locator('#save-workout').click()
+   page.locator('#workout-focus').evaluate('(el)=>el.open=true');page.get_by_role('button',name='Complete next set').click();assert page.locator('[data-check="0:0"]').inner_text()=='✓'
+   page.locator('#workout-focus').evaluate('(el)=>el.open=true');page.get_by_role('button',name='Complete next set').click();page.get_by_role('button',name='Finish main work · cooldown').click();(page.locator('#finish-kind').select_option('partial') if page.locator('#finish-kind').count() else None);page.locator('#save-workout').click()
    assert page.evaluate('state.sessions.length')==1
    page.locator('[data-tab="learn"]').click();open_hinge_source(page);page.locator('#transcript-dialog').wait_for(state='visible')
    assert 'two hand deadlift' in page.locator('#transcript-body').inner_text().lower();page.get_by_role('button',name='Close',exact=True).click()

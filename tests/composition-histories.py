@@ -28,7 +28,7 @@ try:
    page.locator('#save-programming').click();train()
   def ids():return page.evaluate('currentPlan().items.map(rx=>rx.id)')
   def record(partial=False,pain_id=None):
-   page.locator('#start').click();page.get_by_role('button',name='Warmup complete · start work').click()
+   page.locator('#start').click();page.get_by_role('button',name='Warmup complete · start work').click();page.locator('[data-editor],details#workout-focus').evaluate_all('(els)=>els.forEach(el=>el.open=true)')
    assert page.locator('#workout-overview').count()==1
    page.evaluate('''({partial,painId})=>{
     const indexes=Array.from(document.querySelectorAll('[data-check]')).map(el=>el.dataset.check);
@@ -39,7 +39,7 @@ try:
     }
     if(painId){const i=draft.plan.items.findIndex(rx=>rx.id===painId),el=document.querySelector(`[data-pain="${i}"]`);el.checked=true;el.dispatchEvent(new Event('change',{bubbles:true}));}
    }''',dict(partial=partial,painId=pain_id))
-   page.get_by_role('button',name='Finish main work · cooldown').click();page.locator('#save-workout').click()
+   page.get_by_role('button',name='Finish main work · cooldown').click();(page.locator('#finish-kind').select_option('partial') if page.locator('#finish-kind').count() else None);page.locator('#save-workout').click()
    return page.evaluate('state.sessions.at(-1).items')
   settings()
   for id,weight in [('snatch','8'),('front','5'),('cast','5'),('circles','5')]:page.locator(f'[data-weight="{id}"]').fill(weight)
@@ -74,9 +74,9 @@ try:
   assert 'No workout is ready' in page.get_by_role('status').inner_text()
   settings();page.get_by_text('Prerequisite skills',exact=True).click();page.locator('[data-skill="bearSquat"]').check();page.locator('#save-programming').click();train()
   assert ids()==[] # the full 4-bout prescription does not fit the remaining 7 main-work minutes
-  next_day();page.locator('[data-ready="low"]').click();assert ids()==['bearSquat']
+  next_day();page.locator('#today-readiness').select_option('low');assert ids()==['bearSquat']
   assert not any(r['completed'] for r in record())
-  train();page.locator('[data-ready="normal"]').click()
+  train();page.locator('#today-readiness').select_option('normal')
   settings();page.locator('[data-equipment="kb"]').fill('8,12');page.locator('[data-equipment="club"]').fill('5');page.locator('#save-equipment').click();train();next_day();page.locator('#today-minutes').select_option('45')
   assert page.evaluate('currentPlan().items.some(rx=>!rx.bodyweight)')
   assert not any(r['completed'] for r in record()) # reduced return after absence, not a free advancement

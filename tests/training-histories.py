@@ -35,7 +35,7 @@ try:
             page.locator('[data-tab="today"]').click()
         def record(quality='clean',partial=False,imbalance=False,pain=False):
             page.locator('#start').click()
-            page.get_by_role('button',name='Warmup complete · start work').click()
+            page.get_by_role('button',name='Warmup complete · start work').click();page.locator('[data-editor],details#workout-focus').evaluate_all('(els)=>els.forEach(el=>el.open=true)')
             # Dispatch actual input/button events. Every event rerenders, so query afresh.
             page.evaluate('''({partial,imbalance,pain,quality})=>{
               const count=document.querySelectorAll('[data-check]').length;
@@ -51,7 +51,7 @@ try:
               if(pain){const input=document.querySelector('[data-pain="0"]');input.checked=true;input.dispatchEvent(new Event('change',{bubbles:true}));}
             }''',dict(partial=partial,imbalance=imbalance,pain=pain,quality=quality))
             page.get_by_role('button',name='Finish main work · cooldown').click()
-            page.locator('#save-workout').click()
+            (page.locator('#finish-kind').select_option('partial') if page.locator('#finish-kind').count() else None);page.locator('#save-workout').click()
             return page.evaluate('state.sessions.at(-1).items[0]')
         def prescription(sets,reps):
             page.locator('[data-tab="today"]').click()

@@ -27,10 +27,10 @@ try:
   def configure(block,skill):
    settings();page.locator('#program-block').select_option(block);page.get_by_text('Prerequisite skills',exact=True).click();page.locator(f'[data-skill="{skill}"]').check();page.locator('#save-programming').click();train()
   def record(partial=False,quality='clean',pain=False,quick=False):
-   page.locator('#start').click();page.get_by_role('button',name='Warmup complete · start work').click()
+   page.locator('#start').click();page.get_by_role('button',name='Warmup complete · start work').click();page.locator('[data-editor],details#workout-focus').evaluate_all('(els)=>els.forEach(el=>el.open=true)')
    assert page.locator('[data-set="0:0:weight"]').input_value()=='0'
    assert page.locator('[data-set="0:0:weight"]').get_attribute('readonly') is not None
-   if quick:page.get_by_role('button',name='Complete next set').click();assert page.locator('[role="progressbar"]').get_attribute('aria-valuenow')=='1'
+   if quick:page.locator('#workout-focus').evaluate('(el)=>el.open=true');page.get_by_role('button',name='Complete next set').click();assert page.locator('[role="progressbar"]').get_attribute('aria-valuenow')=='1'
    page.evaluate('''({partial,quality,pain})=>{
     const indexes=Array.from(document.querySelectorAll('[data-check]')).map(b=>b.dataset.check);
     for(const index of indexes){
@@ -41,7 +41,7 @@ try:
     const select=document.querySelector('[data-quality="0"]');select.value=quality;select.dispatchEvent(new Event('change',{bubbles:true}));
     if(pain){const el=document.querySelector('[data-pain="0"]');el.checked=true;el.dispatchEvent(new Event('change',{bubbles:true}));}
    }''',dict(partial=partial,quality=quality,pain=pain))
-   page.get_by_role('button',name='Finish main work · cooldown').click();page.locator('#save-workout').click()
+   page.get_by_role('button',name='Finish main work · cooldown').click();(page.locator('#finish-kind').select_option('partial') if page.locator('#finish-kind').count() else None);page.locator('#save-workout').click()
    return page.evaluate('state.sessions.at(-1).items[0]')
   settings();page.locator('[data-equipment="kb"]').fill('');page.locator('[data-equipment="club"]').fill('');page.locator('#save-equipment').click()
   configure('hingePractice','hingePattern');assert 'Bodyweight / no external load' in page.locator('.list-item').inner_text()

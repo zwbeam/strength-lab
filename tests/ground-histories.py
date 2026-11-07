@@ -28,7 +28,7 @@ try:
    page.locator('#save-programming').click();train()
   def ids():return page.evaluate('currentPlan().items.map(rx=>rx.id)')
   def record(partial=False,pain_id=None):
-   page.locator('#start').click();page.get_by_role('button',name='Warmup complete · start work').click()
+   page.locator('#start').click();page.get_by_role('button',name='Warmup complete · start work').click();page.locator('[data-editor],details#workout-focus').evaluate_all('(els)=>els.forEach(el=>el.open=true)')
    assert page.locator('#workout-overview').count()==1
    page.evaluate('''({partial,painId})=>{
     const indexes=Array.from(document.querySelectorAll('[data-check]')).map(el=>el.dataset.check);
@@ -39,7 +39,7 @@ try:
     }
     if(painId){const i=draft.plan.items.findIndex(rx=>rx.id===painId),el=document.querySelector(`[data-pain="${i}"]`);el.checked=true;el.dispatchEvent(new Event('change',{bubbles:true}));}
    }''',dict(partial=partial,painId=pain_id))
-   page.get_by_role('button',name='Finish main work · cooldown').click();page.locator('#save-workout').click()
+   page.get_by_role('button',name='Finish main work · cooldown').click();(page.locator('#finish-kind').select_option('partial') if page.locator('#finish-kind').count() else None);page.locator('#save-workout').click()
    return page.evaluate('state.sessions.at(-1).items')
   configure('groundPractice',['hipDropTwoHand','bearSquat'])
   assert set(ids())=={'hipDropTwoHand','bearSquat'}
