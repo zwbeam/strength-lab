@@ -4,15 +4,15 @@
 
 **Live and publicly verified:** https://zwbeam.github.io/strength-lab-preview/
 
-Verified source: `7c6f2c0070840db3da4a1c813ae57e1bb8411e92`.
-Deployment: `2b5e4a71c1b62ae8287c2edb1625a358af809f05` on the separate preview repo.
-The interface shows **Development preview · 7c6f2c0**. Later source commits that
+Verified source: `1e32b29363a247946ce4bb9c0b932b0a50bbc183`.
+Deployment: `79c65b8165a2311a6ca6bf993b340b878486901b` on the separate preview repo.
+The interface shows **Development preview · 1e32b29**. Later source commits that
 only update tests/docs/publishing tools do not change this deployed app version.
 
 The owner enabled Pages on `zwbeam/strength-lab-preview`, using the `preview`
 branch and `/(root)`. GitHub reports the build complete. The actual public HTTPS
 workflow passed using Pixel 5 Chromium emulation: metadata/manifest identity,
-all 79 assets, Android-sized layout without horizontal overflow, full workout
+all 80 assets, Android-sized layout without horizontal overflow, full workout
 overview, timer pause/resume, set logging, saved progress, Settings, movement
 library, offline reload and offline transcript reading. This is not physical
 Android testing. No further setup/authorization is required.
@@ -23,17 +23,29 @@ were checked unchanged. Preview history/legacy history, writer lock, manifest
 identity, worker scope and cache prefix are separate. Fresh preview test data
 is intentional; no live history was transferred. No release or APK was created.
 
-## UX review 1
+## UX review 2 — Train notebook
 
-The deployed build contains the repaired touchable timer (Manual default,
-Automatic/Hybrid preferences), Exercises, focused Pathways and source-reviewed
-instruction. All 31 movements are represented; 29 have exact corpus video
-mappings. Carry/front squat remain unmapped; partial instruction is labeled.
-New tabs use isolated preview data; existing preview data is preserved on update.
+The deployed build opens the ordered training cycle and full workout preview.
+Today's duration/readiness controls alter real prescriptions without changing the
+normal duration. Active work is a compact prefilled notebook with optional
+method-specific editors, a persistent timer and instructional overlays. One final
+confirmation records prescribed/modified work, or only explicitly performed sets
+for a partial finish. Saved records have reversible corrections and engine replay.
 
-Please check timer touch controls in all modes, pause/resume after switching
-apps, lesson readability, pathway navigation and video opening on Android.
-Automated mobile testing is not a substitute for this review.
+Public HTTPS acceptance passed the actual complete 45→30/Pretty beat flow,
+sticky elapsed countdown, instruction return, final-set change, saved-history
+correction/progression/restore, backup and offline reload. Pixel 5 Chromium
+emulation is not physical Android testing. All 80 assets and isolated
+keys/lock/identity/worker were verified. No production files were changed.
+
+Upcoming targets are provisional at current evidence/loads, not guaranteed future
+advancement. Preparation doses/cooldown are app defaults. Older saved records
+lack original prescribed load; altered legacy work cannot invent that evidence.
+Learn and source-video mapping gaps remain unchanged from review 1.
+
+Please review cycle clarity, compact row readability, partial versus completed
+confirmation, sticky timer, instruction return and correcting an old set.
+Do not begin another major workflow redesign before feedback.
 
 ## Open on Android
 
@@ -107,7 +119,7 @@ python3 tests/preview-url.py --url https://ACTUAL-DEPLOYED-PREVIEW/ --commit SOU
 ```
 
 The first suite builds beside an untouched copy of main at a repository subpath.
-It uses Pixel 5 Chromium emulation, checks all 79 assets, manifest/version, separate
+It uses Pixel 5 Chromium emulation, checks all 80 assets, manifest/version, separate
 keys/lock/scopes/caches, full overview, duration, timer pause/logging, saved progress,
 settings/library, offline source reading, preview upgrade and live worker upgrade.
 It verifies original live files and storage remain unchanged. This is not physical
@@ -135,7 +147,7 @@ open the verified link in Chrome on Android; optionally choose menu → Add to h
 screen (or Install app) and confirm the name includes DEV. Keep the normal Strength
 Lab installation separate.
 
-Latest confirmed content upload: source `7c6f2c0070840db3da4a1c813ae57e1bb8411e92`,
-deployment `2b5e4a71c1b62ae8287c2edb1625a358af809f05`. Repeat normal publication
+Latest confirmed content upload: source `1e32b29363a247946ce4bb9c0b932b0a50bbc183`,
+deployment `79c65b8165a2311a6ca6bf993b340b878486901b`. Repeat normal publication
 was verified without administrative writes; source main/Pages stayed unchanged.
 The owner enabled Pages and this exact deployment passed public HTTPS verification.

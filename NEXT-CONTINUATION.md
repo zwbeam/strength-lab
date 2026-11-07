@@ -2,7 +2,10 @@
 
 Continue from the latest origin/development/reconciliation. Preserve all history.
 Architecture checkpoint c482853 and integrated notebook c0a36de are ancestors.
-Later reliability/documentation commits follow; verify HEAD against GitHub first.
+Verified application source is 1e32b29363a247946ce4bb9c0b932b0a50bbc183,
+deployed at 79c65b8165a2311a6ca6bf993b340b878486901b. Public HTTPS identity/80
+assets and complete notebook acceptance passed. Later documentation commits may
+follow; verify HEAD against GitHub first.
 Read DEVELOPMENT-STATUS.md, DEVELOPMENT-LOG.md, TRAIN-NOTEBOOK-DESIGN.md,
 PERSISTENCE.md, TRAINING-RULES.md and USER-EXPERIENCE-REVIEW.md.
 

@@ -144,3 +144,13 @@ without covering work? Do instruction overlays return to the right place? Can yo
 correct a set days later and understand its effect on the next workout?
 
 Pause for this feedback before a new major interface/workflow redesign.
+
+### Review 2 published checkpoint — 2026-11-07
+
+Live: https://zwbeam.github.io/strength-lab-preview/ · banner 1e32b29.
+Source 1e32b29363a247946ce4bb9c0b932b0a50bbc183; deployment
+79c65b8165a2311a6ca6bf993b340b878486901b. Actual HTTPS Pixel 5 acceptance
+passed complete adjustment/timer/log/history correction/replay/backup/offline flow
+and all 80 runtime assets. Original main/Pages/live file fingerprints unchanged.
+127 named Node cases, existing browser/history/failure regressions and source
+checks passed. User/physical Android approval remains outstanding. Pause here.

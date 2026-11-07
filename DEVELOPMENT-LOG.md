@@ -608,3 +608,37 @@ backward-data limitation, not an attempted migration claiming unavailable facts.
 Documented the review 2 approved principles and implementation candidate in the
 review file, rules, coverage boundary, persistence and continuation instructions.
 Publication and physical Android review remain distinct checks.
+
+### UX review 2 — published and verified checkpoint
+
+Pushed tested application source
+1e32b29363a247946ce4bb9c0b932b0a50bbc183 normally to development/reconciliation.
+Separate preview deployment 79c65b8165a2311a6ca6bf993b340b878486901b is built.
+Actual public https://zwbeam.github.io/strength-lab-preview/ passed:
+- tests/preview-url.py --commit 1e32b29: all 80 assets, source/banner, manifest,
+  namespace/lock, mobile layout, real idle-work countdown/pause, logging,
+  progress/settings/Learn and offline research reader.
+- tests/notebook-review.py --url at that HTTPS link: real 45→30/Pretty beat,
+  changed targets, explicit prep, sticky countdown while scrolling, instruction
+  round-trip, one confirmation, final-set edit, immutable target, historical
+  correction/replay/restore, backup and offline reload.
+
+Final local suite: 127 named Node tests plus engine assertions and V31 smoke;
+all six existing DOM workflows; timer modes and frozen lifecycle; Learn/teaching
+links; notebook acceptance/fault/method histories; existing 44 source-cycle and
+36 coordinated workout histories, cadence feedback, get-up/club pathways,
+42-exposure push-ups, 15 ground and 13 hinge sessions, complete get-up and 34
+club exposures; programming controls; backup failure/restore/retry; real multi-tab
+and stale writes; old-worker upgrades; root/subpath smoke; final committed preview
+isolation; four publisher tests; 30 rule quotations/hashes, 31 lesson/36 source
+provenance checks, 720-record/23-system inventory. Each was actually run.
+
+Publisher confirmed original main 4cb58d8 and Pages unchanged. Public original
+root/index/app/worker/manifest SHA-256 fingerprints are byte-identical to the
+pre-task baseline. No production deployment, main merge, history rewrite, release
+or APK. Workspace is checkpointed; no unfinished implementation is being hidden.
+Physical Android, subjective usability and future performance are unverified.
+Future prescriptions remain conditional on actual evidence; changed legacy work
+cannot recover an unrecorded original load. Review instructions and limitations
+are in USER-EXPERIENCE-REVIEW.md, PREVIEW.md and NEXT-CONTINUATION.md. Stop for
+user feedback before the next major redesign; no user setup/publication is needed.

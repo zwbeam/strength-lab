@@ -5,6 +5,8 @@ training data. No main merge, force-push, release or APK is authorized.
 
 ## UX review 2 — Train notebook (2026-11-07)
 
+Publicly verified source `1e32b29` at
+https://zwbeam.github.io/strength-lab-preview/; deployment `79c65b8`.
 Architecture checkpoint `c482853`; integrated notebook `c0a36de`. Train now opens
 an ordered cycle, explicit full session preview and today-only duration/readiness
 adjustments. Compact prefilled active work, sticky timer, instruction overlays,
@@ -16,9 +18,8 @@ No new curriculum or replacement training method was introduced.
 rollback/retry, duplicate, partial draft recovery, offline correction, backup,
 Web Locks/stale writes and old-worker upgrades passed. Existing long histories
 passed source cycles, coordinated blocks, pathways, push-ups, ground and loaded
-hinge, including root/subpath smoke. Final publication verification is in progress. See the log for
-actual results. Physical Android remains unverified. The new preview is not
-claimed published until PREVIEW.md records public HTTPS verification.
+hinge, including root/subpath smoke. Public HTTPS identity/assets and complete notebook acceptance passed. See the log for
+actual results. Physical Android remains unverified. The isolated preview is live; PREVIEW.md records actual HTTPS verification.
 
 Review 2 supersedes the prior pause to authorize this rebuild. Pause for user
 feedback again once this milestone is delivered; do not begin a Learn redesign
