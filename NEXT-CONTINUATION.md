@@ -1,34 +1,47 @@
-# UX review 1: user-review checkpoint
+# UX review 2 — Train notebook review checkpoint
 
 Continue from the latest origin/development/reconciliation. Preserve all history.
-Timer milestone: 2d97220. Learn milestone: 7c6f2c0. The separate preview build
-uses source 7c6f2c0070840db3da4a1c813ae57e1bb8411e92; see PREVIEW.md for verification.
+Architecture checkpoint c482853 and integrated notebook c0a36de are ancestors.
+Later reliability/documentation commits follow; verify HEAD against GitHub first.
+Read DEVELOPMENT-STATUS.md, DEVELOPMENT-LOG.md, TRAIN-NOTEBOOK-DESIGN.md,
+PERSISTENCE.md, TRAINING-RULES.md and USER-EXPERIENCE-REVIEW.md.
 
-Read USER-EXPERIENCE-REVIEW.md and the latest DEVELOPMENT-LOG.md before acting.
-The user requires build → test → preview → user review → refinement. Do not begin
-another major interface redesign before user feedback. Implement feedback in
-small verified increments; do not mistake automated tests for UX approval.
+The user authorized this Train/history rebuild after review 1. This milestone
+must now follow build → test → isolated preview → user review → refinement.
+Do not start another major redesign, redesign Learn or expand curriculum without
+feedback. See PREVIEW.md for the exact publicly verified source/deployment/link.
 
-Manual is the new-session default; existing drafts and preference snapshots remain
-compatible. Timer-only events cannot log sets or grant progression. Exercises and
-Pathways share the registry, actual eligibility and history. Learned is explicit
-self-reported familiarity, never mastery or a prerequisite bypass. All 31 lessons
-remain readable; 29 have corpus metadata video mappings, carry/front squat have
-explicit gaps. Some videos cover programming rather than full technique. No
-verified timestamps or physical Android playback claim exists.
+Preserve ordered/provisional cycle inspection, full prescription and today's
+normal-versus-adjusted plan, explicit preparation, compact prefilled log, optional
+method-specific set editor, sticky wall-clock timer and instruction overlay.
+Only final explicit affirmation records all non-skipped work; partial saves record
+explicitly performed work only. A timer cannot grant work/skill credit. Get-up
+side counts must be supplied. Zero-work stopped sessions do not skip a program day.
 
-First inspect Git status, compare/fetch remote and preserve newer commits. GitHub
-credentials briefly returned 401 during this task but later recovered; never ask
-for raw tokens. Use the existing gh credential helper per command if required.
-Run node test files individually plus tests/timer-review.py, tests/learn-review.py,
-tests/learning-provenance.py, tests/backup-restore.py, tests/multi-tab.py and relevant
-history/upgrade regressions when changes warrant them.
+Historical corrections are reversible and append prior versions. Replay actuals,
+rebuild unfinished queues and withdraw affected pending load choices. Preserve
+all later actual workouts, explicit skills and recovery decisions. Older records
+without original rx/load may be corrected, but changed legacy work cannot invent
+new progression credit. Note-only changes preserve existing evidence. Explain
+this limitation; never reconstruct an unknown original prescribed load as fact.
 
-Normal development pushes do not deploy Pages. After verified application changes,
-use scripts/publish-preview.py for the separate preview repository; wait for Pages
-and run tests/preview-url.py with the expected source commit and actual HTTPS URL.
-Preserve the original app/main/Pages, saved history, full overview, free set logging,
-relative assets and offline research. No main merge, force push, release or APK.
+V33 storage keys, writer Web Lock, stale-write guard and paired journal remain.
+New notebook drafts opt into variable actual sets; old drafts remain logged-only
+and accepted. Import validates metadata/audit/actual credit before replacement.
+See tests/notebook-review.py, tests/notebook-failures.py and
+ tests/notebook-methods.py for real acceptance/fault/multiweek scenarios.
+Run node test files individually (not only file-level test-runner wrappers), plus
+relevant DOM, history, backup/multi-tab/upgrade and source-provenance checks.
+Tests explicitly open optional editors/select Partial when testing old logged-only
+flows; do not change actual programming rules to satisfy obsolete UI assertions.
 
-Next task: collect Android feedback on timer interaction/mode clarity, finding
-lessons, focused maps and external video opening. Refine only after that review.
+Future preview publication uses scripts/publish-preview.py with a committed source
+ref, separate zwbeam/strength-lab-preview repository/preview branch. Source pushes
+alone do not publish Pages. Wait for build, run tests/preview-url.py with expected
+source SHA and tests/notebook-review.py --url at the real HTTPS preview. TLS/proxy
+remain configured. Keep production/main/Pages unchanged. No force push, release,
+APK or production deployment. Keep relative static assets for eventual Capacitor.
+
+Next: collect Android feedback on cycle clarity, adjustments, compact log,
+completed-versus-partial affirmation, sticky timer/instruction return, actuals
+editing and historical correction/replay. Refine feedback in small tested commits.

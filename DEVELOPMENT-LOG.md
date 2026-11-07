@@ -578,3 +578,33 @@ editor/partial-outcome actions. 44 source-cycle sessions and 36 coordinated
 workouts passed. Remaining long history regressions and preview publication are
 still running/pending; this checkpoint does not claim deployment or physical
 Android testing. Node tests now include 12 notebook cases plus existing suites.
+
+### UX review 2 — regression and import boundary follow-up
+
+All prior long histories passed: source cycles, 36 coordinated workouts, cadence
+feedback, staged get-up/club pathways, 42-exposure push-ups, 15 ground and 13 hinge
+sessions, full get-up cycle and 34 club exposures. Programming controls, teaching
+links and root/repository-subpath smoke passed. Committed preview isolation also
+passed old-build→current upgrade without touching live storage/caches.
+
+Added an eight-session one-confirmation multiweek history spanning continuous club,
+readiness/imbalance/missed month, total-time get-up counts and snatch EMOM. It passes
+cadence-deviation rejection and historical correction moving the next snatch
+prescription to five sets (the existing default increment is one, not the test's
+initial mistaken expectation of two). No engine number was changed for the test.
+
+Hardened import validation of written/adjusted plans, outlook and prior versions,
+including actual-versus-derived evidence. Independent original-plan validation
+allows longer overrides, even when the normal short budget fits no movement;
+its validation does not reuse the adjusted timer cursor. New unit cases cover it.
+
+Reviewed a legacy-data gap: old records did not save original target load. New
+records retain full rx. For older records, note-only corrections preserve existing
+evidence; changed actuals are conservatively unverified for new advancement.
+UI explains the missing original load; restore retains the old exact version.
+Do not invent an original target by copying the old actual load. This is a known
+backward-data limitation, not an attempted migration claiming unavailable facts.
+
+Documented the review 2 approved principles and implementation candidate in the
+review file, rules, coverage boundary, persistence and continuation instructions.
+Publication and physical Android review remain distinct checks.

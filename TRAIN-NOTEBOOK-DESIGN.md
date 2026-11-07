@@ -33,3 +33,12 @@ and journaled state/draft transaction remain authoritative.
   available equipment, and introduce no unconfirmed advanced skill practice.
 
 Implementation/test results and pending limitations are recorded in the log.
+
+## Legacy and lookahead limits
+
+Older records lacked the original prescribed load. Changed legacy actuals cannot
+be retroactively certified against an invented load; note-only corrections keep
+existing evidence and restore retains prior versions. New sessions store full rx.
+Lookahead is paged, without a two-week cutoff or mandatory weekday assignment.
+It uses current evidence/loads, not a hypothetical history of successful workouts.
+Future recovery availability and movement advancement remain explicitly provisional.

@@ -307,3 +307,28 @@ combination links never add or remove training prerequisites. All 31 lessons are
 readable regardless eligibility; 29 have exact corpus video links, two have
 explicit mapping gaps. Sources without reliable timestamps remain untimed.
 The programming philosophy and movement curriculum remain incomplete.
+
+## UX review 2 — written targets, actuals and corrections
+
+The notebook does not replace movement profiles. Duration fitting still preserves
+whole targets and prioritizes unfinished work; Pretty beat uses configured
+low-readiness reductions with no credit. Feeling great follows normal progression.
+Normal/adjusted plans, adjustment reasons and actual sets are retained separately.
+Provisional sequence previews do not fabricate qualifying exposures or future
+calendar dates. Eligibility is rechecked before starting the next recommended work.
+
+Prefilled values are not completed work. Explicit final confirmation affirms the
+non-skipped work and method-specific self-reports; partial confirmation includes
+only explicitly performed sets. Full get-up rep counts on each side are required.
+Timing never logs a set or certifies a skill. Actual rest/round deviations, skipped
+work, imbalances and incomplete targets cannot receive normal progression credit.
+Zero-work stopped sessions are history, not a skip to the next programmed day.
+
+Historical corrections replay actual records, preserve the written prescription
+and append prior versions. Queues are rebuilt and affected pending load selections
+withdrawn. Old actual workouts and intentional skill/recovery settings remain.
+New pain is not silently covered by a prior resolution of the same record key.
+
+Source #670 supports priming the session's patterns with familiar movements and
+available equipment. The notebook's timed gentle joint routine, rehearsal doses
+and cooldown are Strength Lab defaults, not a universal Wildman prescription.

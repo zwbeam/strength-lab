@@ -45,3 +45,11 @@ actual training gates from educational complexity/combination connections.
 Full get-up and push-up video coverage is partly programming rather than a
 complete technical tutorial. This interface milestone does not close missing
 curriculum systems or claim a complete Wildman philosophy.
+
+## UX review 2 integration boundary
+
+Train now opens the existing practical instruction in an overlay and displays the
+actual method (straight sets, round cadence, continuous bouts, total time) without
+flattening profiles. No new movement, prerequisite or curriculum system is claimed.
+Preparation follows #670's pattern-priming principle; doses/cooldown are app defaults.
+The 23-system statuses and known gaps above remain unchanged.

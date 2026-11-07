@@ -89,3 +89,58 @@ workout flow, Learn and offline reading. Earlier 401 notes describe the temporar
 blocker, not the final publication status. No physical Android testing or user
 approval of the new interface has occurred. Awaiting feedback on the questions
 above; do not start a new major redesign before that review.
+
+## Review 2 — approved commission: training notebook
+
+This commission authorizes the Train/history rebuild after review 1. Preserve
+Learn and the training engine. The user explicitly requests a persistent compact
+sticky timer; this supersedes review 1's nonsticky implementation candidate.
+
+Approved requirements: ordered cycle without mandatory weekdays; complete session
+preview; normal duration with one-session duration/readiness overrides; compact
+prefilled log with optional set editors; one explicit final affirmation; accurate
+partial work; instruction overlays; reversible historical corrections with
+progression reconciliation; offline/backup/atomic multi-tab reliability. Charcoal
+and teal identity, source distinctions, original production app and history stay.
+
+### Implemented candidate, awaiting Android review
+
+- Train opens an ordered current cycle, with recent records and navigable
+  provisional upcoming workouts. Future previews use current training evidence;
+  they do not promise automatic load/skill advancement. Only next recommended
+  work can start, so inspection cannot bypass recovery or prerequisites.
+- Selected session shows explicit collapsible preparation, complete prescriptions
+  and method/rest information. Actual engine adaptation is explained. Duration
+  override does not change Settings; Feeling great adds no extra work.
+- Active view is a single compact notebook. Targets are prefilled; Edit reveals
+  set-specific values, side differences, timing/rest, notes and add/remove/bulk
+  performed/unperformed controls. Optional checkoffs remain, never mandatory.
+- Sticky timer uses the prior repaired wall-clock controller and modes. Instruction
+  opens over the unchanged workout. No timer event claims performed physical work.
+- Final confirmation distinguishes completed targets/modifications and partial
+  work. A partial finish saves only explicitly performed sets. A completed finish
+  is a self-report of non-skipped sets, matching sides/cadence/continuous work
+  unless edited. Full get-up counts per side must still be entered, not invented.
+- Progress exposes set-level actuals and corrections with prior versions and a
+  restore action. Engine replay updates future targets and eligibility. Correction
+  withdraws affected pending load selections; it does not rewrite past workouts.
+- Preparation doses/cooldown are documented app defaults. #670 supports pattern
+  priming, not this exact routine. Learn/curriculum coverage is unchanged.
+
+### Evidence and review boundaries
+
+Pixel 5 Chromium touch acceptance passed: cycle inspection, 45→30/Pretty beat,
+real changed prescription, sticky elapsed countdown, instruction return, one
+confirmation, final-set edit, correction/replay/undo, backup and offline reload.
+Fault tests passed failed saves/corrections with rollback/retry, partial-draft
+restoration, add/remove sets and read-only second-tab protection. This establishes
+software behavior; it does not establish satisfactory UX or physical Android
+reliability. Additional existing long-history regressions/publication status are
+recorded in the development log and PREVIEW.md.
+
+Please review: Is the compact page readable? Are normal versus partial final
+confirmation and bulk unperformed controls unambiguous? Is timer visibility useful
+without covering work? Do instruction overlays return to the right place? Can you
+correct a set days later and understand its effect on the next workout?
+
+Pause for this feedback before a new major interface/workflow redesign.

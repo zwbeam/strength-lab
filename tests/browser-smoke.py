@@ -72,6 +72,7 @@ with sync_playwright() as playwright:
                 page.get_by_role('button', name='Pause', exact=True).click()
                 page.reload()
                 assert page.get_by_role('button', name='Resume', exact=True).count() == 1
+                page.locator('[data-editor]').evaluate_all('(els)=>els.forEach(el=>el.open=true)')
                 for checkbox in page.locator('[data-set$=":bothSides"]').all():
                     checkbox.check()
                 for button in page.locator('[data-check]').all():

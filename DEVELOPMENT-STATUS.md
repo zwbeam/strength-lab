@@ -3,6 +3,29 @@
 Continue on `development/reconciliation`; preserve commits, research and raw
 training data. No main merge, force-push, release or APK is authorized.
 
+## UX review 2 — Train notebook (2026-11-07)
+
+Architecture checkpoint `c482853`; integrated notebook `c0a36de`. Train now opens
+an ordered cycle, explicit full session preview and today-only duration/readiness
+adjustments. Compact prefilled active work, sticky timer, instruction overlays,
+optional set editors and one final affirmation preserve original versus actual
+work. Progress has reversible set-level corrections and history-driven replay.
+No new curriculum or replacement training method was introduced.
+
+127 named Node cases plus engine/legacy checks passed. Pixel 5 touch acceptance,
+rollback/retry, duplicate, partial draft recovery, offline correction, backup,
+Web Locks/stale writes and old-worker upgrades passed. Existing long histories
+passed source cycles, coordinated blocks, pathways, push-ups, ground and loaded
+hinge, including root/subpath smoke. Final publication verification is in progress. See the log for
+actual results. Physical Android remains unverified. The new preview is not
+claimed published until PREVIEW.md records public HTTPS verification.
+
+Review 2 supersedes the prior pause to authorize this rebuild. Pause for user
+feedback again once this milestone is delivered; do not begin a Learn redesign
+or another major workflow change. Future prescriptions remain provisional at
+current evidence/loads, not a promise of future automatic advancement. Exact
+preparation doses/cooldown are documented Strength Lab defaults.
+
 ## UX review 1 milestone (2026-11-06)
 
 Published review source: `7c6f2c0` at

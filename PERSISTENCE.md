@@ -110,3 +110,27 @@ This verifies GitHub recovery and the restored executor, not a new empty Codex
 task/snapshot or guaranteed persistence of future local edits. Keep pushing tested
 increments. A cloud status response can say running even when actual executor
 commands fail; shell/browser checks remain necessary. Main was not changed.
+
+## UX review 2 notebook records and historical corrections
+
+V33 keys and the existing writer lock/journal are unchanged. notebookVersion 1
+opts new drafts into variable actual set counts while leaving target rx immutable;
+legacy drafts retain their old validation and logged-only finish behavior. The
+normal plan, adjusted plan, adjustment reason, actual sets, final outcome and
+original method metadata are separate. Backup validation checks new actuals
+against derived credit and rejects malformed prior correction versions before
+replacement. Existing backups without these fields remain accepted.
+
+Corrections retain previous actuals/date/notes/outcome in an append-only audit.
+Restore appends another version. The engine replays records; queues are rebuilt
+and pending next-load choices for the corrected workout are withdrawn. Existing
+workouts, skill reports and reviewed recovery configuration are not erased.
+Only the current writer can correct; a loaded record also has an exact in-memory
+base comparison before save. Active workout history edits are deferred until the
+draft is finished/discarded so its written prescription stays stable.
+
+All correction/restore and final saves use the same paired transaction. Failed
+writes preserve prior state/draft and keep local editable work available for retry.
+New tests/notebook-failures.py covers actual failed finish/correction, partial reload,
+add/remove, duplicate prevention, offline corrections and read-only tabs. Existing
+backup, stale-write, ownership and old-worker upgrade regressions also passed.
