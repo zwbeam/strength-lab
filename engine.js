@@ -336,7 +336,7 @@ function completeRecord(rx,actual,quality,pain){
   return weak>=strong&&weak-strong<=1;
  });
  const exactIntensity=rx.sourceParameters===null||rx.sourceParameters===undefined||sets.length===rx.sets&&(totalTime||sets.every(x=>Number(x.reps)===rx.reps&&(rx.side!==2||Number(x.leftReps??x.reps)===rx.reps&&Number(x.rightReps??x.reps)===rx.reps)));
- const cadence=!rx.roundSeconds||sets.every(x=>x.timingValid===true);
+ const cadence=(!rx.roundSeconds||sets.every(x=>x.timingValid===true))&&sets.every(x=>(x.restSeconds===undefined||x.restSeconds===rx.rest)&&(x.roundSeconds===undefined||x.roundSeconds===(rx.roundSeconds||0))); 
  const continuous=!rx.continuous||sets.every(x=>x.continuous===true);
  const performed=cadence&&continuous&&!['review','prerequisite'].includes(rx.mode)&&sets.length>0&&sets.length>=rx.sets&&sets.every(valid)&&reps>=rx.reps&&sameLoad&&bilateral&&!['hard','breakdown','pain'].includes(quality)&&!pain;
  return{id:rx.id,name:rx.name,weight,bodyweight:!!MOVES[rx.id]?.bodyweight,unit:rx.unit,actualSets:sets.length,actualReps:reps,targetSets:rx.sets,targetReps:rx.reps,rest:rx.rest,quality,pain:!!pain,mode:rx.mode,policyKey:rx.policyKey||'legacy-v1',profile:rx.profile||'legacy',track:rx.track||'base',roundSeconds:rx.roundSeconds||null,continuous:!!rx.continuous,durationScope:rx.durationScope||null,weakSide:rx.weakSide||null,sourceIds:rx.sourceIds||[],sourceParameters:rx.sourceParameters??null,exposureTarget:rx.exposureTarget??2,performed,completed:performed&&quality==='clean'&&exactIntensity&&weight===Number(rx.weight)&&!['baseline','recovery','reentry','time-fit','review','rebuild','deload','prerequisite'].includes(rx.mode),sets:actual};
@@ -379,6 +379,7 @@ function validateProgramming(s){
 function validateDraft(d,s){
  if(d===undefined||d===null)return null;
  const object=x=>x&&typeof x==='object'&&!Array.isArray(x),number=x=>typeof x==='number'&&Number.isFinite(x)&&x>=0;
+ if(d.notebookVersion!==undefined&&d.notebookVersion!==1)throw Error('Unsupported notebook draft');
  if(!object(d)||!['warmup','work','cooldown'].includes(d.stage)||typeof d.date!=='string'||!/^\d{4}-\d{2}-\d{2}$/.test(d.date)||typeof d.started!=='string'||!Number.isFinite(Date.parse(d.started))||!object(d.plan)||!object(d.plan.day)||typeof d.plan.day.name!=='string'||!object(d.plan.budget)||!number(d.plan.cap)||!Array.isArray(d.plan.items)||!d.plan.items.length||!Array.isArray(d.items)||d.items.length!==d.plan.items.length)throw Error('Invalid workout draft');
  timeBudget(d.plan.budget.total);
  for(const key of ['warmup','cooldown','main'])if(!number(d.plan.budget[key]))throw Error('Invalid draft budget');
@@ -388,14 +389,16 @@ function validateDraft(d,s){
  if(d.plan.block!==undefined&&!Object.hasOwn(BLOCKS,d.plan.block))throw Error('Invalid draft block');
  for(let i=0;i<d.items.length;i++){
   const rx=d.plan.items[i],item=d.items[i],m=MOVES[rx?.id];
-  if(!object(rx)||!Object.hasOwn(MOVES,rx.id)||rx.name!==m.name||rx.unit!==m.unit||rx.side!==m.side||!Number.isInteger(rx.sets)||rx.sets<1||rx.sets>200||!Number.isInteger(rx.reps)||rx.reps<1||!number(rx.weight)||!number(rx.rest)||!object(item)||item.id!==rx.id||!['clean','minor','hard','breakdown','pain'].includes(item.quality)||typeof item.pain!=='boolean'||!Array.isArray(item.sets)||item.sets.length!==rx.sets)throw Error('Invalid draft prescription');
+  if(!object(rx)||!Object.hasOwn(MOVES,rx.id)||rx.name!==m.name||rx.unit!==m.unit||rx.side!==m.side||!Number.isInteger(rx.sets)||rx.sets<1||rx.sets>200||!Number.isInteger(rx.reps)||rx.reps<1||!number(rx.weight)||!number(rx.rest)||!object(item)||item.id!==rx.id||!['clean','minor','hard','breakdown','pain'].includes(item.quality)||typeof item.pain!=='boolean'||!Array.isArray(item.sets)||(d.notebookVersion===1?item.sets.length>200:item.sets.length!==rx.sets))throw Error('Invalid draft prescription');
   if(m.bodyweight&&rx.weight!==0)throw Error('Invalid bodyweight draft');
   if(rx.profile!==undefined&&!availableProfiles(rx.id).includes(rx.profile))throw Error('Invalid draft profile');
   if(rx.profile!==undefined){const policy=policyFor(rx.id,s);if(rx.profile!==policy.profile||rx.policyKey!==undefined&&rx.policyKey!==policy.key||!!rx.bodyweight!==!!m.bodyweight||!!rx.continuous!==policy.continuous||(rx.durationScope||null)!==policy.durationScope||(rx.roundSeconds||null)!==policy.roundSeconds)throw Error('Draft does not match its programming');}
   if(rx.sourceIds!==undefined&&(!Array.isArray(rx.sourceIds)||rx.sourceIds.some(id=>!Number.isInteger(id)||id<0||id>719)))throw Error('Invalid draft sources');
   for(const set of item.sets){
    if(!object(set)||!number(set.weight)||!Number.isInteger(set.reps)||set.reps<0||typeof set.done!=='boolean'||m.bodyweight&&set.weight!==0)throw Error('Invalid draft set');
-   for(const key of ['bothSides','continuous','timingValid'])if(set[key]!==undefined&&typeof set[key]!=='boolean')throw Error('Invalid draft confirmation');
+   for(const key of ['bothSides','continuous','timingValid','skipped'])if(set[key]!==undefined&&typeof set[key]!=='boolean')throw Error('Invalid draft confirmation');
+   for(const key of ['restSeconds','roundSeconds'])if(set[key]!==undefined&&!number(set[key]))throw Error('Invalid actual timing');
+   if(set.note!==undefined&&typeof set.note!=='string')throw Error('Invalid actual note');
    for(const key of ['leftReps','rightReps'])if(set[key]!==undefined&&(!Number.isInteger(set[key])||set[key]<0))throw Error('Invalid draft side counts');
   }
  }

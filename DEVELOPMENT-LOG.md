@@ -528,3 +528,19 @@ satisfy the test. Research checks pass all 30 existing rule quotes/hashes and th
 Generated learning assets reproduce byte-identically. Final notes and public
 countdown/pathway regression are a documentation/testing follow-up; the deployed
 application source remains 7c6f2c0. No unfinished implementation remains locally.
+
+## 2026-11-07 — UX review 2, notebook architecture checkpoint
+
+Verified clean development branch at remote 062767c and inspected Train, timer,
+engine replay, transaction/lock guards, draft validation and the existing tests.
+Read the development/status/continuation/coverage/rules/review documents and full
+warm-up overview #670. Reviewed existing movement-specific profiles rather than
+replacing their methods. TRAIN-NOTEBOOK-DESIGN.md records boundaries.
+
+Added pure notebook actuals/adjustment/outlook/correction functions. New draft
+shape is opt-in and backward compatible; actual set count can differ from target.
+Actual interval/rest edits deny credit. Corrections preserve previous versions,
+rebuild queues and clear stale pending load choices. Nine new tests and every
+existing Node suite passed. This is an architecture checkpoint: browser UI,
+correction import validation and deployment remain unfinished; continue directly
+with the commissioned interface and integration tests.
