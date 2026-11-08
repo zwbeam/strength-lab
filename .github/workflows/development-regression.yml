@@ -46,11 +46,13 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - name: Install Chromium and Playwright driver
+      - name: Install Playwright Chromium and browser dependencies
         run: |
-          sudo apt-get update
-          sudo apt-get install -y chromium
           python -m pip install playwright
+          python -m playwright install --with-deps chromium
+          CHROMIUM_BIN="$(python -c 'from playwright.sync_api import sync_playwright; p=sync_playwright().start(); print(p.chromium.executable_path); p.stop()')"
+          test -x "$CHROMIUM_BIN"
+          sudo ln -s "$CHROMIUM_BIN" /usr/bin/chromium
       - name: UX3 touch acceptance
         run: python tests/ux3-review.py
       - name: UX3 storage failure, rollback and multi-tab
