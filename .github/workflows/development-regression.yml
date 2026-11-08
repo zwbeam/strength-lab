@@ -36,3 +36,22 @@ jobs:
             node --test "${suite}"
             echo '::endgroup::'
           done
+
+  mobile-browser:
+    name: UX3 Pixel 5 browser acceptance and failure recovery
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install Chromium and Playwright driver
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y chromium
+          python -m pip install playwright
+      - name: UX3 touch acceptance
+        run: python tests/ux3-review.py
+      - name: UX3 storage failure, rollback and multi-tab
+        run: python tests/ux3-failures.py
