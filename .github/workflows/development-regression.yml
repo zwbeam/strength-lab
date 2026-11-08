@@ -57,6 +57,14 @@ jobs:
         run: python tests/ux3-review.py
       - name: UX3 storage failure, rollback and multi-tab
         run: python tests/ux3-failures.py
+      - name: Preserve Android-sized acceptance screenshot
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ux3-mobile-review-screenshot
+          path: /tmp/strength-ux3-review.png
+          if-no-files-found: ignore
+          retention-days: 14
 
   source-provenance:
     name: Research mappings and publication safety
