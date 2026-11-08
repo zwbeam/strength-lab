@@ -55,3 +55,30 @@ jobs:
         run: python tests/ux3-review.py
       - name: UX3 storage failure, rollback and multi-tab
         run: python tests/ux3-failures.py
+
+  preview-candidate:
+    name: Build isolated DEV preview candidate
+    needs: [node-regression, mobile-browser]
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Build exact tested commit with separate browser data
+        shell: bash
+        run: |
+          set -euo pipefail
+          python scripts/build-preview.py --output "$RUNNER_TEMP/strength-lab-dev" --ref HEAD
+          grep -q 'Development preview' "$RUNNER_TEMP/strength-lab-dev/index.html"
+          grep -q 'sl-dev-preview-data-v33' "$RUNNER_TEMP/strength-lab-dev/app.js"
+          ! grep -q "strengthlab-data-v33" "$RUNNER_TEMP/strength-lab-dev/app.js"
+          echo "$GITHUB_SHA" > "$RUNNER_TEMP/strength-lab-dev/SOURCE-COMMIT.txt"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: strength-lab-dev-candidate
+          path: ${{ runner.temp }}/strength-lab-dev/
+          retention-days: 14
