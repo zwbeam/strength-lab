@@ -1,0 +1,38 @@
+name: Strength Lab development regression
+
+on:
+  push:
+    branches:
+      - development/reconciliation
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  node-regression:
+    name: Pure engine, calendar, notebook and timer tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Show source checkpoint
+        run: git log -1 --format='%h %s'
+      - name: Run every root Node test suite
+        shell: bash
+        run: |
+          shopt -s nullglob
+          suites=( *.test.cjs )
+          if (( ${#suites[@]} == 0 )); then
+            echo 'No root Node suites found' >&2
+            exit 1
+          fi
+          printf 'Running %s suite(s): %s\n' "${#suites[@]}" "${suites[*]}"
+          for suite in "${suites[@]}"; do
+            echo "::group::${suite}"
+            node --test "${suite}"
+            echo '::endgroup::'
+          done
