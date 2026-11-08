@@ -1,3 +1,23 @@
+# UX review 3 — recovery continuation (2026-11-08)
+
+IMPORTANT: UX3 application code was already committed before the Codex remote turn failed. Do not restart UX3 implementation from scratch. GitHub comparison from e7a6a58 to development/reconciliation showed committed changes to app.js, engine.js, rolling-calendar.js, session-timer.js, programming-education.js, source rules, and new UX3 browser/failure tests. The prior UX2 continuation text below is historical, not the current work order.
+
+Latest completed documentation checkpoint before this note: 5fee13b (UX3 user-approved requirements). Consult current branch HEAD; never assume this document's SHA remains latest.
+
+DEVELOPMENT-LOG.md records UX3 calendar/UI integration and a successful Pixel 5 end-to-end acceptance, including activity replacement, pauses, timer, historical corrections, backup and offline. It explicitly leaves legacy UI regressions, remaining long histories and preview publication pending. Do not claim all tests passed or that the new preview is live. Existing public preview is the prior UX2 source 1e32b29 until a newer build is verified.
+
+Immediate next steps:
+1. Verify current branch HEAD and review changes since e7a6a58, including tests and code for the new rolling-calendar and pause/activity behavior.
+2. Run remaining legacy DOM/browser tests, long histories, source/provenance and storage regressions. Fix genuine failures; update obsolete UI selectors/fixtures only when old controls were intentionally removed.
+3. Test timer, date shifts, beginner spacing, manual moves, activity editing, pause/resume and partial-work integrity under reload/offline/multi-tab conditions.
+4. Finish integration checks, update documentation and run isolated preview publisher for the exact tested source commit. Verify actual public HTTPS build, assets and identity. Never modify main/production or create APK.
+5. Request physical Android review. Only then plan next UX adjustments.
+6. Continue transcript integration from research/review-checkpoint.json and RESEARCH-INTEGRATION-AUDIT.md. 720 is the reconciled inventory, NOT 720 fully manually reviewed. The historical 504/720 total is unverified by the available ledger; retain uncertainty. New anchored close-read batch #404, #606, #515, #527 has been integrated in specific limited ways. Do not overwrite source provenance or manufacture further review counts.
+
+Preserve V33 local data, journal, Web Lock, reversible history corrections, prescription-vs-actual separation and incomplete-work carry-forward. No force pushes, production changes, merge, release or APK.
+
+---
+
 # UX review 2 — Train notebook review checkpoint
 
 Continue from the latest origin/development/reconciliation. Preserve all history.
