@@ -10,7 +10,7 @@ function pause(s,now){return E.trainingPaused(s,now);}
 function project(s,now,end=add(now,83),opts={}){
  const entries=[],days=s.trainingPreferences?.daysPerWeek||3,virtual=JSON.parse(JSON.stringify(s)),planned=[],history=s.sessions.filter(x=>x.date<=now&&(x.items||[]).some(y=>y.actualSets>0)).sort((a,b)=>a.date.localeCompare(b.date)),last=history.at(-1)?.date;
  let cursor=[now,s.resumeDate||now,s.paused&&s.pauseUntil||now,last?add(last,Math.max(1,Math.floor(7/days))):now].sort().at(-1),i=0,remaining=virtual.programComposition?.blocks?.slice();
- if(s.calendarMoves?.[key(s)])cursor=[now,s.resumeDate||now,s.paused&&s.pauseUntil||now,s.calendarMoves[key(s)]].sort().at(-1);
+ if(s.calendarMoves?.[key(s)])cursor=[cursor,s.calendarMoves[key(s)]].sort().at(-1);
  if(pause(s,now)&&!s.pauseUntil)return entries;
  for(let attempts=0;cursor<=end&&attempts<180;attempts++,cursor=add(cursor,1)){
   if(pause(s,cursor))continue;
