@@ -154,3 +154,21 @@ passed complete adjustment/timer/log/history correction/replay/backup/offline fl
 and all 80 runtime assets. Original main/Pages/live file fingerprints unchanged.
 127 named Node cases, existing browser/history/failure regressions and source
 checks passed. User/physical Android approval remains outstanding. Pause here.
+
+
+## UX review 3 — user-approved direction (2026-11-08; implementation pending)
+
+This section supersedes UX review 2's screen layout decisions, but not its data integrity, evidence, or test safeguards. User reports the live DEV Train, Progress, Learn and Settings are cluttered. Do not describe UX review 3 as implemented until code and mobile tests establish it.
+
+- Train: replace current movement progress and recently recorded panels with a clear one-week, seven-day calendar. Show scheduled strength sessions and recovery days; missing a day shifts the ordered unfinished workout queue rather than skipping a workout. Calendar dates are planning targets, not completion requirements. Provide previous/next week and allow planning ahead. Tetris-inspired scheduling must respect recovery and actual activity, not just relabel dates.
+- Selecting a calendar workout opens a compact prescription immediately below, visually distinct from the calendar. Preserve working session-only time available and readiness adaptations, including Pretty beat, without modifying defaults.
+- Active workout: high-contrast persistent timer; for ordinary untimed repetition work, emphasize user-started rest countdown, ending with 3–2–1 and audible/visible signal. Retain genuine timed protocols. Remove confusing optional set checkoffs from primary interface. One movement editor expanded at a time, automatically closing previous editor without losing edits. Standard set row: set number, weight, reps, rest; last set includes transition/rest to next movement. Show method-specific fields only when needed. Finish Workout should save in one action without redundant routine confirmation; protect partial-completion evidence.
+- Progress: understandable chronological completed-work/activity table with straightforward historical correction; movement progress and working weights live here rather than Train or primary Settings. No internal/test-batch jargon.
+- Learn: Fundamentals, Complexity, Programming; explicitly explain Tetris of Training, nerd math, cycles, progression, recovery and how the current program works, with verified transcript anchors and no fabricated attribution.
+- Settings: guided essentials for available equipment, preferred training days/week, normal session duration, and enabled activity types. Advanced timer, backups, technical options secondary. Move movement inventory and working weights out of primary setup.
+- Flexible activity: cycling types mountain, gravel, road, indoor; also hiking, trail building and other physical labor. Plan or log activity from Train with duration and effort, optional detail. An activity replacing a strength slot always shuffles that strength workout forward; never grants strength completion/progression. Account conservatively for fatigue/recovery, avoiding false equivalence.
+- Pause Training: manual or date/duration pause freezes ordered workout queue, permits activity logging, then resumes next unfinished workout with a cautious return-to-training assessment. No catch-up backlog.
+- Transcript integration is a parallel evidence-grounded workstream: verify current inventory/checkpoint first; preserve numerical doses, qualifications, and explicit-versus-inferred-versus-app-default provenance. Connect reviewed source material to real engine rules and Learn, not just summaries. Do not claim unreviewed sources integrated.
+- Continue only on development/reconciliation; do not touch main/production, merge, release or build APK. Preserve backups, storage migrations, correction history, multi-tab safety, and actual-work progression. Commit verified increments and obtain physical Android feedback.
+
+Next implementation order: audit current branch/deployment and existing code; calendar and simplified Train; flexible activity and pause scheduling; Progress/Settings; Learn/source integration; regression + browser verification; isolated DEV publication and user review.
