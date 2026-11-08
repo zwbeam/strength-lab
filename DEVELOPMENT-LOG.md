@@ -642,3 +642,20 @@ Future prescriptions remain conditional on actual evidence; changed legacy work
 cannot recover an unrecorded original load. Review instructions and limitations
 are in USER-EXPERIENCE-REVIEW.md, PREVIEW.md and NEXT-CONTINUATION.md. Stop for
 user feedback before the next major redesign; no user setup/publication is needed.
+
+## 2026-11-08 — UX review 3 audit and scheduling checkpoint
+
+Verified remote e7a6a58 and DEV source 1e32b29. Runtime shell/GitHub/Node work.
+Audited existing policies, V33 journal/lock, notebook actuals and source ledgers.
+RESEARCH-INTEGRATION-AUDIT.md distinguishes inventory from full manual review;
+no available ledger proves the historical 504/720 total. Reused all existing
+anchors and added close-read #404/#606/#515/#527 with exact evidence and explicit
+qualifications. The #281 partial-review claim remains unresolved, not overwritten.
+
+Implemented pure rolling opportunities with stable next-work identity, preferred
+frequency, manual not-before moves, displacement by activities, recovery and
+indefinite/date pause. Activities remain separate from strength evidence and have
+validated reversible edits. Source #404 beginner-repeat spacing is opt-in in the
+actual engine; activity buffers are documented app defaults. Six new pure tests
+and all existing Node suites passed. UI, audio, education and public deployment
+are still pending; continue directly with the commissioned implementation.

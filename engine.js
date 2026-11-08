@@ -257,6 +257,21 @@ const BLOCKS={
 const DEMANDS={ground:['lower','shoulder'],getup:['lower','shoulder','grip'],hinge:['lower','grip'],squat:['lower'],press:['shoulder','grip'],pull:['shoulder','grip'],carry:['grip'],rotation:['shoulder','grip']};
 function movementDemands(id){return [...(DEMANDS[MOVES[id]?.family]||[])];}
 function calendarDay(value){const text=typeof value==='string'&&/^\d{4}-\d{2}-\d{2}$/.test(value)?value:new Date(value??Date.now()).toLocaleDateString('sv-SE');return Date.parse(text+'T12:00:00Z')/86400000;}
+function trainingPaused(s,now){const day=typeof now==='string'?now:new Date(now??Date.now()).toLocaleDateString('sv-SE');return !!s.paused&&(!s.pauseUntil||day<s.pauseUntil);}
+function activityRecovery(a){
+ // Conservative app planning heuristic, not physiological or strength equivalence.
+ if(a.effort==='hard')return 2;
+ if(a.effort==='moderate')return ['trail','labor'].includes(a.type)&&a.duration>=60||a.type==='mountain'&&a.duration>=90?2:1;
+ return a.duration>=120?1:0;
+}
+function validateActivity(a){
+ const types=['mountain','gravel','road','indoor','hiking','trail','labor','other'];
+ if(!a||typeof a!=='object'||typeof a.id!=='string'||!a.id||!types.includes(a.type)||!['planned','completed'].includes(a.status)||!['easy','moderate','hard'].includes(a.effort)||!Number.isFinite(a.duration)||a.duration<=0||a.duration>1440||typeof a.date!=='string'||!/^\d{4}-\d{2}-\d{2}$/.test(a.date)||!Number.isFinite(Date.parse(a.date+'T12:00:00Z'))||new Date(a.date+'T12:00:00Z').toISOString().slice(0,10)!==a.date)throw Error('Invalid activity');
+ for(const key of ['distance','elevation'])if(a[key]!==undefined&&(!Number.isFinite(a[key])||a[key]<0))throw Error('Invalid activity measurement');
+ if(a.notes!==undefined&&typeof a.notes!=='string'||a.replacesStrength!==undefined&&typeof a.replacesStrength!=='boolean')throw Error('Invalid activity details');
+ if(a.versions!==undefined){if(!Array.isArray(a.versions)||a.versions.length>1000)throw Error('Invalid activity versions');for(const v of a.versions){if(!v||typeof v.at!=='string'||!Number.isFinite(Date.parse(v.at))||v.before?.versions!==undefined)throw Error('Invalid activity version');validateActivity(v.before);}}
+ return a;
+}
 function blockPlan(s,opts={}){
  const block=s.programBlock||'abc';if(!BLOCKS[block])throw Error('Unknown program block');
  const days=BLOCKS[block].days,slot=(s.sessions||[]).filter(x=>x.slot!==undefined&&(x.block||'abc')===block&&(x.notebookVersion!==1||(x.items||[]).some(y=>y.actualSets>0))).length%days.length,day=days[slot];
@@ -271,7 +286,7 @@ function blockPlan(s,opts={}){
  const restDay=!alreadyToday&&trainingDays.size>=(defaults.maxTrainingDays??6);
  for(const id of ids){
   if(!MOVES[id])continue;
-  if(s.paused){deferred.push(id);continue;}
+  if(trainingPaused(s,opts.now)){deferred.push(id);continue;}
   if(Array.isArray(s.equipment?.[MOVES[id].gear])&&!s.equipment[MOVES[id].gear].length){unavailable.push(id);deferred.push(id);continue;}
   if(stateFor(s,id).hold){held.push(id);deferred.push(id);continue;}
   const rx=prescription(s,id,opts);
@@ -279,12 +294,14 @@ function blockPlan(s,opts={}){
   const demands=movementDemands(id);
   const recent=history.some(x=>today-calendarDay(x.date)<(defaults.minGapDays??0)&&(x.items||[]).some(y=>y.actualSets>0&&MOVES[y.id]&&movementDemands(y.id).some(d=>demands.includes(d))));
   const isHard=rx.track==='heavy'||rx.profile==='grind'||rx.mode==='density';
-  if(restDay||recent||(isHard&&opts.avoidHard)||(isHard&&hard>=(defaults.maxHardMovements??3))){scheduled.push(id);deferred.push(id);continue;}
+  const outside=(s.activities||[]).some(a=>a.status==='completed'&&calendarDay(a.date)<=today&&(today-calendarDay(a.date)<activityRecovery(a)||a.replacesStrength!==false&&today===calendarDay(a.date)));
+  const repeat=s.trainingPreferences?.beginnerSpacing&&history.some(x=>today-calendarDay(x.date)<2&&(x.items||[]).some(y=>y.id===id&&y.actualSets>0));
+  if(outside||repeat||restDay||recent||(isHard&&opts.avoidHard)||(isHard&&hard>=(defaults.maxHardMovements??3))){scheduled.push(id);deferred.push(id);continue;}
   const cost=minutesFor(rx)+(items.length?(items.at(-1).betweenExercises||0)/60:0);
   if(used+cost>budget.main+1e-8){deferred.push(id);continue;}
   items.push(rx);used+=cost;if(isHard)hard++;
  }
- return{block,slot,day,support,items,deferred,held,unavailable,prerequisite,requirements,scheduled,restDay,paused:!!s.paused,estimated:Math.ceil(used),total:Math.ceil(used)+budget.warmup+budget.cooldown,reentry:items.some(x=>x.mode==='reentry'),cap:budget.main,budget};
+ return{block,slot,day,support,items,deferred,held,unavailable,prerequisite,requirements,scheduled,restDay,paused:trainingPaused(s,opts.now),estimated:Math.ceil(used),total:Math.ceil(used)+budget.warmup+budget.cooldown,reentry:items.some(x=>x.mode==='reentry'),cap:budget.main,budget};
 }
 // Coordinate independent blocks across workouts; never blend their numeric protocols.
 function plan(s,opts={}){
@@ -361,6 +378,11 @@ function describeProgression(id,s={}){
 function validWorkingWeight(id,value){const weight=Number(value);return Number.isFinite(weight)&&(MOVES[id]?.bodyweight?weight===0:weight>0);}
 function retestPushup(s,baseline){const current=s.programming?.pushup||{};return configureMovement(s,'pushup',{...current,profile:'pushup',cleanBaseline:baseline,cycleRevision:(current.cycleRevision||0)+1});}
 function validateProgramming(s){
+ if(s.trainingPreferences!==undefined){const p=s.trainingPreferences;if(!p||typeof p!=='object'||!Number.isInteger(p.daysPerWeek)||p.daysPerWeek<1||p.daysPerWeek>7||p.beginnerSpacing!==undefined&&typeof p.beginnerSpacing!=='boolean'||p.activityTypes!==undefined&&(!Array.isArray(p.activityTypes)||p.activityTypes.some(x=>!['mountain','gravel','road','indoor','hiking','trail','labor','other'].includes(x))))throw Error('Invalid training setup');}
+ for(const key of ['pauseUntil','resumeDate','pauseStarted'])if(s[key]!==undefined&&s[key]!==null&&(typeof s[key]!=='string'||!/^\d{4}-\d{2}-\d{2}$/.test(s[key])||!Number.isFinite(Date.parse(s[key]+'T12:00:00Z'))||new Date(s[key]+'T12:00:00Z').toISOString().slice(0,10)!==s[key]))throw Error('Invalid pause date');
+ if(s.calendarMoves!==undefined){if(!s.calendarMoves||typeof s.calendarMoves!=='object'||Array.isArray(s.calendarMoves))throw Error('Invalid calendar moves');for(const [key,value] of Object.entries(s.calendarMoves))if(key.length>300||typeof value!=='string'||!/^\d{4}-\d{2}-\d{2}$/.test(value)||!Number.isFinite(Date.parse(value+'T12:00:00Z'))||new Date(value+'T12:00:00Z').toISOString().slice(0,10)!==value)throw Error('Invalid moved date');}
+ if(s.activities!==undefined){if(!Array.isArray(s.activities))throw Error('Invalid activities');const ids=new Set();for(const a of s.activities){validateActivity(a);if(ids.has(a.id))throw Error('Duplicate activity');ids.add(a.id);}}
+
  const object=x=>x&&typeof x==='object'&&!Array.isArray(x);
  for(const [id,weight] of Object.entries({...s.weights,...s.nextWeights}))if(MOVES[id]?.bodyweight&&weight!==0)throw Error('Bodyweight profiles use zero external load');
  if(s.learnedMovements!==undefined&&(!object(s.learnedMovements)||Object.entries(s.learnedMovements).some(([id,value])=>!Object.hasOwn(MOVES,id)||typeof value!=='boolean')))throw Error('Invalid learning confirmation');
@@ -481,5 +503,5 @@ function validateBackup(input){
  const workoutDraft=validateDraft(input.workoutDraft,input);
  return {...input,workoutDraft,nextWeights:input.nextWeights||{},defaultMinutes:input.defaultMinutes??45,deferredIds:input.deferredIds||[]};
 }
-return{MOVES,SKILLS,DAYS,BLOCKS,LOADS,PROFILE_NAMES,describeProgression,policyFor,availableProfiles,configureMovement,practiceEvidence,supportingMoves,requirementLabel,prerequisites,chooseCycle,loadOptions,selectLoad,retestPushup,validWorkingWeight,validateProgramming,validateDraft,validateBackup,records,successful,stateFor,prescription,minutesFor,timeBudget,plan,completeRecord,nextRest,deferredAfter,resolvePain,movementGap,movementDemands};
+return{trainingPaused,activityRecovery,validateActivity,MOVES,SKILLS,DAYS,BLOCKS,LOADS,PROFILE_NAMES,describeProgression,policyFor,availableProfiles,configureMovement,practiceEvidence,supportingMoves,requirementLabel,prerequisites,chooseCycle,loadOptions,selectLoad,retestPushup,validWorkingWeight,validateProgramming,validateDraft,validateBackup,records,successful,stateFor,prescription,minutesFor,timeBudget,plan,completeRecord,nextRest,deferredAfter,resolvePain,movementGap,movementDemands};
 });

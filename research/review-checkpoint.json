@@ -1,0 +1,50 @@
+{
+  "version": 1,
+  "date": "2026-11-08",
+  "authoritative_base": "e7a6a58",
+  "inventory": 720,
+  "inventory_scope": "All full texts mechanically reconciled/screened, not 720 full manual reviews.",
+  "preexisting_rule_anchors": 30,
+  "rule_anchors_after_batch": 34,
+  "full_manual_review_total": null,
+  "historical_504_of_720": "Not substantiated by an available per-source review ledger; do not promote inventory status to full review.",
+  "new_close_read_integrated_batch": [
+    {
+      "id": 404,
+      "rule": "tetris-beginner-repeat",
+      "status": "full text close-read; integrated into engine or runtime education",
+      "behavior": "Opt-in beginner same-movement recovery check in actual prescriptions and projected opportunities."
+    },
+    {
+      "id": 606,
+      "rule": "tetris-implements",
+      "status": "full text close-read; integrated into engine or runtime education",
+      "behavior": "Programming education explains independent implement cycles/heavy-light tradeoffs."
+    },
+    {
+      "id": 515,
+      "rule": "movement-specific-math",
+      "status": "full text close-read; integrated into engine or runtime education",
+      "behavior": "Untimed rep work uses user-started rest, while genuine timed methods remain distinct; Programming math explains differences."
+    },
+    {
+      "id": 527,
+      "rule": "walking-time-example",
+      "status": "full text close-read; integrated into engine or runtime education",
+      "behavior": "Duration-based activity history and education, with no strength-equivalent volume."
+    }
+  ],
+  "verification_queue": [
+    {
+      "id": 281,
+      "status": "Historical partially reviewed July 7 Q&A claim; exact reviewed boundary unavailable. Not marked complete."
+    }
+  ],
+  "unresolved": [
+    "complete all-source manually reviewed ledger",
+    "full seven-family club curriculum",
+    "complete Tetris/mace/endurance physiological model",
+    "direct cycling recovery source support",
+    "cooldown #404 numerical recommendation versus shorter existing app defaults"
+  ]
+}
