@@ -10,3 +10,16 @@ test('long paused absence reduces the actual return session, including newly rot
 test('a stopped calendar workout retains its identity and carries only unfinished work before later days',()=>{const x=s(),p=E.plan(x,{now:'2026-11-08'}),records=p.items.map((rx,i)=>E.completeRecord(rx,Array.from({length:rx.sets},()=>({done:i===0,reps:rx.reps,weight:rx.weight,bothSides:true})),'clean',false));x.sessions.push({id:'partial',calendarVersion:1,notebookVersion:1,date:'2026-11-08',block:p.block,slot:p.slot,title:p.day.name,items:records});x.deferredByBlock={[p.block]:E.deferredAfter(p,records)};const next=E.plan(x,{now:'2026-11-11'});assert.equal(next.slot,0);assert.ok(next.day.name.includes('remaining'));assert.ok(!next.items.some(r=>r.id===p.items[0].id));assert.equal(C.key(x),'abc:0');});
 test('unconfirmed past planned activities are not fabricated recovery evidence',()=>{let x=s();x=C.activity(x,{id:'planned',date:'2026-11-08',type:'road',duration:90,effort:'hard',status:'planned',replacesStrength:true});assert.equal(C.project(x,'2026-11-09')[0].date,'2026-11-09');assert.equal(x.activities[0].status,'planned');assert.ok(E.plan(x,{now:'2026-11-09'}).items.length);});
 test('a today-only readiness/time override can make an opportunity fit without rewriting future defaults',()=>{const x=s();x.defaultMinutes=15;x.programBlock='pushup';x.programming={pushup:{profile:'pushup',cleanBaseline:10,fraction:.4}};x.skills={pushupTechnique:true};const before=x.defaultMinutes;const p=C.project(x,'2026-11-08',undefined,{minutes:30,readiness:'low'});assert.ok(p.length);assert.equal(p[0].date,'2026-11-08');assert.equal(p[0].plan.budget.total,30);assert.ok(p[0].plan.items.every(y=>y.mode==='recovery'));assert.equal(x.defaultMinutes,before);});
+
+test('manually moved workout cannot bypass recovery floor from the last completed session',()=>{
+ const x=s(),p=E.plan(x,{now:'2026-11-08'});
+ assert.ok(p.items.length);
+ const records=p.items.map(rx=>E.completeRecord(rx,Array.from({length:rx.sets},()=>({done:true,reps:rx.reps,weight:rx.weight,bothSides:true})),'clean',false));
+ x.sessions.push({id:'completed',calendarVersion:1,notebookVersion:1,date:'2026-11-08',block:p.block,slot:p.slot,title:p.day.name,items:records});
+ const key=C.key(x);
+ const moved=C.reschedule(x,key,'2026-11-09','2026-11-09');
+ const upcoming=C.project(moved,'2026-11-09');
+ assert.ok(upcoming.length);
+ assert.ok(upcoming[0].date>='2026-11-10','a manual move cannot advance the workout before the existing recovery floor');
+ assert.equal(upcoming[0].key,key);
+});
