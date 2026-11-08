@@ -53,11 +53,10 @@ jobs:
           CHROMIUM_BIN="$(python -c 'from playwright.sync_api import sync_playwright; p=sync_playwright().start(); print(p.chromium.executable_path); p.stop()')"
           test -x "$CHROMIUM_BIN"
           echo "Using Playwright Chromium at $CHROMIUM_BIN"
-          if [ -e /usr/bin/chromium ]; then
-            echo "Existing Chromium launcher: $(readlink -f /usr/bin/chromium)"
-          else
-            sudo ln -s "$CHROMIUM_BIN" /usr/bin/chromium
-          fi
+          # The browser tests intentionally launch /usr/bin/chromium.
+          # Point that path to the exact Playwright-managed browser on this disposable runner.
+          sudo ln -sfn "$CHROMIUM_BIN" /usr/bin/chromium
+          test "$(readlink -f /usr/bin/chromium)" = "$CHROMIUM_BIN"
       - name: UX3 touch acceptance
         run: python tests/ux3-review.py
       - name: UX3 storage failure, rollback and multi-tab
