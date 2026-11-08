@@ -56,9 +56,23 @@ jobs:
       - name: UX3 storage failure, rollback and multi-tab
         run: python tests/ux3-failures.py
 
+  source-provenance:
+    name: Research mappings and publication safety
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Verify runtime source anchors
+        run: python tests/programming-education.py
+      - name: Verify publisher rejects unsafe targets
+        run: python tests/preview-publisher.py
+
   preview-candidate:
     name: Build isolated DEV preview candidate
-    needs: [node-regression, mobile-browser]
+    needs: [node-regression, mobile-browser, source-provenance]
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
