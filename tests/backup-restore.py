@@ -16,13 +16,13 @@ try:
   page=browser.new_page();page.add_init_script('window.testAlerts=[];window.alert=message=>window.testAlerts.push(String(message));')
   page.on('dialog',lambda d:d.accept());errors=[];page.on('pageerror',lambda e:errors.append(str(e)))
   page.goto(f'http://127.0.0.1:{server.server_port}/')
-  def settings():page.locator('[data-tab="settings"]').click()
+  def settings():page.locator('[data-tab="settings"]').click();(page.locator('#advanced-settings').evaluate('(el)=>el.open=true') if page.locator('#advanced-settings').count() else None)
   def snapshot():return page.evaluate('({state:localStorage.getItem("strengthlab-data-v33"),draft:localStorage.getItem("strengthlab-draft-v33")})')
   def import_file(payload,name):
    page.evaluate('testAlerts=[]')
    page.locator('#import').set_input_files({'name':name,'mimeType':'application/json','buffer':json.dumps(payload).encode()})
   settings();page.locator('#timer-mode').select_option('automatic');page.locator('#save-timer-mode').click();page.locator('#program-block').select_option('hingePractice');page.get_by_text('Prerequisite skills',exact=True).click();page.locator('[data-skill="hingePattern"]').check();page.locator('#save-programming').click()
-  page.locator('[data-tab="today"]').click();page.locator('#start').click();page.get_by_role('button',name='Warmup complete · start work').click();page.locator('[data-editor],details#workout-focus').evaluate_all('(els)=>els.forEach(el=>el.open=true)');page.locator('#workout-focus').evaluate('(el)=>el.open=true');page.get_by_role('button',name='Complete next set').click();page.get_by_role('button',name='Pause',exact=True).click()
+  page.locator('[data-tab="today"]').click();page.locator('#start').click();page.locator('[data-stage="work"]').click();page.locator('[data-editor],.partial-set,.method-fields,.notebook-exercise details').evaluate_all('(els)=>els.forEach(el=>el.open=true)');page.evaluate('()=>{const b=[...document.querySelectorAll("[data-check]")].find(x=>{const [i,j]=x.dataset.check.split(":").map(Number);return !draft.items[i].sets[j].done});if(b)b.click();}');page.get_by_role('button',name='Pause',exact=True).click()
   settings()
   with page.expect_download() as download:page.locator('#export').click()
   payload=json.loads(Path(download.value.path()).read_text())
@@ -30,7 +30,7 @@ try:
   # Discard must not erase the in-memory draft when storage removal fails.
   active=snapshot();page.locator('[data-tab="today"]').click()
   page.evaluate('''()=>{window.originalRemoveItem=Storage.prototype.removeItem;Storage.prototype.removeItem=function(key){if(key==='strengthlab-draft-v33')throw Error('Injected discard failure');return originalRemoveItem.call(this,key);};testAlerts=[];}''')
-  page.locator('#discard').click();assert snapshot()==active and page.evaluate('draft!==null')
+  page.locator('#discard').evaluate("el=>{const d=el.closest('details');if(d)d.open=true}");page.locator('#discard').click();assert snapshot()==active and page.evaluate('draft!==null')
   page.evaluate('()=>{Storage.prototype.removeItem=originalRemoveItem;}')
   settings();page.locator('#reset').click();settings();empty=snapshot()
   # Failure to write the journal must leave both original keys untouched.
@@ -44,7 +44,7 @@ try:
   assert page.evaluate('draft===null && state.sessions.length===0')
   page.evaluate('()=>{Storage.prototype.setItem=originalSetItem;}')
   import_file(payload,'valid-draft.json');page.wait_for_function('(id)=>draft?.id===id',arg=draft['id'])
-  assert page.locator('[data-check="0:0"]').inner_text()=='✓'
+  assert page.locator('[data-check="0:0"]').text_content()=='✓'
   assert page.get_by_role('button',name='Resume',exact=True).count()==1
   assert page.evaluate('draft.clock.remaining')==draft['clock']['remaining']
   page.get_by_role('button',name='Resume',exact=True).click();settings()
@@ -54,12 +54,12 @@ try:
   assert page.evaluate('draft.clock.endAt')==running_clock['endAt']
   page.reload();page.wait_for_function('storageReady');assert page.evaluate('draft.id')==draft['id'] and page.evaluate('draft.clock.endAt')==running_clock['endAt']
   page.get_by_role('button',name='Pause',exact=True).click()
-  page.locator('#workout-focus').evaluate('(el)=>el.open=true');page.get_by_role('button',name='Complete next set').click();page.get_by_role('button',name='Finish main work · cooldown').click();page.locator('#finish-kind').select_option('partial');before_save=snapshot()
+  page.evaluate('()=>{const b=[...document.querySelectorAll("[data-check]")].find(x=>{const [i,j]=x.dataset.check.split(":").map(Number);return !draft.items[i].sets[j].done});if(b)b.click();}');page.locator('[data-stage="cooldown"]').click();page.locator('#finish-kind').evaluate("el=>{el.closest('details').open=true;el.value='partial';el.dispatchEvent(new Event('change',{bubbles:true}))}");before_save=snapshot()
   page.evaluate('''()=>{window.originalRemoveItem=Storage.prototype.removeItem;Storage.prototype.removeItem=function(key){if(key==='strengthlab-draft-v33')throw new Error('Injected removal failure');return originalRemoveItem.call(this,key);};testAlerts=[];}''')
-  (page.locator('#finish-kind').select_option('partial') if page.locator('#finish-kind').count() else None);page.locator('#save-workout').click();page.wait_for_function('testAlerts.some(m=>m.includes("Previous saved data was preserved"))')
+  (page.locator('#finish-kind').evaluate("el=>{el.closest('details').open=true;el.value='partial';el.dispatchEvent(new Event('change',{bubbles:true}))}") if page.locator('#finish-kind').count() else None);page.locator('#save-workout').click();page.wait_for_function('testAlerts.some(m=>m.includes("Previous saved data was preserved"))')
   assert snapshot()==before_save and page.evaluate('state.sessions.length')==0
   page.evaluate('()=>{Storage.prototype.removeItem=originalRemoveItem;}')
-  (page.locator('#finish-kind').select_option('partial') if page.locator('#finish-kind').count() else None);page.locator('#save-workout').click();assert page.evaluate('state.sessions.length')==1
+  (page.locator('#finish-kind').evaluate("el=>{el.closest('details').open=true;el.value='partial';el.dispatchEvent(new Event('change',{bubbles:true}))}") if page.locator('#finish-kind').count() else None);page.locator('#save-workout').click();assert page.evaluate('state.sessions.length')==1
   assert page.evaluate('state.sessions[0].draftId')==draft['id'] and page.evaluate('draft===null')
   # Simulate a process interruption after writing history, before the transaction commits.
   page.evaluate('(previous)=>localStorage.setItem("strengthlab-transaction-v33",JSON.stringify({version:1,...previous}))',before_save)
@@ -73,7 +73,7 @@ try:
   page.evaluate("sessionStorage.removeItem('failRecovery')")
   page.reload();page.wait_for_function('storageReady');assert snapshot()==before_save and page.evaluate('state.sessions.length')==0
   assert page.evaluate('draft.id')==draft['id'] and page.evaluate('localStorage.getItem("strengthlab-transaction-v33")') is None
-  (page.locator('#finish-kind').select_option('partial') if page.locator('#finish-kind').count() else None);page.locator('#save-workout').click();assert page.evaluate('state.sessions.length')==1
+  (page.locator('#finish-kind').evaluate("el=>{el.closest('details').open=true;el.value='partial';el.dispatchEvent(new Event('change',{bubbles:true}))}") if page.locator('#finish-kind').count() else None);page.locator('#save-workout').click();assert page.evaluate('state.sessions.length')==1
   settings();saved=snapshot();duplicate=page.evaluate('JSON.parse(JSON.stringify(state))');duplicate['workoutDraft']=draft
   import_file(duplicate,'already-saved-draft.json');page.wait_for_function('testAlerts.some(m=>m.includes("already saved"))');assert snapshot()==saved
   duplicate_history=page.evaluate('JSON.parse(JSON.stringify(state))');duplicate_history['sessions'].append(duplicate_history['sessions'][0])

@@ -23,7 +23,7 @@ try:
   inside.locator('.source-coverage summary').click();inside.locator('[data-open-source="543"]').first.click()
   page.locator('#transcript-dialog').wait_for(state='visible');assert 'at least three weights' in page.locator('#transcript-body').inner_text()
   page.get_by_role('button',name='Close',exact=True).click()
-  page.locator('[data-tab="settings"]').click()
+  page.locator('[data-tab="settings"]').click();(page.locator('#advanced-settings').evaluate('(el)=>el.open=true') if page.locator('#advanced-settings').count() else None)
   assert page.locator('[data-program-step="clubInside"]').count()==1
   assert page.locator('[data-club-start="clubInside"]').count()==0
   assert page.locator('[data-program-seconds="clubInside"]').count()==0

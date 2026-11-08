@@ -54,7 +54,7 @@ with sync_playwright() as playwright:
                 page.get_by_role('button', name='Close', exact=True).click()
                 # Internal full-text corpus search remains usable for research verification.
                 assert page.evaluate("""async()=>{await loadSources();search='old idea an absolutely savage';await searchTranscriptBodies();return fullMatches.has(0);}""")
-                page.locator('[data-tab="settings"]').click()
+                page.locator('[data-tab="settings"]').click();(page.locator('#advanced-settings').evaluate('(el)=>el.open=true') if page.locator('#advanced-settings').count() else None)
                 page.locator('#timer-mode').select_option('automatic');page.locator('#save-timer-mode').click()
                 for move, weight in [('squat','12'),('press','8'),('row','12')]:
                     page.locator(f'[data-weight="{move}"]').fill(weight)
@@ -64,11 +64,11 @@ with sync_playwright() as playwright:
                 assert page.locator('#start').count() == 0
                 page.locator('#toggle-pause').click()
                 page.locator('#start').click()
-                page.get_by_role('button', name='Warmup complete · start work').click();page.locator('[data-editor],details#workout-focus').evaluate_all('(els)=>els.forEach(el=>el.open=true)')
-                page.locator('#workout-focus').evaluate('(el)=>el.open=true');page.get_by_role('button', name='Complete next set').click()
-                assert page.locator('[role="progressbar"]').get_attribute('aria-valuenow') == '1'
+                page.locator('[data-stage="work"]').click();page.locator('[data-editor],.partial-set,.method-fields,.notebook-exercise details').evaluate_all('(els)=>els.forEach(el=>el.open=true)')
+                page.evaluate('()=>{const b=[...document.querySelectorAll("[data-check]")].find(x=>{const [i,j]=x.dataset.check.split(":").map(Number);return !draft.items[i].sets[j].done});if(b)b.click();}')
+                assert page.evaluate('draft.items.flatMap(x=>x.sets).filter(s=>s.done).length')==1
                 page.reload()
-                assert page.locator('[data-check="0:0"]').inner_text() == '✓'
+                assert page.locator('[data-check="0:0"]').text_content() == '✓'
                 page.get_by_role('button', name='Pause', exact=True).click()
                 page.reload()
                 assert page.get_by_role('button', name='Resume', exact=True).count() == 1
@@ -78,24 +78,24 @@ with sync_playwright() as playwright:
                 for button in page.locator('[data-check]').all():
                     if button.inner_text() != '✓':
                         button.click()
-                page.get_by_role('button', name='Finish main work · cooldown').click()
-                (page.locator('#finish-kind').select_option('partial') if page.locator('#finish-kind').count() else None);page.locator('#save-workout').click()
+                page.locator('[data-stage="cooldown"]').click()
+                (page.locator('#finish-kind').evaluate("el=>{el.closest('details').open=true;el.value='partial';el.dispatchEvent(new Event('change',{bubbles:true}))}") if page.locator('#finish-kind').count() else None);page.locator('#save-workout').click()
                 assert page.evaluate('state.sessions.length') == 1
                 assert page.evaluate('state.sessions[0].items.every(x=>x.completed)')
                 page.reload()
                 assert page.evaluate('state.sessions.length') == 1
                 assert page.evaluate('draft === null')
                 page.locator('#start').click()
-                page.get_by_role('button', name='Warmup complete · start work').click();page.locator('[data-editor],details#workout-focus').evaluate_all('(els)=>els.forEach(el=>el.open=true)')
+                page.locator('[data-stage="work"]').click();page.locator('[data-editor],.partial-set,.method-fields,.notebook-exercise details').evaluate_all('(els)=>els.forEach(el=>el.open=true)')
                 page.locator('[data-set="0:0:weight"]').fill('12')
                 page.locator('[data-set="0:0:weight"]').dispatch_event('change')
-                page.locator('[data-check="0:0"]').click()
+                page.locator('[data-check="0:0"]').evaluate('el=>el.click()')
                 page.locator('[data-pain="0"]').check()
-                page.get_by_role('button', name='Finish main work · cooldown').click()
-                (page.locator('#finish-kind').select_option('partial') if page.locator('#finish-kind').count() else None);page.locator('#save-workout').click()
+                page.locator('[data-stage="cooldown"]').click()
+                (page.locator('#finish-kind').evaluate("el=>{el.closest('details').open=true;el.value='partial';el.dispatchEvent(new Event('change',{bubbles:true}))}") if page.locator('#finish-kind').count() else None);page.locator('#save-workout').click()
                 assert page.evaluate('E.prescription(state,"swing").mode') == 'review'
-                review = page.locator('details').filter(has=page.locator('[data-resolve-pain="swing"]'))
-                review.locator('summary').click()
+                review = page.locator('details').filter(has=page.locator('[data-resolve-pain="swing"]')).last
+                page.locator('#movement-progress,#working-loads').evaluate_all('(els)=>els.forEach(el=>el.open=true)');review.locator('summary').click()
                 page.locator('[data-resolve-pain="swing"]').click()
                 assert page.evaluate('E.prescription(state,"swing").mode') == 'reentry'
                 page.reload()

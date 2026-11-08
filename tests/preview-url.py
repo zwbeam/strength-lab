@@ -26,7 +26,7 @@ def open_hinge_source(page):
   page.locator('#movement-instruction [data-open-source="704"]').first.click()
  else:
   movement=page.locator('details').filter(has=page.get_by_text('Unloaded hip-hinge practice',exact=True))
-  movement.locator('summary').click();movement.locator('[data-open-source="704"]').first.click()
+  page.locator('#movement-progress,#working-loads').evaluate_all('(els)=>els.forEach(el=>el.open=true)');movement.locator('summary').click();movement.locator('[data-open-source="704"]').first.click()
 
 with sync_playwright() as p:
  browser=p.chromium.launch(executable_path='/usr/bin/chromium',args=['--no-sandbox'])
@@ -46,11 +46,11 @@ with sync_playwright() as p:
  for asset in assets:
   url=urljoin(base,asset);assert url.startswith(base),'Asset escapes preview scope'
   r=page.request.get(url);assert r.status==200,(asset,r.status)
- page.locator('[data-tab="settings"]').click();page.locator('#program-block').select_option('hingePractice')
+ page.locator('[data-tab="settings"]').click();(page.locator('#advanced-settings').evaluate('(el)=>el.open=true') if page.locator('#advanced-settings').count() else None);page.locator('#program-block').select_option('hingePractice')
  page.get_by_text('Prerequisite skills',exact=True).click();page.locator('[data-skill="hingePattern"]').check();page.locator('#save-programming').click()
  page.locator('[data-tab="today"]').click();page.locator('#today-minutes').select_option('15');page.locator('#start').click()
  page.get_by_role('button',name=re.compile(r'Start \d+-minute warmup')).click();page.get_by_role('button',name='Pause',exact=True).click();page.get_by_role('button',name='Resume',exact=True).click()
- page.get_by_role('button',name='Warmup complete · start work').click();page.locator('[data-editor],details#workout-focus').evaluate_all('(els)=>els.forEach(el=>el.open=true)');assert page.locator('#workout-overview').count()==1
+ page.locator('[data-stage="work"]').click();page.locator('[data-editor],.partial-set,.method-fields,.notebook-exercise details').evaluate_all('(els)=>els.forEach(el=>el.open=true)');assert page.locator('#workout-overview').count()==1
  # Reproduce the reported idle-work timer interaction on the deployed application.
  assert page.locator('#clock').evaluate('(el)=>el.tagName')=='BUTTON'
  assert page.evaluate('draft.timerMode')=='manual'
@@ -60,8 +60,8 @@ with sync_playwright() as p:
  page.get_by_role('button',name='Pause',exact=True).tap()
  assert page.evaluate('draft.items.every(i=>i.sets.every(s=>!s.done))')
 
- for _ in range(2):page.locator('#workout-focus').evaluate('(el)=>el.open=true');page.get_by_role('button',name='Complete next set').click()
- page.get_by_role('button',name='Finish main work · cooldown').click();(page.locator('#finish-kind').select_option('partial') if page.locator('#finish-kind').count() else None);page.locator('#save-workout').click()
+ for _ in range(2):page.evaluate('()=>{const b=[...document.querySelectorAll("[data-check]")].find(x=>{const [i,j]=x.dataset.check.split(":").map(Number);return !draft.items[i].sets[j].done});if(b)b.click();}')
+ page.locator('[data-stage="cooldown"]').click();(page.locator('#finish-kind').evaluate("el=>{el.closest('details').open=true;el.value='partial';el.dispatchEvent(new Event('change',{bubbles:true}))}") if page.locator('#finish-kind').count() else None);page.locator('#save-workout').click()
  assert page.evaluate('state.sessions.length')==1 and page.get_by_text('Movement cycles',exact=True).count()==1
  page.locator('[data-tab="learn"]').click();assert page.locator('[data-learn-move]').count()>=31
  page.locator('[data-learn="pathways"]').first.tap();assert page.locator('#focused-pathway').count()==1

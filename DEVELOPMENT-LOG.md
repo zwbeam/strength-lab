@@ -659,3 +659,42 @@ validated reversible edits. Source #404 beginner-repeat spacing is opt-in in the
 actual engine; activity buffers are documented app defaults. Six new pure tests
 and all existing Node suites passed. UI, audio, education and public deployment
 are still pending; continue directly with the commissioned implementation.
+
+### UX review 3 — calendar/UI integration checkpoint
+
+Implemented the seven-day rolling calendar, flexible targets/manual moves,
+separate eight-type activity records/version restoration, effective manual/date/
+duration pauses, and resumed opportunities without catch-up work. Preferred
+frequency and recovery place opportunities; recorded work alone consumes a queue
+entry. New-version stopped sessions keep the unfinished position and carry only
+remaining movements. Existing older records retain their original slot semantics.
+A long pause applies configured reduced return work, including newly rotated
+movements; it does not restart the program. Unconfirmed past planned activities
+remain planned and are not fabricated physiological recovery evidence.
+
+Train's old progress/recent panels moved into chronological Progress and secondary
+movement/load sections. Guided Training Setup retains existing expert options in
+Advanced. Learn now has Fundamentals, Complexity and ten substantial Programming
+lessons with exact source mappings and separate source/app/limits explanations.
+New timers pace ordinary reps with user-started rest rather than estimated work
+seconds; genuine timed/round methods remain. Rest has visual 3–2–1 and a Web Audio
+completion cue, armed by a user gesture. No timer grants work or skill credit.
+Old drafts keep their timer semantics. One movement editor opens at a time;
+ordinary editing uses compact weight/reps/rest rows and shows final transition
+versus additional rest. One Finish action saves; partial controls are secondary.
+
+The complete Pixel 5 touch acceptance passed calendar/week/manual moves, ride
+replacement, pause, actual adjustments, rest-only reps, 3–2–1 oscillator calls,
+single editor, sticky timer/instruction return, one-action finish, corrections,
+Programming, backup and offline reload. Modern failure tests passed activity and
+final-save/correction rollback/retry, unchanged partial queue identity, duplicate
+prevention, read-only tabs, invalid activity import and offline history. Existing
+backup and old-worker upgrade tests passed. All Node suites passed apart from a
+new fixture initially missing an explicit push-up skill (fixed before checkpoint).
+
+Legacy UI regression fixtures are being updated for moved/removed controls;
+initial failures include obsolete checkoff progress bars and hidden secondary
+fields. The 44-workout source-cycle history already passed. Remaining long-history
+and browser results/publication are pending, not claimed complete. Continue
+verification and fix real integration regressions; do not weaken source rules to
+satisfy obsolete screen assertions. No main/production/release/APK work performed.

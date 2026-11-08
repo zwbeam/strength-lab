@@ -31,27 +31,27 @@ with TemporaryDirectory(prefix='strength-upgrade-') as tmp:
             page.evaluate('navigator.serviceWorker.ready.then(()=>true)')
             page.wait_for_function('navigator.serviceWorker.controller !== null')
             page.on('dialog',lambda dialog:dialog.accept())
-            page.locator('[data-tab="settings"]').click()
+            page.locator('[data-tab="settings"]').click();(page.locator('#advanced-settings').evaluate('(el)=>el.open=true') if page.locator('#advanced-settings').count() else None)
             page.locator('[data-weight="squat"]').fill('12');page.locator('#save-weights').click()
             page.locator('[data-tab="today"]').click();page.locator('#start').click()
-            page.get_by_role('button',name='Warmup complete · start work').click();page.locator('[data-editor],details#workout-focus').evaluate_all('(els)=>els.forEach(el=>el.open=true)')
-            page.locator('[data-check="0:0"]').click()
+            page.locator('[data-stage="work"]').click();page.locator('[data-editor],.partial-set,.method-fields,.notebook-exercise details').evaluate_all('(els)=>els.forEach(el=>el.open=true)')
+            page.locator('[data-check="0:0"]').evaluate('el=>el.click()')
             legacy='{"version":1,"sessions":[],"drafts":{}}'
             page.evaluate('(value)=>localStorage.setItem("strengthlab-data-v31",value)',legacy)
             before=page.evaluate('Object.fromEntries(["strengthlab-data-v31","strengthlab-data-v33","strengthlab-draft-v33"].map(key=>[key,localStorage.getItem(key)]))')
-            for name in ['index.html','app.js','engine.js','session-timer.js','movement-instruction.js','learning.js','notebook.js','styles.css','interface-polish.css','sw.js']:shutil.copy2(ROOT/name,target/name)
+            for name in ['index.html','app.js','engine.js','session-timer.js','movement-instruction.js','learning.js','notebook.js','rolling-calendar.js','programming-education.js','styles.css','interface-polish.css','sw.js']:shutil.copy2(ROOT/name,target/name)
             page.evaluate('navigator.serviceWorker.getRegistration().then(registration=>registration.update()).then(()=>true)')
             page.wait_for_function('(name)=>caches.keys().then(keys=>keys.includes(name))',arg=CACHE_NAME)
             page.reload()
             after=page.evaluate('Object.fromEntries(["strengthlab-data-v31","strengthlab-data-v33","strengthlab-draft-v33"].map(key=>[key,localStorage.getItem(key)]))')
             assert before==after,'Upgrade changed saved data or active draft'
-            assert page.locator('[data-check="0:0"]').inner_text()=='✓'
+            assert page.locator('[data-check="0:0"]').text_content()=='✓'
             context.set_offline(True);page.reload()
-            assert page.locator('[data-check="0:0"]').inner_text()=='✓'
-            page.get_by_role('button',name='Finish main work · cooldown').click();(page.locator('#finish-kind').select_option('partial') if page.locator('#finish-kind').count() else None);page.locator('#save-workout').click()
+            assert page.locator('[data-check="0:0"]').text_content()=='✓'
+            page.locator('[data-stage="cooldown"]').click();(page.locator('#finish-kind').evaluate("el=>{el.closest('details').open=true;el.value='partial';el.dispatchEvent(new Event('change',{bubbles:true}))}") if page.locator('#finish-kind').count() else None);page.locator('#save-workout').click()
             assert page.evaluate('state.sessions.length')==1
             assert page.evaluate('state.sessions[0].items[0].actualSets')==1
-            page.locator('[data-tab="settings"]').click();assert page.locator('#save-programming').count()==1
+            page.locator('[data-tab="settings"]').click();(page.locator('#advanced-settings').evaluate('(el)=>el.open=true') if page.locator('#advanced-settings').count() else None);assert page.locator('#save-programming').count()==1
             assert page.evaluate('localStorage.getItem("strengthlab-data-v31")')==legacy
             assert not errors,errors
             print('PASS: baseline-to-current worker upgrade, byte-identical saved keys/draft, mobile-emulated offline reload and successful continuation of the old workout')

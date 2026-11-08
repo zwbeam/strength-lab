@@ -17,7 +17,7 @@ try:
   page.on('pageerror',lambda e:errors.append(str(e)));page.on('dialog',lambda d:d.accept('10') if d.type=='prompt' else d.accept())
   epoch=datetime(2026,1,1,12,tzinfo=timezone.utc);page.clock.install(time=epoch);days=0
   page.goto(f'http://127.0.0.1:{server.server_port}/')
-  def settings():page.locator('[data-tab="settings"]').click()
+  def settings():page.locator('[data-tab="settings"]').click();(page.locator('#advanced-settings').evaluate('(el)=>el.open=true') if page.locator('#advanced-settings').count() else None)
   def train():page.locator('[data-tab="today"]').click()
   def next_day(gap=3):
    global days
@@ -28,7 +28,7 @@ try:
    page.locator('#save-programming').click();train()
   def ids():return page.evaluate('currentPlan().items.map(rx=>rx.id)')
   def record(partial=False,pain_id=None):
-   page.locator('#start').click();page.get_by_role('button',name='Warmup complete · start work').click();page.locator('[data-editor],details#workout-focus').evaluate_all('(els)=>els.forEach(el=>el.open=true)')
+   page.locator('#start').click();page.locator('[data-stage="work"]').click();page.locator('[data-editor],.partial-set,.method-fields,.notebook-exercise details').evaluate_all('(els)=>els.forEach(el=>el.open=true)')
    assert page.locator('#workout-overview').count()==1
    page.evaluate('''({partial,painId})=>{
     const indexes=Array.from(document.querySelectorAll('[data-check]')).map(el=>el.dataset.check);
@@ -39,9 +39,9 @@ try:
     }
     if(painId){const i=draft.plan.items.findIndex(rx=>rx.id===painId),el=document.querySelector(`[data-pain="${i}"]`);el.checked=true;el.dispatchEvent(new Event('change',{bubbles:true}));}
    }''',dict(partial=partial,painId=pain_id))
-   page.get_by_role('button',name='Finish main work · cooldown').click();(page.locator('#finish-kind').select_option('partial') if page.locator('#finish-kind').count() else None);page.locator('#save-workout').click()
+   page.locator('[data-stage="cooldown"]').click();(page.locator('#finish-kind').evaluate("el=>{el.closest('details').open=true;el.value='partial';el.dispatchEvent(new Event('change',{bubbles:true}))}") if page.locator('#finish-kind').count() else None);page.locator('#save-workout').click()
    return page.evaluate('state.sessions.at(-1).items')
-  settings();page.locator('[data-equipment="kb"]').fill('8,10');page.locator('#save-equipment').click();page.locator('[data-weight="deadlift"]').fill('8');page.locator('#save-weights').click()
+  settings();page.locator('[data-equipment="kb"]').fill('8,10');page.locator('#save-setup').click();page.locator('[data-weight="deadlift"]').fill('8');page.locator('#save-weights').click()
   configure('hingePathway',['hingePattern']);assert ids()==['hingePractice']
   assert not record(partial=True)[0]['completed']
   for _ in range(2):next_day();assert record()[0]['completed']
@@ -52,7 +52,7 @@ try:
    if n==2:page.locator('#today-minutes').select_option('15')
    r=record()[0];assert r['completed'] and r['weight']==8 and r['sourceParameters'] is None
    train();page.locator('#today-minutes').select_option('45')
-  page.locator('[data-tab="progress"]').click();page.locator('details').filter(has=page.locator('[data-weight-for="deadlift"]')).locator('summary').click();page.locator('[data-weight-for="deadlift"]').click();train()
+  page.locator('[data-tab="progress"]').click();page.locator('#movement-progress,#working-loads').evaluate_all('(els)=>els.forEach(el=>el.open=true)');page.locator('details').filter(has=page.locator('[data-weight-for="deadlift"]')).last.locator('summary').click();page.locator('[data-weight-for="deadlift"]').click();train()
   assert ids()==['hingePractice'] # changed child load cannot maintain stale parent evidence
   for n in range(3):
    next_day();r=record()[0]

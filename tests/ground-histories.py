@@ -17,7 +17,7 @@ try:
   page.on('pageerror',lambda e:errors.append(str(e)));page.on('dialog',lambda d:d.accept())
   epoch=datetime(2026,1,1,12,tzinfo=timezone.utc);page.clock.install(time=epoch);days=0
   page.goto(f'http://127.0.0.1:{server.server_port}/')
-  def settings():page.locator('[data-tab="settings"]').click()
+  def settings():page.locator('[data-tab="settings"]').click();(page.locator('#advanced-settings').evaluate('(el)=>el.open=true') if page.locator('#advanced-settings').count() else None)
   def train():page.locator('[data-tab="today"]').click()
   def next_day(gap=3):
    global days
@@ -28,7 +28,7 @@ try:
    page.locator('#save-programming').click();train()
   def ids():return page.evaluate('currentPlan().items.map(rx=>rx.id)')
   def record(partial=False,pain_id=None):
-   page.locator('#start').click();page.get_by_role('button',name='Warmup complete · start work').click();page.locator('[data-editor],details#workout-focus').evaluate_all('(els)=>els.forEach(el=>el.open=true)')
+   page.locator('#start').click();page.locator('[data-stage="work"]').click();page.locator('[data-editor],.partial-set,.method-fields,.notebook-exercise details').evaluate_all('(els)=>els.forEach(el=>el.open=true)')
    assert page.locator('#workout-overview').count()==1
    page.evaluate('''({partial,painId})=>{
     const indexes=Array.from(document.querySelectorAll('[data-check]')).map(el=>el.dataset.check);
@@ -39,7 +39,7 @@ try:
     }
     if(painId){const i=draft.plan.items.findIndex(rx=>rx.id===painId),el=document.querySelector(`[data-pain="${i}"]`);el.checked=true;el.dispatchEvent(new Event('change',{bubbles:true}));}
    }''',dict(partial=partial,painId=pain_id))
-   page.get_by_role('button',name='Finish main work · cooldown').click();(page.locator('#finish-kind').select_option('partial') if page.locator('#finish-kind').count() else None);page.locator('#save-workout').click()
+   page.locator('[data-stage="cooldown"]').click();(page.locator('#finish-kind').evaluate("el=>{el.closest('details').open=true;el.value='partial';el.dispatchEvent(new Event('change',{bubbles:true}))}") if page.locator('#finish-kind').count() else None);page.locator('#save-workout').click()
    return page.evaluate('state.sessions.at(-1).items')
   configure('groundPractice',['hipDropTwoHand','bearSquat'])
   assert set(ids())=={'hipDropTwoHand','bearSquat'}
@@ -53,7 +53,7 @@ try:
    assert page.evaluate('currentPlan().estimated<=currentPlan().cap')
    assert all(r['completed'] and r['weight']==0 and r['sourceParameters'] is None for r in record())
    train();page.locator('#today-minutes').select_option('45')
-  settings();page.locator('[data-equipment="kb"]').fill('');page.locator('[data-equipment="club"]').fill('');page.locator('#save-equipment').click();train()
+  settings();page.locator('[data-equipment="kb"]').fill('');page.locator('[data-equipment="club"]').fill('');page.locator('#save-setup').click();train()
   assert 'hipDropSingleHand' in ids()
   next_day(28);assert 'hipDropSingleHand' not in ids();assert all(rx['mode']=='reentry' for rx in page.evaluate('currentPlan().items'))
   assert not any(r['completed'] for r in record())
@@ -61,7 +61,7 @@ try:
   next_day();assert 'hipDropSingleHand' in ids()
   record(pain_id='hipDropTwoHand');train();assert 'hipDropSingleHand' not in ids()
   page.reload();assert 'hipDropSingleHand' not in ids()
-  settings();details=page.locator('details').filter(has=page.locator('[data-intermediate-reps="bearSquat"]'));details.locator('summary').click()
+  settings();details=page.locator('details').filter(has=page.locator('[data-intermediate-reps="bearSquat"]')).last;page.locator('#movement-progress,#working-loads').evaluate_all('(els)=>els.forEach(el=>el.open=true)');details.locator('summary').click()
   page.locator('[data-intermediate-reps="bearSquat"]').select_option('90');page.locator('[data-intermediate-start="bearSquat"]').fill('1');page.locator('[data-intermediate-end="bearSquat"]').fill('3');page.locator('#save-programming').click();train()
   assert page.evaluate('currentPlan().items.find(rx=>rx.id==="bearSquat").reps')==90
   assert page.evaluate('state.sessions.length')==15

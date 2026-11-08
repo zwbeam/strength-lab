@@ -30,7 +30,7 @@ try:
   page.locator('[data-select-workout="1"]').tap();assert 'Provisional' in page.locator('#selected-workout').inner_text();assert page.locator('#start').count()==0
   page.locator('[data-select-workout="0"]').tap()
   # Set real owned working weights; UI defaults intentionally never invent a load.
-  page.locator('[data-tab="settings"]').tap()
+  page.locator('[data-tab="settings"]').tap();(page.locator('#advanced-settings').evaluate('(el)=>el.open=true') if page.locator('#advanced-settings').count() else None)
   for id,weight in [('squat','16'),('press','12'),('row','12')]:page.locator(f'[data-weight="{id}"]').fill(weight)
   page.locator('#save-weights').tap();page.locator('[data-tab="today"]').tap()
   page.locator('#today-minutes').select_option('30');page.locator('#today-readiness').select_option('low')
@@ -47,34 +47,34 @@ try:
   page.wait_for_timeout(1100);page.get_by_role('button',name='Close instruction').tap();assert page.evaluate('draft.clock.running')
   page.evaluate('window.scrollTo(0,document.body.scrollHeight)');box=page.locator('.timer').bounding_box();assert box['y']>=-1 and box['y']+box['height']<844,box
   assert page.evaluate('document.documentElement.scrollWidth<=innerWidth+1')
-  page.locator('#finish-workout').tap();page.locator('#save-workout').tap();assert page.evaluate('state.sessions.length')==1
+  page.locator('#save-workout').tap();assert page.evaluate('state.sessions.length')==1
   assert page.evaluate('state.sessions[0].items.every(x=>!x.completed)'),'Reduced work must not advance'
   assert page.evaluate('state.sessions[0].originalPlan.budget.total')==45
   print('PASS: ordered cycle, preview, real 45→30/Pretty beat adjustment, explicit prep, running sticky touch timer, instruction round-trip, one confirmation, no reduced-work credit',flush=True)
   # Normal workout: change one final set, preserve the written target, save once.
-  page.locator('[data-tab="today"]').tap();page.locator('[data-tab="settings"]').tap()
+  page.locator('[data-tab="today"]').tap();page.locator('[data-tab="settings"]').tap();(page.locator('#advanced-settings').evaluate('(el)=>el.open=true') if page.locator('#advanced-settings').count() else None)
   page.locator('#program-block').select_option('abc');page.locator('#save-programming').tap()
   # Next B has unknown loads: use the canonical written A plan via separate new context.
   context.close();context=browser.new_context(**p.devices['Pixel 5'],**network);page=context.new_page();page.on('pageerror',lambda e:errors.append(str(e)));page.on('dialog',lambda d:d.accept());page.add_init_script('window.testAlerts=[];window.alert=m=>testAlerts.push(m)');page.goto(base);page.wait_for_function('storageReady && storageWritable')
-  page.locator('[data-tab="settings"]').tap()
+  page.locator('[data-tab="settings"]').tap();(page.locator('#advanced-settings').evaluate('(el)=>el.open=true') if page.locator('#advanced-settings').count() else None)
   for id,weight in [('squat','16'),('press','12'),('row','12')]:page.locator(f'[data-weight="{id}"]').fill(weight)
   page.locator('#save-weights').tap();page.locator('[data-tab="today"]').tap();page.locator('#start').tap()
   target=page.evaluate('draft.plan.items[0].reps');assert target==6
   page.locator('[data-edit-movement="active:0"]').tap();page.locator('[data-set="0:2:reps"]').fill('4');page.locator('[data-set="0:2:reps"]').dispatch_event('change')
-  page.locator('#finish-workout').tap();page.locator('#save-workout').tap();assert page.evaluate('state.sessions[0].items[0].sets[2].reps')==4
+  page.locator('#save-workout').tap();assert page.evaluate('state.sessions[0].items[0].sets[2].reps')==4
   assert page.evaluate('state.sessions[0].items[0].prescription.reps')==6 and not page.evaluate('state.sessions[0].items[0].completed')
   page.locator('[data-edit-history]').first.tap();page.locator('[data-edit-movement="history:0"]').tap();page.locator('[data-hset="0:2:reps"]').fill('6');page.locator('[data-hset="0:2:reps"]').dispatch_event('change');page.locator('#save-correction').tap()
   assert page.evaluate('state.sessions[0].items[0].completed') and page.evaluate('E.stateFor(state,"squat").streak')==1
   assert page.evaluate('state.sessions[0].corrections[0].before.items[0].sets[2].reps')==4
-  page.reload();page.wait_for_function('storageReady && storageWritable');page.locator('[data-tab="progress"]').tap()
+  page.reload();page.wait_for_function('storageReady && storageWritable');page.locator('[data-tab="progress"]').tap();page.locator('#movement-progress,#working-loads').evaluate_all('(els)=>els.forEach(el=>el.open=true)')
   assert page.evaluate('state.sessions[0].items[0].sets[2].reps')==6
   page.locator('[data-history]').first.locator('summary').first.tap();page.locator('[data-history] details').last.locator('summary').tap();page.locator('[data-undo-correction]').tap()
   assert page.evaluate('state.sessions[0].items[0].sets[2].reps')==4 and page.evaluate('E.stateFor(state,"squat").streak')==0
   # Persist correction through offline backup/restore, reject malformed imports.
-  page.locator('[data-tab="settings"]').tap()
+  page.locator('[data-tab="settings"]').tap();(page.locator('#advanced-settings').evaluate('(el)=>el.open=true') if page.locator('#advanced-settings').count() else None)
   with page.expect_download() as download:page.locator('#export').tap()
   payload=json.loads(Path(download.value.path()).read_text());assert len(payload['sessions'][0]['corrections'])==2
-  page.locator('#reset').tap();page.locator('[data-tab="settings"]').tap();page.locator('#import').set_input_files({'name':'corrected.json','mimeType':'application/json','buffer':json.dumps(payload).encode()});page.wait_for_function('state.sessions.length===1')
+  page.locator('#reset').tap();page.locator('[data-tab="settings"]').tap();(page.locator('#advanced-settings').evaluate('(el)=>el.open=true') if page.locator('#advanced-settings').count() else None);page.locator('#import').set_input_files({'name':'corrected.json','mimeType':'application/json','buffer':json.dumps(payload).encode()});page.wait_for_function('state.sessions.length===1')
   page.evaluate('navigator.serviceWorker.ready.then(()=>true)');context.set_offline(True);page.reload();page.wait_for_function('storageReady && storageWritable');assert page.evaluate('state.sessions[0].items[0].sets[2].reps')==4
   assert not errors,errors
   print('PASS: final-set edit, immutable targets, one-save actuals, saved-history correction/replay, reversible audit, reload, backup/restore and offline history',flush=True)

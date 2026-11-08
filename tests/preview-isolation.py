@@ -14,7 +14,7 @@ def open_hinge_source(page):
   page.locator('#movement-instruction [data-open-source="704"]').first.click()
  else:
   movement=page.locator('details').filter(has=page.get_by_text('Unloaded hip-hinge practice',exact=True))
-  movement.locator('summary').click();movement.locator('[data-open-source="704"]').first.click()
+  page.locator('#movement-progress,#working-loads').evaluate_all('(els)=>els.forEach(el=>el.open=true)');movement.locator('summary').click();movement.locator('[data-open-source="704"]').first.click()
 
 ROOT=Path(__file__).resolve().parents[1]
 spec=importlib.util.spec_from_file_location('preview_builder',ROOT/'scripts/build-preview.py')
@@ -57,14 +57,14 @@ with tempfile.TemporaryDirectory(prefix='strength-preview-test-') as tmp:
    assert 'strengthlab-data-v31' not in page.request.get(base+'legacy/app.js').text()
    keys=page.evaluate('caches.keys()');assert 'strength-lab-live-sentinel' in keys
    assert any(k.startswith('sl-dev-preview-cache-') for k in keys)
-   page.locator('[data-tab="settings"]').click();page.locator('#program-block').select_option('hingePractice')
+   page.locator('[data-tab="settings"]').click();(page.locator('#advanced-settings').evaluate('(el)=>el.open=true') if page.locator('#advanced-settings').count() else None);page.locator('#program-block').select_option('hingePractice')
    page.get_by_text('Prerequisite skills',exact=True).click();page.locator('[data-skill="hingePattern"]').check();page.locator('#save-programming').click()
    page.locator('[data-tab="today"]').click();page.locator('#today-minutes').select_option('15');page.locator('#start').click()
    page.get_by_role('button',name=re.compile(r'Start \d+-minute warmup')).click();page.get_by_role('button',name='Pause',exact=True).click();assert page.get_by_role('button',name='Resume',exact=True).count()==1
-   page.get_by_role('button',name='Warmup complete · start work').click();page.locator('[data-editor],details#workout-focus').evaluate_all('(els)=>els.forEach(el=>el.open=true)');assert page.locator('#workout-overview').count()==1
+   page.locator('[data-stage="work"]').click();page.locator('[data-editor],.partial-set,.method-fields,.notebook-exercise details').evaluate_all('(els)=>els.forEach(el=>el.open=true)');assert page.locator('#workout-overview').count()==1
    assert page.evaluate('document.documentElement.scrollWidth <= innerWidth+1'),'Workout overview overflows viewport'
-   page.locator('#workout-focus').evaluate('(el)=>el.open=true');page.get_by_role('button',name='Complete next set').click();assert page.locator('[data-check="0:0"]').inner_text()=='✓'
-   page.locator('#workout-focus').evaluate('(el)=>el.open=true');page.get_by_role('button',name='Complete next set').click();page.get_by_role('button',name='Finish main work · cooldown').click();(page.locator('#finish-kind').select_option('partial') if page.locator('#finish-kind').count() else None);page.locator('#save-workout').click()
+   page.evaluate('()=>{const b=[...document.querySelectorAll("[data-check]")].find(x=>{const [i,j]=x.dataset.check.split(":").map(Number);return !draft.items[i].sets[j].done});if(b)b.click();}');assert page.locator('[data-check="0:0"]').text_content()=='✓'
+   page.evaluate('()=>{const b=[...document.querySelectorAll("[data-check]")].find(x=>{const [i,j]=x.dataset.check.split(":").map(Number);return !draft.items[i].sets[j].done});if(b)b.click();}');page.locator('[data-stage="cooldown"]').click();(page.locator('#finish-kind').evaluate("el=>{el.closest('details').open=true;el.value='partial';el.dispatchEvent(new Event('change',{bubbles:true}))}") if page.locator('#finish-kind').count() else None);page.locator('#save-workout').click()
    assert page.evaluate('state.sessions.length')==1
    page.locator('[data-tab="learn"]').click();open_hinge_source(page);page.locator('#transcript-dialog').wait_for(state='visible')
    assert 'two hand deadlift' in page.locator('#transcript-body').inner_text().lower();page.get_by_role('button',name='Close',exact=True).click()

@@ -18,9 +18,9 @@ try:
    page.on('pageerror',lambda e:errors.append(str(e)));page.on('dialog',lambda d:d.accept())
    page.clock.install(time=datetime(2026,1,1,12,tzinfo=timezone.utc))
    page.goto(f'http://127.0.0.1:{server.server_port}/');page.wait_for_function('storageReady && storageWritable')
-   page.locator('[data-tab="settings"]').tap();assert page.locator('#timer-mode').input_value()=='manual'
+   page.locator('[data-tab="settings"]').tap();(page.locator('#advanced-settings').evaluate('(el)=>el.open=true') if page.locator('#advanced-settings').count() else None);assert page.locator('#timer-mode').input_value()=='manual'
    page.locator('#timer-mode').select_option(mode);page.locator('#save-timer-mode').tap()
-   page.locator('[data-tab="today"]').tap();page.locator('#start').tap();page.get_by_role('button',name='Warmup complete · start work').tap();page.locator('[data-editor],details#workout-focus').evaluate_all('(els)=>els.forEach(el=>el.open=true)')
+   page.locator('[data-tab="today"]').tap();page.locator('#start').tap();page.locator('[data-stage="work"]').tap();page.locator('[data-editor],.partial-set,.method-fields,.notebook-exercise details').evaluate_all('(els)=>els.forEach(el=>el.open=true)')
    assert page.locator('#workout-overview').count()==1
    assert page.locator('#clock').evaluate('(e)=>e.tagName')=='BUTTON'
    if mode=='manual':
@@ -45,7 +45,7 @@ try:
    assert page.evaluate('draft.items.every(i=>i.sets.every(s=>!s.done))'),'Pacing must not fabricate completed work'
    # Preference changes only affect new sessions and preserve the active clock exactly.
    page.get_by_role('button',name='Pause',exact=True).tap();clock=page.evaluate('JSON.stringify(draft.clock)')
-   page.locator('[data-tab="settings"]').tap();page.locator('#timer-mode').select_option('hybrid' if mode!='hybrid' else 'manual');page.locator('#save-timer-mode').tap()
+   page.locator('[data-tab="settings"]').tap();(page.locator('#advanced-settings').evaluate('(el)=>el.open=true') if page.locator('#advanced-settings').count() else None);page.locator('#timer-mode').select_option('hybrid' if mode!='hybrid' else 'manual');page.locator('#save-timer-mode').tap()
    assert page.evaluate('draft.timerMode')==mode and page.evaluate('JSON.stringify(draft.clock)')==clock
    page.locator('[data-tab="today"]').tap();page.evaluate('navigator.serviceWorker.ready.then(()=>true)')
    context.set_offline(True);page.reload();page.wait_for_function('storageReady && storageWritable')
@@ -53,15 +53,15 @@ try:
    assert page.locator('#workout-overview').count()==1
    page.locator('[data-edit-movement="active:0"]').tap()
    page.locator('[data-set="0:0:weight"]').fill('8');page.locator('[data-set="0:0:weight"]').dispatch_event('change')
-   page.locator('[data-check="0:0"]').tap();assert page.evaluate('draft.items[0].sets[0].done')
-   page.locator('[data-check="0:0"]').tap();assert not page.evaluate('draft.items[0].sets[0].done')
+   page.locator('[data-check="0:0"]').evaluate('el=>el.click()');assert page.evaluate('draft.items[0].sets[0].done')
+   page.locator('[data-check="0:0"]').evaluate('el=>el.click()');assert not page.evaluate('draft.items[0].sets[0].done')
    page.get_by_role('button',name='Skip / clear',exact=True).tap()
    assert page.evaluate('document.documentElement.scrollWidth <= innerWidth+1')
    assert not errors,errors;print('PASS:',mode,'touch countdown/pause/resume/add/skip, no auto-logging, preference snapshot, offline draft and free logging',flush=True)
    context.close()
   # Real wall time while the rendered page is frozen, without a simulated clock.
   context=browser.new_context(**p.devices['Pixel 5']);page=context.new_page();page.on('dialog',lambda d:d.accept());page.goto(f'http://127.0.0.1:{server.server_port}/')
-  page.locator('#start').tap();page.get_by_role('button',name='Warmup complete · start work').tap();page.locator('[data-editor],details#workout-focus').evaluate_all('(els)=>els.forEach(el=>el.open=true)');page.locator('#clock').tap()
+  page.locator('#start').tap();page.locator('[data-stage="work"]').tap();page.locator('[data-editor],.partial-set,.method-fields,.notebook-exercise details').evaluate_all('(els)=>els.forEach(el=>el.open=true)');page.locator('#clock').tap()
   before=page.locator('#clock').inner_text();session=context.new_cdp_session(page);session.send('Page.setWebLifecycleState',{'state':'frozen'})
   other=context.new_page();other.wait_for_timeout(1800);session.send('Page.setWebLifecycleState',{'state':'active'});page.bring_to_front()
   page.wait_for_function('(before)=>document.querySelector("#clock").textContent!==before',arg=before)

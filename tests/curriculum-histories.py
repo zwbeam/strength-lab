@@ -21,7 +21,7 @@ try:
   epoch=datetime(2026,1,1,12,tzinfo=timezone.utc);page.clock.install(time=epoch);days=0
   page.goto(f'http://127.0.0.1:{server.server_port}/')
   def train():page.locator('[data-tab="today"]').click()
-  def settings():page.locator('[data-tab="settings"]').click()
+  def settings():page.locator('[data-tab="settings"]').click();(page.locator('#advanced-settings').evaluate('(el)=>el.open=true') if page.locator('#advanced-settings').count() else None)
   def advance(gap=4):
    global days
    days+=gap;page.clock.set_system_time(epoch+timedelta(days=days));train()
@@ -31,9 +31,9 @@ try:
    for skill in skills:page.locator(f'[data-skill="{skill}"]').check()
    page.locator('#save-programming').click();train()
   def record(continuous=True,imbalance=False,pain=False,clock_check=False,check_rest=False):
-   page.locator('#start').click();page.get_by_role('button',name='Warmup complete · start work').click();page.locator('[data-editor],details#workout-focus').evaluate_all('(els)=>els.forEach(el=>el.open=true)')
+   page.locator('#start').click();page.locator('[data-stage="work"]').click();page.locator('[data-editor],.partial-set,.method-fields,.notebook-exercise details').evaluate_all('(els)=>els.forEach(el=>el.open=true)')
    if clock_check:
-    page.locator('[data-movement-timer="0"]').click();assert page.locator('#clock').inner_text()=='03:00'
+    page.locator('#timer-primary').click();assert page.locator('#clock').inner_text()=='03:00'
     page.get_by_role('button',name='Pause',exact=True).click();page.reload()
     assert page.get_by_role('button',name='Resume',exact=True).count()==1
    result=page.evaluate('''({continuous,imbalance,pain,checkRest})=>{
@@ -45,13 +45,13 @@ try:
      for(const field of ['bothSides','continuous']){const el=document.querySelector(`[data-set="${index}:${field}"]`);if(el){el.checked=field==='continuous'?continuous:true;el.dispatchEvent(new Event('change',{bubbles:true}));}}
      document.querySelector(`[data-check="${index}"]`).click();
      if(checkRest&&i===0&&j===0)noRestWithin=draft.clock.kind==='work'&&draft.clock.item===0&&SessionTimer.queue(draft).filter(entry=>entry.item===0&&entry.kind==='work').length===1;
-     if(checkRest&&i===0&&draft.items[0].sets.every(set=>set.done))breakBetween=document.querySelector('#timer-label').textContent.startsWith('Rest between movements')&&document.querySelector('#clock').textContent==='02:00';
+     if(checkRest&&i===0&&draft.items[0].sets.every(set=>set.done))breakBetween=draft.clock.kind==='rest'&&document.querySelector('#clock').textContent==='02:00';
     }
     if(pain){const el=document.querySelector('[data-pain="0"]');el.checked=true;el.dispatchEvent(new Event('change',{bubbles:true}));}
     return {noRestWithin,breakBetween};
    }''',dict(continuous=continuous,imbalance=imbalance,pain=pain,checkRest=check_rest))
    if check_rest:assert result=={'noRestWithin':True,'breakBetween':True},result
-   page.get_by_role('button',name='Finish main work · cooldown').click();(page.locator('#finish-kind').select_option('partial') if page.locator('#finish-kind').count() else None);page.locator('#save-workout').click()
+   page.locator('[data-stage="cooldown"]').click();(page.locator('#finish-kind').evaluate("el=>{el.closest('details').open=true;el.value='partial';el.dispatchEvent(new Event('change',{bubbles:true}))}") if page.locator('#finish-kind').count() else None);page.locator('#save-workout').click()
    return page.evaluate('state.sessions.at(-1).items')
   settings()
   for id,weight in [('getup','8'),('clubInside','5'),('clubOutside','5'),('clubShield','5')]:page.locator(f'[data-weight="{id}"]').fill(weight)
@@ -70,15 +70,15 @@ try:
     item=record(clock_check=seconds==180 and repeat==0)[0]
     assert item['completed'] and item['actualReps']==seconds and item['sourceParameters']==423,item
   print('PASS: get-up 3–10 minute history, total-time units, weaker-side allowance, prerequisite gates, timer persistence and short-session deferral',flush=True)
-  settings();page.locator('[data-equipment="kb"]').fill('8,10,12,16');page.locator('#save-equipment').click()
-  page.locator('[data-tab="progress"]').click()
-  details=page.locator('details').filter(has=page.locator('[data-weight-for="getup"]'));details.locator('summary').click();page.locator('[data-weight-for="getup"]').click()
+  settings();page.locator('[data-equipment="kb"]').fill('8,10,12,16');page.locator('#save-setup').click()
+  page.locator('[data-tab="progress"]').click();page.locator('#movement-progress,#working-loads').evaluate_all('(els)=>els.forEach(el=>el.open=true)')
+  details=page.locator('details').filter(has=page.locator('[data-weight-for="getup"]')).last;page.locator('#movement-progress,#working-loads').evaluate_all('(els)=>els.forEach(el=>el.open=true)');details.locator('summary').click();page.locator('[data-weight-for="getup"]').click()
   advance();assert '180 sec total' in page.locator('.list-item').inner_text();assert '10 kg' in page.locator('.list-item').inner_text()
   assert not record(imbalance=True)[0]['completed']
   advance();assert not record(continuous=False)[0]['completed']
   advance();item=record()[0];assert item['mode']=='rebuild' and item['targetReps']<180 and not item['completed']
   advance();record(pain=True);train();assert page.locator('#start').count()==0
-  page.locator('[data-tab="progress"]').click();review=page.locator('details').filter(has=page.locator('[data-resolve-pain="getup"]'));review.locator('summary').click();page.locator('[data-resolve-pain="getup"]').click()
+  page.locator('[data-tab="progress"]').click();page.locator('#movement-progress,#working-loads').evaluate_all('(els)=>els.forEach(el=>el.open=true)');review=page.locator('details').filter(has=page.locator('[data-resolve-pain="getup"]')).last;page.locator('#movement-progress,#working-loads').evaluate_all('(els)=>els.forEach(el=>el.open=true)');review.locator('summary').click();page.locator('[data-resolve-pain="getup"]').click()
   advance(28);assert '120 sec total' in page.locator('.list-item').inner_text();item=record()[0];assert item['mode']=='reentry' and not item['completed']
   configure('singleClub',[]);assert page.locator('#start').count()==0
   configure('singleClub',['clubTwoHandFoundation','clubGrip','clubInside','clubOutside','clubShield'])

@@ -17,14 +17,14 @@ try:
     page.on('pageerror',lambda error:errors.append(str(error)));page.on('dialog',lambda dialog:dialog.accept())
     epoch=datetime(2026,7,1,12,tzinfo=timezone.utc);page.clock.install(time=epoch)
     page.goto(f'http://127.0.0.1:{server.server_port}/')
-    def settings():page.locator('[data-tab="settings"]').click()
+    def settings():page.locator('[data-tab="settings"]').click();(page.locator('#advanced-settings').evaluate('(el)=>el.open=true') if page.locator('#advanced-settings').count() else None)
     def train():page.locator('[data-tab="today"]').click()
     def details_for(selector):
-        details=page.locator('details').filter(has=page.locator(selector))
+        details=page.locator('details').filter(has=page.locator(selector)).last
         if details.get_attribute('open') is None:details.locator(':scope > summary').click()
     def save_program():page.locator('#save-programming').click()
     def perform():
-        page.locator('#start').click();page.get_by_role('button',name='Warmup complete · start work').click();page.locator('[data-editor],details#workout-focus').evaluate_all('(els)=>els.forEach(el=>el.open=true)')
+        page.locator('#start').click();page.locator('[data-stage="work"]').click();page.locator('[data-editor],.partial-set,.method-fields,.notebook-exercise details').evaluate_all('(els)=>els.forEach(el=>el.open=true)')
         page.evaluate('''()=>{
           const indexes=Array.from(document.querySelectorAll('[data-check]')).map(button=>button.dataset.check);
           for(const index of indexes){
@@ -32,7 +32,7 @@ try:
             document.querySelector(`[data-check="${index}"]`).click();
           }
         }''')
-        page.get_by_role('button',name='Finish main work · cooldown').click();(page.locator('#finish-kind').select_option('partial') if page.locator('#finish-kind').count() else None);page.locator('#save-workout').click()
+        page.locator('[data-stage="cooldown"]').click();(page.locator('#finish-kind').evaluate("el=>{el.closest('details').open=true;el.value='partial';el.dispatchEvent(new Event('change',{bubbles:true}))}") if page.locator('#finish-kind').count() else None);page.locator('#save-workout').click()
         assert page.evaluate('state.sessions.at(-1).items.every(item=>item.completed)')
     settings()
     for field in page.locator('[data-weight]').all():
@@ -54,7 +54,7 @@ try:
     settings();details_for('[data-skill="rack"]')
     for skill in ['rack','doublePress','doubleSquat']:page.locator(f'[data-skill="{skill}"]').check()
     save_program();train();assert page.locator('#start').count()==0 # pair still unconfirmed
-    settings();page.locator('[data-equipment="pairs"]').fill('12');page.locator('#save-equipment').click()
+    settings();page.locator('[data-equipment="pairs"]').fill('12');page.locator('#save-setup').click()
     train();page.locator('#today-minutes').select_option('20')
     assert page.locator('.list-item').count()==1
     assert 'Double clean and press' in page.locator('.list-item').inner_text()
@@ -74,11 +74,11 @@ try:
     before=page.evaluate('JSON.stringify(state)')
     train();page.locator('#start').click();settings()
     page.locator('#program-block').select_option('snatch');save_program()
-    page.locator('#save-weights').click();page.locator('#save-equipment').click()
+    page.locator('#save-weights').click();page.locator('#save-setup').click()
     assert page.evaluate('JSON.stringify(state)')==before
     assert page.evaluate('draft !== null')
-    train();page.locator('#discard').click();settings()
-    page.locator('[data-equipment="pairs"]').fill('99');page.locator('#save-equipment').click()
+    train();page.locator('#discard').evaluate("el=>{const d=el.closest('details');if(d)d.open=true}");page.locator('#discard').click();settings()
+    page.locator('[data-equipment="pairs"]').fill('99');page.locator('#save-setup').click()
     assert page.evaluate('JSON.stringify(state)')==before
     assert not errors,errors
     print('PASS: six real ABC workouts with light/heavy prescriptions; skill/pair gates; 20-minute whole-movement carryover; saved timed club block')

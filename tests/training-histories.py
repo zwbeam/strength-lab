@@ -22,7 +22,7 @@ try:
         epoch=datetime(2026,1,1,12,tzinfo=timezone.utc)
         page.clock.install(time=epoch)
         page.goto(f'http://127.0.0.1:{server.server_port}/')
-        page.locator('[data-tab="settings"]').click()
+        page.locator('[data-tab="settings"]').click();(page.locator('#advanced-settings').evaluate('(el)=>el.open=true') if page.locator('#advanced-settings').count() else None)
         page.locator('[data-weight="snatch"]').fill('12');page.locator('#save-weights').click()
         page.locator('#program-block').select_option('snatch')
         page.get_by_text('Prerequisite skills',exact=True).click()
@@ -35,7 +35,7 @@ try:
             page.locator('[data-tab="today"]').click()
         def record(quality='clean',partial=False,imbalance=False,pain=False):
             page.locator('#start').click()
-            page.get_by_role('button',name='Warmup complete · start work').click();page.locator('[data-editor],details#workout-focus').evaluate_all('(els)=>els.forEach(el=>el.open=true)')
+            page.locator('[data-stage="work"]').click();page.locator('[data-editor],.partial-set,.method-fields,.notebook-exercise details').evaluate_all('(els)=>els.forEach(el=>el.open=true)')
             # Dispatch actual input/button events. Every event rerenders, so query afresh.
             page.evaluate('''({partial,imbalance,pain,quality})=>{
               const count=document.querySelectorAll('[data-check]').length;
@@ -50,8 +50,8 @@ try:
               const select=document.querySelector('[data-quality="0"]');select.value=quality;select.dispatchEvent(new Event('change',{bubbles:true}));
               if(pain){const input=document.querySelector('[data-pain="0"]');input.checked=true;input.dispatchEvent(new Event('change',{bubbles:true}));}
             }''',dict(partial=partial,imbalance=imbalance,pain=pain,quality=quality))
-            page.get_by_role('button',name='Finish main work · cooldown').click()
-            (page.locator('#finish-kind').select_option('partial') if page.locator('#finish-kind').count() else None);page.locator('#save-workout').click()
+            page.locator('[data-stage="cooldown"]').click()
+            (page.locator('#finish-kind').evaluate("el=>{el.closest('details').open=true;el.value='partial';el.dispatchEvent(new Event('change',{bubbles:true}))}") if page.locator('#finish-kind').count() else None);page.locator('#save-workout').click()
             return page.evaluate('state.sessions.at(-1).items[0]')
         def prescription(sets,reps):
             page.locator('[data-tab="today"]').click()
@@ -65,19 +65,19 @@ try:
                     page.locator('#today-minutes').select_option('30');assert page.locator('#start').count()==1
                     page.locator('#today-minutes').select_option('45')
                 saved=record();assert saved['completed'] and saved['targetSets']==sets and saved['sourceParameters']==411
-        cycle=page.locator('details').filter(has=page.locator('[data-cycle-for="snatch"]'))
-        cycle.locator('summary').click();page.locator('[data-cycle-for="snatch"]').click()
+        cycle=page.locator('details').filter(has=page.locator('[data-cycle-for="snatch"]')).last
+        page.locator('#movement-progress,#working-loads').evaluate_all('(els)=>els.forEach(el=>el.open=true)');cycle.locator('summary').click();page.locator('[data-cycle-for="snatch"]').click()
         for sets,reps in [(16,6),(14,7),(12,8),(11,9),(10,10)]:
             for repeat in range(2):
                 next_day();prescription(sets,reps);saved=record();assert saved['completed'] and saved['sourceParameters']==410
         assert page.evaluate('state.sessions.length')==44
         page.reload();assert page.evaluate('state.sessions.length')==44
-        page.locator('[data-tab="settings"]').click()
+        page.locator('[data-tab="settings"]').click();(page.locator('#advanced-settings').evaluate('(el)=>el.open=true') if page.locator('#advanced-settings').count() else None)
         page.get_by_text('Recovery and scheduling defaults',exact=True).click()
         page.locator('#training-maxLoadJump').select_option('0.5');page.locator('#save-programming').click()
-        page.locator('[data-tab="progress"]').click()
-        movement=page.locator('details').filter(has=page.locator('[data-weight-for="snatch"]'))
-        movement.locator('summary').click();page.locator('[data-weight-for="snatch"]').click()
+        page.locator('[data-tab="progress"]').click();page.locator('#movement-progress,#working-loads').evaluate_all('(els)=>els.forEach(el=>el.open=true)')
+        movement=page.locator('details').filter(has=page.locator('[data-weight-for="snatch"]')).last
+        page.locator('#movement-progress,#working-loads').evaluate_all('(els)=>els.forEach(el=>el.open=true)');movement.locator('summary').click();page.locator('[data-weight-for="snatch"]').click()
         next_day();prescription(4,5)
         assert '16 kg' in page.locator('.list-item').first.inner_text()
         assert not record(partial=True)['completed']
@@ -86,13 +86,13 @@ try:
         next_day();prescription(4,5);saved=record(imbalance=True);assert not saved['completed'] and saved['actualReps']==4
         next_day();record(pain=True)
         page.locator('[data-tab="today"]').click();assert page.locator('#start').count()==0
-        page.locator('[data-tab="progress"]').click()
-        review=page.locator('details').filter(has=page.locator('[data-resolve-pain="snatch"]'))
-        review.locator('summary').click();page.locator('[data-resolve-pain="snatch"]').click()
+        page.locator('[data-tab="progress"]').click();page.locator('#movement-progress,#working-loads').evaluate_all('(els)=>els.forEach(el=>el.open=true)')
+        review=page.locator('details').filter(has=page.locator('[data-resolve-pain="snatch"]')).last
+        page.locator('#movement-progress,#working-loads').evaluate_all('(els)=>els.forEach(el=>el.open=true)');review.locator('summary').click();page.locator('[data-resolve-pain="snatch"]').click()
         next_day(28);prescription(2,5);saved=record();assert saved['mode']=='reentry' and not saved['completed'] and saved['sourceParameters'] is None
         next_day();prescription(4,5)
         # Scheduling must change the actual visible next workout, and survive refresh.
-        page.locator('[data-tab="settings"]').click()
+        page.locator('[data-tab="settings"]').click();(page.locator('#advanced-settings').evaluate('(el)=>el.open=true') if page.locator('#advanced-settings').count() else None)
         page.get_by_text('Recovery and scheduling defaults',exact=True).click()
         page.locator('#training-minGapDays').select_option('3');page.locator('#save-programming').click()
         # Last training was three days ago: two days would still be held.
